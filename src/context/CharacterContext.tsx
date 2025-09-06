@@ -13,14 +13,14 @@ export interface DetailedStats {
     accuracy: number;
     critDamage: number;
     constitution: number;
-    
+
     // Mind stats  
     mentalAtk: number;
     mentalDef: number;
     evasion: number;
     perception: number;
     reflexSave: number;
-    
+
     // Heart stats
     charisma: number;
     ailmentAtk: number;
@@ -61,8 +61,8 @@ const CharacterContext = createContext<CharacterContextValue | undefined>(undefi
 // Available portraits with their unlock status and stat bonuses
 const PORTRAIT_DATA = {
     'elf': { unlocked: true, bonuses: { body: 0, mind: 0, heart: 0 } },
-    'Drake': { unlocked: true, bonuses: { body: 2, mind: 0, heart: 0 } },
-    'Arc-mage': { unlocked: true, bonuses: { body: 0, mind: 2, heart: 0 } },
+    'Drake': { unlocked: true, bonuses: { body: 0, mind: 0, heart: 0 } },
+    'Arc-mage': { unlocked: true, bonuses: { body: 0, mind: 0, heart: 0 } },
     'Air-lord': { unlocked: false, bonuses: { body: 0, mind: 1, heart: 1 } },
     'Angel': { unlocked: false, bonuses: { body: 0, mind: 0, heart: 2 } },
     'Arch-demon': { unlocked: false, bonuses: { body: 1, mind: 1, heart: 0 } },
@@ -85,14 +85,14 @@ export const getPortraitData = () => PORTRAIT_DATA;
 async function mockGetCharacter(): Promise<{ hasCharacter: boolean; character?: Character }> {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 3000));
-    
+
     // Mock: 50% chance of having a character for demo purposes
     const hasCharacter = Math.random() > 0.5;
-    
+
     if (!hasCharacter) {
         return { hasCharacter: false };
     }
-    
+
     // Mock existing character
     return {
         hasCharacter: true,
@@ -139,10 +139,10 @@ async function mockGetCharacter(): Promise<{ hasCharacter: boolean; character?: 
 async function mockCreateCharacter(name: string, portrait: string): Promise<Character> {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 2000));
-    
+
     const portraitData = PORTRAIT_DATA[portrait as keyof typeof PORTRAIT_DATA];
     const bonuses = portraitData?.bonuses || { body: 0, mind: 0, heart: 0 };
-    
+
     // Create new character with stat bonuses
     return {
         id: `char-${Date.now()}`,
@@ -193,7 +193,7 @@ export function CharacterProvider({ children }: { children: ReactNode }) {
         try {
             setLoading(true);
             setError(null);
-            
+
             const response = await mockGetCharacter();
             setHasCharacter(response.hasCharacter);
             setCharacter(response.character || null);
@@ -209,7 +209,7 @@ export function CharacterProvider({ children }: { children: ReactNode }) {
         try {
             setLoading(true);
             setError(null);
-            
+
             const newCharacter = await mockCreateCharacter(name, portrait);
             setCharacter(newCharacter);
             setHasCharacter(true);

@@ -25,24 +25,52 @@ const ModalContainer = styled.div`
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   border: 2px solid #8B4513;
   border-radius: 12px;
-  padding: 2rem;
-  width: 90%;
-  max-width: 600px;
-  max-height: 90vh;
+  padding: 1rem;
+  width: 95%;
+  max-width: 500px;
+  max-height: 95vh;
   overflow-y: auto;
   box-shadow: 0 20px 60px rgba(139, 69, 19, 0.5);
+  
+  @media (min-width: 768px) {
+    padding: 1.5rem;
+    width: 90%;
+    max-width: 550px;
+    max-height: 90vh;
+  }
+  
+  @media (min-width: 1200px) {
+    padding: 2rem;
+    max-width: 600px;
+  }
 `;
 
 const ModalHeader = styled.div`
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  
+  @media (min-width: 768px) {
+    margin-bottom: 1.5rem;
+  }
+  
+  @media (min-width: 1200px) {
+    margin-bottom: 2rem;
+  }
 `;
 
 const ModalTitle = styled.h2`
   color: #8B4513;
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin: 0 0 0.5rem 0;
   text-shadow: 0 0 10px rgba(139, 69, 19, 0.8);
+  
+  @media (min-width: 768px) {
+    font-size: 1.8rem;
+  }
+  
+  @media (min-width: 1200px) {
+    font-size: 2rem;
+  }
 `;
 
 const ModalSubtitle = styled.p`
@@ -54,7 +82,15 @@ const ModalSubtitle = styled.p`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
+  
+  @media (min-width: 768px) {
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 1200px) {
+    gap: 2rem;
+  }
 `;
 
 const FormGroup = styled.div`
@@ -114,8 +150,18 @@ const Select = styled.select`
 
 const PreviewSection = styled.div`
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   align-items: center;
+  flex-direction: column;
+  
+  @media (min-width: 768px) {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 1200px) {
+    gap: 2rem;
+  }
 `;
 
 const PortraitPreview = styled.div`
@@ -123,12 +169,25 @@ const PortraitPreview = styled.div`
 `;
 
 const PortraitImage = styled.img`
-  width: 120px;
-  height: 120px;
-  border-radius: 12px;
-  border: 3px solid #8B4513;
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  border: 2px solid #8B4513;
   object-fit: cover;
   filter: ${props => props.className?.includes('locked') ? 'grayscale(1) brightness(0.5)' : 'none'};
+  
+  @media (min-width: 768px) {
+    width: 110px;
+    height: 110px;
+    border-radius: 10px;
+    border: 3px solid #8B4513;
+  }
+  
+  @media (min-width: 1200px) {
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+  }
 `;
 
 const LockedOverlay = styled.div`

@@ -12,7 +12,7 @@ const CharacterContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 1rem;
   position: relative;
   
   &::before {
@@ -26,22 +26,44 @@ const CharacterContainer = styled.div`
       radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.1) 0%, transparent 30%),
       radial-gradient(circle at 80% 70%, rgba(139, 69, 19, 0.05) 0%, transparent 40%);
   }
+  
+  @media (min-width: 768px) {
+    padding: 1.5rem;
+  }
+  
+  @media (min-width: 1200px) {
+    padding: 2rem;
+  }
 `;
 
 const PageTitle = styled.h1`
   color: #8B4513;
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   text-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
   z-index: 2;
   position: relative;
-  letter-spacing: 0.1rem;
+  letter-spacing: 0.075rem;
+  text-align: center;
+  
+  @media (min-width: 768px) {
+    font-size: 2.5rem;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.085rem;
+  }
+  
+  @media (min-width: 1200px) {
+    font-size: 3rem;
+    margin-bottom: 3rem;
+    letter-spacing: 0.1rem;
+  }
 `;
 
 const CreateCharacterCard = styled.div`
-  width: 400px;
-  height: 500px;
+  width: 100%;
+  max-width: 350px;
+  height: 400px;
   background: rgba(26, 26, 26, 0.95);
   border: 2px dashed #444;
   border-radius: 12px;
@@ -61,6 +83,16 @@ const CreateCharacterCard = styled.div`
       0 0 20px rgba(139, 69, 19, 0.3),
       inset 0 0 20px rgba(139, 69, 19, 0.1);
     transform: translateY(-5px);
+  }
+  
+  @media (min-width: 768px) {
+    max-width: 380px;
+    height: 450px;
+  }
+  
+  @media (min-width: 1200px) {
+    max-width: 400px;
+    height: 500px;
   }
 `;
 
@@ -106,11 +138,12 @@ const CreateText = styled.div`
 `;
 
 const CharacterCard = styled.div`
-  width: 400px;
+  width: 100%;
+  max-width: 350px;
   background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(34, 34, 34, 0.95) 100%);
   border: 2px solid #444;
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
@@ -122,6 +155,16 @@ const CharacterCard = styled.div`
       0 0 20px rgba(139, 69, 19, 0.4),
       inset 0 0 20px rgba(139, 69, 19, 0.1);
     transform: translateY(-5px);
+  }
+  
+  @media (min-width: 768px) {
+    max-width: 380px;
+    padding: 1.5rem;
+  }
+  
+  @media (min-width: 1200px) {
+    max-width: 400px;
+    padding: 2rem;
   }
 `;
 

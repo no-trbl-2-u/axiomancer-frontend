@@ -6,32 +6,70 @@ import { useNavigate } from "react-router-dom";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 const ExplorationContainer = styled.div`
+  min-height: 100vh;
   height: 100vh;
   background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #0d0d0d 100%);
   display: grid;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  overflow: hidden;
+  
+  /* Desktop layout: 2x2 grid with character panel spanning bottom */
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 2fr 1fr;
-  gap: 1rem;
-  padding: 1rem;
+  grid-template-rows: minmax(300px, 2fr) minmax(200px, auto);
+  
+  /* Mobile layout: single column stack */
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(200px, auto) minmax(150px, auto) minmax(150px, auto);
+    height: auto;
+    min-height: 100vh;
+    padding: 0.25rem;
+    gap: 0.25rem;
+  }
+  
+  /* Large desktop adjustments */
+  @media (min-width: 1400px) {
+    gap: 1rem;
+    padding: 1rem;
+    grid-template-rows: minmax(400px, 2fr) minmax(250px, auto);
+  }
 `;
 
 const DescriptionPane = styled.div`
   background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(34, 34, 34, 0.95) 100%);
   border: 2px solid #444;
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.1);
+  overflow: hidden;
+  min-height: 0;
+  
+  @media (min-width: 768px) {
+    padding: 1.5rem;
+  }
+  
+  @media (min-width: 1400px) {
+    padding: 2rem;
+  }
 `;
 
 const LocationHeader = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
   border-bottom: 2px solid rgba(139, 69, 19, 0.3);
+  flex-shrink: 0;
+  
+  @media (min-width: 768px) {
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+  }
 `;
 
 const LocationIcon = styled.div`
@@ -49,34 +87,76 @@ const LocationIcon = styled.div`
 
 const LocationTitle = styled.h2`
   color: #8B4513;
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   margin: 0;
   text-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
+  
+  @media (min-width: 768px) {
+    font-size: 1.5rem;
+  }
+  
+  @media (min-width: 1400px) {
+    font-size: 1.8rem;
+  }
 `;
 
 const LocationDescription = styled.p`
   color: #ccc;
-  line-height: 1.8;
-  margin-bottom: 2rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
   flex: 1;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
+  overflow-y: auto;
+  
+  @media (min-width: 768px) {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  
+  @media (min-width: 1400px) {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
+  flex-shrink: 0;
+  
+  @media (min-width: 768px) {
+    gap: 1rem;
+  }
 `;
 
 const ActionButton = styled.button<{ variant?: 'danger' | 'primary' | 'secondary' }>`
-  padding: 1rem 2rem;
+  padding: 0.75rem 1rem;
   border: none;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
-  letter-spacing: 0.1rem;
+  letter-spacing: 0.05rem;
+  font-size: 0.8rem;
+  flex: 1;
+  min-width: 0;
+  
+  @media (min-width: 768px) {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.075rem;
+    flex: none;
+  }
+  
+  @media (min-width: 1400px) {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    letter-spacing: 0.1rem;
+  }
   
   ${props => {
     switch (props.variant) {
@@ -138,14 +218,31 @@ const CharacterPane = styled.div<{ expanded: boolean }>`
   background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(34, 34, 34, 0.95) 100%);
   border: 2px solid #444;
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.1);
+  overflow: hidden;
+  min-height: 0;
+  max-height: ${props => props.expanded ? '80vh' : 'auto'};
   
   &:hover {
     border-color: #8B4513;
+  }
+  
+  @media (min-width: 768px) {
+    padding: 1.5rem;
+  }
+  
+  @media (min-width: 1400px) {
+    padding: 2rem;
+  }
+  
+  /* Mobile layout - character pane is third item */
+  @media (max-width: 768px) {
+    grid-column: 1;
+    order: 3;
   }
 `;
 
@@ -266,9 +363,23 @@ const CoreStatValue = styled.div`
 
 const DetailedStatsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-top: 2rem;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+  overflow-y: auto;
+  max-height: 50vh;
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+  }
 `;
 
 const StatCategory = styled.div`

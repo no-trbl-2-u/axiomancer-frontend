@@ -18,6 +18,7 @@ const flickerAnimation = keyframes`
 `;
 
 const LoadingContainer = styled.div`
+  min-height: 100vh;
   height: 100vh;
   background: linear-gradient(135deg, #1a0a0a 0%, #2d1b1b 50%, #1a0a0a 100%);
   display: flex;
@@ -26,6 +27,7 @@ const LoadingContainer = styled.div`
   align-items: center;
   position: relative;
   overflow: hidden;
+  padding: 1rem;
   
   &::before {
     content: '';
@@ -49,7 +51,7 @@ const LoadingContent = styled.div`
 `;
 
 const GameTitle = styled.h1`
-  font-size: 4rem;
+  font-size: 2.5rem;
   font-weight: bold;
   color: #8B4513;
   text-shadow: 
@@ -57,17 +59,39 @@ const GameTitle = styled.h1`
     0 0 20px rgba(139, 69, 19, 0.6),
     0 0 30px rgba(139, 69, 19, 0.4);
   margin: 0;
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.1rem;
   animation: ${flickerAnimation} 3s ease-in-out infinite;
   font-family: serif;
+  text-align: center;
+  
+  @media (min-width: 768px) {
+    font-size: 3.5rem;
+    letter-spacing: 0.15rem;
+  }
+  
+  @media (min-width: 1200px) {
+    font-size: 4rem;
+    letter-spacing: 0.2rem;
+  }
 `;
 
 const LoadingText = styled.p`
   color: #666;
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin: 0;
-  letter-spacing: 0.1rem;
+  letter-spacing: 0.075rem;
   text-transform: uppercase;
+  text-align: center;
+  
+  @media (min-width: 768px) {
+    font-size: 1.1rem;
+    letter-spacing: 0.085rem;
+  }
+  
+  @media (min-width: 1200px) {
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+  }
 `;
 
 const LoadingSpinner = styled.div`
@@ -120,16 +144,30 @@ const AtmosphericElements = styled.div`
 
 const FlavorText = styled.div`
   position: absolute;
-  bottom: 10%;
+  bottom: 5%;
   left: 50%;
   transform: translateX(-50%);
   color: #444;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   text-align: center;
-  max-width: 500px;
+  max-width: 90%;
   line-height: 1.6;
   font-style: italic;
   animation: ${fadeIn} 2s ease-in-out 1s both;
+  padding: 0 1rem;
+  
+  @media (min-width: 768px) {
+    font-size: 0.85rem;
+    max-width: 600px;
+    bottom: 8%;
+  }
+  
+  @media (min-width: 1200px) {
+    font-size: 0.9rem;
+    max-width: 500px;
+    bottom: 10%;
+    padding: 0;
+  }
 `;
 
 function LoadingPage() {

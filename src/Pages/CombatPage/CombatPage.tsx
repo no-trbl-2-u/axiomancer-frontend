@@ -9,34 +9,77 @@ type ActionType = 'attack' | 'defend' | 'special';
 type AdvantageType = 'advantage' | 'neutral' | 'disadvantage';
 
 const CombatContainer = styled.div`
+  min-height: 100vh;
   height: 100vh;
   background: linear-gradient(135deg, #0d0d0d 0%, #1a0a0a 50%, #0d0d0d 100%);
   display: grid;
-  grid-template-rows: 200px 1fr 250px;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  overflow: hidden;
+  
+  /* Mobile layout: stack vertically */
+  grid-template-rows: minmax(120px, auto) 1fr minmax(200px, auto);
+  
+  /* Tablet and desktop */
+  @media (min-width: 768px) {
+    grid-template-rows: minmax(150px, auto) 1fr minmax(220px, auto);
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+  
+  @media (min-width: 1200px) {
+    grid-template-rows: 200px 1fr 250px;
+    gap: 1rem;
+    padding: 1rem;
+  }
 `;
 
 const EnemyPane = styled.div`
   background: linear-gradient(135deg, rgba(139, 0, 0, 0.2) 0%, rgba(26, 26, 26, 0.95) 100%);
   border: 2px solid #8B0000;
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1rem;
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   box-shadow: 
     0 0 20px rgba(139, 0, 0, 0.3),
     inset 0 0 20px rgba(139, 0, 0, 0.1);
+  min-height: 0;
+  overflow: hidden;
+  
+  @media (min-width: 768px) {
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 1200px) {
+    padding: 2rem;
+    gap: 2rem;
+  }
 `;
 
 const EnemyPortrait = styled.img`
-  width: 120px;
-  height: 120px;
-  border-radius: 12px;
-  border: 3px solid #8B0000;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  border: 2px solid #8B0000;
   object-fit: cover;
   filter: sepia(30%) hue-rotate(300deg) saturate(1.5);
+  flex-shrink: 0;
+  
+  @media (min-width: 768px) {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    border: 3px solid #8B0000;
+  }
+  
+  @media (min-width: 1200px) {
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+  }
 `;
 
 const EnemyInfo = styled.div`
@@ -45,9 +88,18 @@ const EnemyInfo = styled.div`
 
 const EnemyName = styled.h2`
   color: #ff4444;
-  font-size: 2rem;
-  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  margin: 0 0 0.75rem 0;
   text-shadow: 0 0 10px rgba(255, 68, 68, 0.8);
+  
+  @media (min-width: 768px) {
+    font-size: 1.6rem;
+    margin: 0 0 1rem 0;
+  }
+  
+  @media (min-width: 1200px) {
+    font-size: 2rem;
+  }
 `;
 
 const EnemyHealthBar = styled.div<{ current: number; max: number }>`
@@ -121,8 +173,24 @@ const BattleLogEntry = styled.div<{ type?: 'player' | 'enemy' | 'system' }>`
 
 const PlayerPane = styled.div`
   display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 2rem;
+  gap: 0.5rem;
+  min-height: 0;
+  
+  /* Mobile: stack vertically */
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  
+  /* Tablet and desktop: side by side */
+  @media (min-width: 768px) {
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 1fr;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 1200px) {
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+  }
 `;
 
 const PlayerInfo = styled.div`
