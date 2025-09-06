@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 import { useState } from "react"
-import { useAsync } from "../../hooks/useAsync"
+import { useAuth } from "../../context/AuthContext"
 import { Link } from "react-router-dom"
 
 const LoginContainer = styled.div`
@@ -116,31 +116,15 @@ const Button = styled.button`
 
 function LoginPage() {
   const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
 
-  async function loginUser(u: string) {
-    const response = await fetch('http://localhost:8080/api/login-user', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: u })
-    })
-    if (!response.ok) {
-      const text = await response.text()
-      throw new Error(text || `Request failed with ${response.status}`)
-    }
-    try {
-      return await response.json()
-    } catch {
-      return {}
-    }
-  }
-
-  const { status, error, run } = useAsync(loginUser)
+  const { runLoginUser, loginStatus, loginError } = useAuth()
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    const trimmed = username.trim()
-    if (!trimmed) return
-    run(trimmed).catch(() => { })
+    const trimmedUsername = username.trim()
+    if (!trimmedUsername || !password) return
+    runLoginUser({ username: trimmedUsername, password }).catch(() => { })
   }
 
   return (
@@ -171,15 +155,17 @@ function LoginPage() {
                 id="password"
                 name="password"
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </FormGroup>
 
-            {error ? (
-              <div style={{ color: '#fca5a5', fontSize: '0.875rem' }}>{String((error as Error).message || 'Something went wrong')}</div>
+            {loginError ? (
+              <div style={{ color: '#fca5a5', fontSize: '0.875rem' }}>{String((loginError as Error).message || 'Something went wrong')}</div>
             ) : null}
 
-            <Button type="submit" disabled={status === 'pending'}>
-              {status === 'pending' ? 'Submitting…' : 'Login'}
+            <Button type="submit" disabled={loginStatus === 'pending'}>
+              {loginStatus === 'pending' ? 'Submitting…' : 'Login'}
             </Button>
 
             <div style={{ color: '#d1d5db', fontSize: '0.875rem', marginTop: '0.5rem' }}>

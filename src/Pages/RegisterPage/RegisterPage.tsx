@@ -1,13 +1,7 @@
 import styled from "@emotion/styled"
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { useAsync } from "../../hooks/useAsync";
-
-interface CreateUserOptions {
-    username: string
-    email: string
-    password: string
-}
+import { useAuth } from "../../context/AuthContext";
 
 const RegisterContainer = styled.div`
   height: 100vh;
@@ -125,26 +119,7 @@ function RegisterPage() {
     const [email, setEmail] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
 
-    async function createUser(createUserOptions: CreateUserOptions) {
-        const response = await fetch('http://localhost:8080/api/create-user', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: username, email: email, password: password })
-        })
-        if (!response.ok) {
-            const text = await response.text()
-            console.log("text", text)
-            console.log("response", response)
-            throw new Error(text || `Request failed with ${response.status}`)
-        }
-        try {
-            return await response.json()
-        } catch {
-            return {}
-        }
-    }
-
-    const { status, error, run } = useAsync(createUser)
+    const { runCreateUser, createUserStatus, createUserError } = useAuth()
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
@@ -152,7 +127,7 @@ function RegisterPage() {
             return
         }
 
-        run({ username: username.trim(), email: email, password: password }).catch(() => { })
+        runCreateUser({ username: username.trim(), email: email, password: password }).catch(() => { })
     }
 
     return (
@@ -212,14 +187,14 @@ function RegisterPage() {
                             />
                         </FormGroup>
 
-                        {error ? (
-                            <div style={{ color: '#fca5a5', fontSize: '0.875rem' }}>{String((error as Error).message || 'Something went wrong')}</div>
+                        {createUserError ? (
+                            <div style={{ color: '#fca5a5', fontSize: '0.875rem' }}>{String((createUserError as Error).message || 'Something went wrong')}</div>
                         ) : null}
 
 
 
-                        <Button type="submit" disabled={status === 'pending'}>
-                            {status === 'pending' ? 'Registering...' : 'Register'}
+                        <Button type="submit" disabled={createUserStatus === 'pending'}>
+                            {createUserStatus === 'pending' ? 'Registering...' : 'Register'}
                         </Button>
 
                         <div style={{ color: '#d1d5db', fontSize: '0.875rem', marginTop: '0.5rem' }}>

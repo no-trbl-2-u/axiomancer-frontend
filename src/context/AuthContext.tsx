@@ -4,10 +4,25 @@ import { useAsync, UseAsyncReturn } from "../hooks/useAsync";
 type LoginResponse = unknown;
 type RegisterResponse = unknown;
 
+interface LoginOptions {
+    username: string;
+    password: string;
+}
+
+interface CreateUserOptions {
+    username: string;
+    email: string;
+    password: string;
+}
+
 interface AuthContextValue {
-    isUserLoggedIn: boolean;
-    loginUser: UseAsyncReturn<LoginResponse, [string]>;
-    registerUser: UseAsyncReturn<RegisterResponse, [string]>;
+    isLoggedIn: boolean;
+    runLoginUser: UseAsyncReturn<LoginResponse, [LoginOptions]>['run'];
+    runCreateUser: UseAsyncReturn<RegisterResponse, [CreateUserOptions]>['run'];
+    loginStatus: UseAsyncReturn<LoginResponse, [LoginOptions]>['status'];
+    createUserStatus: UseAsyncReturn<RegisterResponse, [CreateUserOptions]>['status'];
+    loginError: UseAsyncReturn<LoginResponse, [LoginOptions]>['error'];
+    createUserError: UseAsyncReturn<RegisterResponse, [CreateUserOptions]>['error'];
     logout: () => void;
 }
 
@@ -32,32 +47,41 @@ function postJson<T>(url: string, body: unknown): Promise<T> {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const loginAsync = useAsync<LoginResponse, [string]>(async (username: string) => {
+    const loginAsync = useAsync<LoginResponse, [LoginOptions]>(async (options: LoginOptions) => {
         const result = await postJson<LoginResponse>(
             "http://localhost:8080/api/login-user",
-            { username }
+            { username: options.username, password: options.password }
         );
-        setIsUserLoggedIn(true);
+        setIsLoggedIn(true);
         return result;
     });
 
-    const registerAsync = useAsync<RegisterResponse, [string]>(async (username: string) => {
+    const registerAsync = useAsync<RegisterResponse, [CreateUserOptions]>(async (options: CreateUserOptions) => {
         const result = await postJson<RegisterResponse>(
             "http://localhost:8080/api/create-user",
-            { username }
+            { username: options.username, email: options.email, password: options.password }
         );
         return result;
     });
 
     const logout = () => {
-        setIsUserLoggedIn(false);
+        setIsLoggedIn(false);
     };
 
     const value: AuthContextValue = useMemo(
-        () => ({ isUserLoggedIn, loginUser: loginAsync, registerUser: registerAsync, logout }),
-        [isUserLoggedIn, loginAsync, registerAsync]
+        () => ({ 
+            isLoggedIn, 
+            runLoginUser: loginAsync.run, 
+            runCreateUser: registerAsync.run,
+            loginStatus: loginAsync.status,
+            createUserStatus: registerAsync.status,
+            loginError: loginAsync.error,
+            createUserError: registerAsync.error,
+            logout 
+        }),
+        [isLoggedIn, loginAsync.run, registerAsync.run, loginAsync.status, registerAsync.status, loginAsync.error, registerAsync.error]
     );
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
