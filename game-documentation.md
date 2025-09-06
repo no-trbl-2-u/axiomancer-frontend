@@ -117,6 +117,14 @@ Combat is broken down into a few steps that are all done at the same time. It'll
 
 - Player chooses between Body, Mind, and Heart
 - Player then chooses Atk, spAtk, or Defend
+- Enemy secretly makes the same choice.
+- After both player and enemy make their choice, their choices are revealed and then we move to the damage phase
+- Choices are compared
+- Player or enemy with higher speed deals damage (and buffs/debuffs) first
+- Then the player or enemy deals their damage (and buffs/debuffs)
+
+> TODO: Create list of Fallacies, paradoxes, buffs, and debuffs
+> Claude, do just ignore these for now.
 
 
 > Remember: _Body > Mind > Heart > Body_
