@@ -1,4 +1,7 @@
 import styled from "@emotion/styled"
+import { useState } from "react"
+import { useAsync } from "../../hooks/useAsync"
+import { Link } from "react-router-dom"
 
 const LoginContainer = styled.div`
   height: 100vh;
@@ -112,42 +115,81 @@ const Button = styled.button`
 
 
 function LoginPage() {
+  const [username, setUsername] = useState("")
 
-    return (
-        <LoginContainer>
-            <Header>
-                <Title>Axiomancer</Title>
-            </Header>
+  async function loginUser(u: string) {
+    const response = await fetch('http://localhost:8080/api/login-user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: u })
+    })
+    if (!response.ok) {
+      const text = await response.text()
+      throw new Error(text || `Request failed with ${response.status}`)
+    }
+    try {
+      return await response.json()
+    } catch {
+      return {}
+    }
+  }
 
-            <MainContent>
-                <LoginFormContainer>
-                    <Form>
-                        <FormGroup>
-                            <Label htmlFor="username">Username</Label>
-                            <Input
-                                type="text"
-                                id="username"
-                                name="username"
-                                placeholder="Enter your username"
-                            />
-                        </FormGroup>
+  const { status, error, run } = useAsync(loginUser)
 
-                        <FormGroup>
-                            <Label htmlFor="password">Password</Label>
-                            <Input
-                                type="password"
-                                id="password"
-                                name="password"
-                                placeholder="Enter your password"
-                            />
-                        </FormGroup>
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const trimmed = username.trim()
+    if (!trimmed) return
+    run(trimmed).catch(() => { })
+  }
 
-                        <Button type="submit">Login</Button>
-                    </Form>
-                </LoginFormContainer>
-            </MainContent>
-        </LoginContainer>
-    )
+  return (
+    <LoginContainer>
+      <Header>
+        <Title>Axiomancer</Title>
+      </Header>
+
+      <MainContent>
+        <LoginFormContainer>
+          <Form onSubmit={handleSubmit}>
+            <FormGroup>
+              <Label htmlFor="username">Username</Label>
+              <Input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Enter your username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label htmlFor="password">Password</Label>
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+              />
+            </FormGroup>
+
+            {error ? (
+              <div style={{ color: '#fca5a5', fontSize: '0.875rem' }}>{String((error as Error).message || 'Something went wrong')}</div>
+            ) : null}
+
+            <Button type="submit" disabled={status === 'pending'}>
+              {status === 'pending' ? 'Submitting…' : 'Login'}
+            </Button>
+
+            <div style={{ color: '#d1d5db', fontSize: '0.875rem', marginTop: '0.5rem' }}>
+              Don’t have an account? <Link to="/register" style={{ color: '#93c5fd' }}>Register</Link>
+            </div>
+          </Form>
+        </LoginFormContainer>
+      </MainContent>
+    </LoginContainer>
+  )
 }
 
 export default LoginPage;
