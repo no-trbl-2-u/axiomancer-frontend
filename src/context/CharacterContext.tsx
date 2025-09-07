@@ -1,4 +1,7 @@
+
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { authAPI } from '../services/authAPI';
+import { characterAPI } from '../services/gameAPI';
 
 export interface CharacterStats {
     body: number;
@@ -81,9 +84,6 @@ const PORTRAIT_DATA = {
 
 export const getPortraitData = () => PORTRAIT_DATA;
 
-import { authAPI } from '../services/authAPI';
-import { characterAPI } from '../services/gameAPI';
-
 // Real API functions using backend
 async function getCharacterFromBackend(): Promise<{ hasCharacter: boolean; character?: Character }> {
     try {
@@ -100,7 +100,7 @@ async function getCharacterFromBackend(): Promise<{ hasCharacter: boolean; chara
 
         // Get character data from backend
         const characterData = await characterAPI.get(uid);
-        
+
         // Transform backend response to match frontend Character interface
         const character: Character = {
             id: characterData.id,
