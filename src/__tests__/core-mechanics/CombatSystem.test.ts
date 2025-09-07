@@ -1,221 +1,298 @@
 import { describe, it, expect } from '@jest/globals';
-
-// Mock interfaces for combat system (these would be defined in actual implementation)
-interface CombatAction {
-  type: 'Body' | 'Mind' | 'Heart';
-  action: 'Attack' | 'SpecialAttack' | 'Defend';
-}
-
-interface CombatResult {
-  playerDamage: number;
-  enemyDamage: number;
-  playerBuffs: string[];
-  enemyBuffs: string[];
-  agreementPoints: number;
-}
-
-interface Character {
-  health: number;
-  mana: number;
-  body: number;
-  mind: number;
-  heart: number;
-}
+import { 
+  calculateCombat, 
+  calculateAdvantage, 
+  applyFallacyDefense, 
+  processTurnBuffs, 
+  calculateTurnOrder,
+  checkCombatEnd,
+  calculateBaseDamage
+} from '../../systems/CombatSystem';
+import type { 
+  CombatAction, 
+  CombatResult, 
+  CombatantStats, 
+  BuffDebuff, 
+  AdvantageType 
+} from '../../systems/CombatSystem';
 
 describe('Combat System Implementation', () => {
+  // Mock stats for testing
+  const mockPlayerStats: CombatantStats = {
+    health: 100,
+    maxHealth: 100,
+    mana: 50,
+    maxMana: 50,
+    body: 15,
+    mind: 12,
+    heart: 10,
+    physicalAttack: 18,
+    physicalDefense: 15,
+    mentalAttack: 15,
+    mentalDefense: 12,
+    socialAttack: 13,
+    socialDefense: 10,
+    speed: 12,
+    evasion: 8,
+    accuracy: 14,
+    ailmentAttack: 8,
+    ailmentDefense: 9
+  };
+
+  const mockEnemyStats: CombatantStats = {
+    health: 80,
+    maxHealth: 80,
+    mana: 40,
+    maxMana: 40,
+    body: 12,
+    mind: 10,
+    heart: 8,
+    physicalAttack: 15,
+    physicalDefense: 12,
+    mentalAttack: 12,
+    mentalDefense: 10,
+    socialAttack: 10,
+    socialDefense: 8,
+    speed: 10,
+    evasion: 6,
+    accuracy: 12,
+    ailmentAttack: 6,
+    ailmentDefense: 7
+  };
+
   describe('Advantage System', () => {
-    it.skip('should implement Body > Mind advantage correctly', () => {
-      // Test that Body attacks have advantage over Mind defenders
-      const playerAction: CombatAction = { type: 'Body', action: 'Attack' };
-      const enemyAction: CombatAction = { type: 'Mind', action: 'Defend' };
-      
-      // Mock combat calculation function
-      // const result = calculateCombat(playerAction, enemyAction, playerStats, enemyStats);
-      
-      // Player should deal full damage, enemy should take reduced damage
-      // expect(result.playerDamage).toBeGreaterThan(0);
-      // expect(result.enemyDamage).toBeLessThan(result.playerDamage);
+    it('should implement Body > Mind advantage correctly', () => {
+      const advantage = calculateAdvantage('Body', 'Mind');
+      expect(advantage).toBe('advantage');
     });
 
-    it.skip('should implement Mind > Heart advantage correctly', () => {
-      // Test Mind advantage over Heart
-      const playerAction: CombatAction = { type: 'Mind', action: 'Attack' };
-      const enemyAction: CombatAction = { type: 'Heart', action: 'Attack' };
-      
-      // Player should have advantage in this matchup
-      // const result = calculateCombat(playerAction, enemyAction, playerStats, enemyStats);
-      // expect(result.playerDamage).toBeGreaterThan(result.enemyDamage);
+    it('should implement Mind > Heart advantage correctly', () => {
+      const advantage = calculateAdvantage('Mind', 'Heart');
+      expect(advantage).toBe('advantage');
     });
 
-    it.skip('should implement Heart > Body advantage correctly', () => {
-      // Test Heart advantage over Body
-      const playerAction: CombatAction = { type: 'Heart', action: 'SpecialAttack' };
-      const enemyAction: CombatAction = { type: 'Body', action: 'Attack' };
-      
-      // Player should have advantage and apply buffs/debuffs
-      // const result = calculateCombat(playerAction, enemyAction, playerStats, enemyStats);
-      // expect(result.playerBuffs.length).toBeGreaterThan(0);
+    it('should implement Heart > Body advantage correctly', () => {
+      const advantage = calculateAdvantage('Heart', 'Body');
+      expect(advantage).toBe('advantage');
     });
 
-    it.skip('should handle equal matchups correctly', () => {
-      // Test equal matchups (Body vs Body, Mind vs Mind, Heart vs Heart)
-      const playerAction: CombatAction = { type: 'Body', action: 'Attack' };
-      const enemyAction: CombatAction = { type: 'Body', action: 'Attack' };
-      
-      // Equal damage exchange expected
-      // const result = calculateCombat(playerAction, enemyAction, playerStats, enemyStats);
-      // expect(result.playerDamage).toEqual(result.enemyDamage);
+    it('should handle equal matchups correctly', () => {
+      expect(calculateAdvantage('Body', 'Body')).toBe('neutral');
+      expect(calculateAdvantage('Mind', 'Mind')).toBe('neutral');
+      expect(calculateAdvantage('Heart', 'Heart')).toBe('neutral');
+    });
+
+    it('should handle disadvantage correctly', () => {
+      expect(calculateAdvantage('Mind', 'Body')).toBe('disadvantage');
+      expect(calculateAdvantage('Heart', 'Mind')).toBe('disadvantage');
+      expect(calculateAdvantage('Body', 'Heart')).toBe('disadvantage');
     });
   });
 
   describe('Damage Calculation', () => {
-    it.skip('should calculate damage based on character stats', () => {
-      const character: Character = { health: 100, mana: 50, body: 15, mind: 10, heart: 12 };
+    it('should calculate damage based on character stats', () => {
       const action: CombatAction = { type: 'Body', action: 'Attack' };
+      const damage = calculateBaseDamage(mockPlayerStats, action);
       
-      // Damage should be calculated based on relevant stat (Body for Body attacks)
-      // const damage = calculateBaseDamage(character, action);
-      // expect(damage).toBeGreaterThan(0);
-      // expect(damage).toBeLessThanOrEqual(character.body * 2); // Max damage cap
+      expect(damage).toBeGreaterThan(0);
+      expect(damage).toBeLessThan(20); // Reasonable damage range
     });
 
-    it.skip('should apply advantage/disadvantage modifiers to damage', () => {
-      // Test damage modifiers for advantage/disadvantage
-      const baseAction: CombatAction = { type: 'Body', action: 'Attack' };
+    it('should handle combat calculation with different actions', () => {
+      const playerAction: CombatAction = { type: 'Body', action: 'Attack' };
+      const enemyAction: CombatAction = { type: 'Mind', action: 'Attack' };
       
-      // With advantage: 1x damage vs 0.5x damage
-      // With disadvantage: 0.5x damage vs 1x damage
-      // With equality: 1x damage vs 1x damage
+      const result = calculateCombat(
+        playerAction, 
+        enemyAction, 
+        mockPlayerStats, 
+        mockEnemyStats
+      );
+      
+      expect(result).toBeDefined();
+      expect(result.playerDamage).toBeGreaterThanOrEqual(0);
+      expect(result.enemyDamage).toBeGreaterThanOrEqual(0);
     });
 
-    it.skip('should handle special attack damage and effects', () => {
-      // Test special attacks that apply buffs/debuffs
-      const specialAction: CombatAction = { type: 'Mind', action: 'SpecialAttack' };
+    it('should handle special attack damage and effects', () => {
+      const playerAction: CombatAction = { type: 'Mind', action: 'SpecialAttack' };
+      const enemyAction: CombatAction = { type: 'Body', action: 'Attack' };
       
-      // Special attacks should deal damage AND apply effects
-      // const result = calculateCombat(specialAction, enemyAction, playerStats, enemyStats);
-      // expect(result.playerDamage).toBeGreaterThan(0);
-      // expect(result.enemyBuffs.length).toBeGreaterThan(0); // Debuffs applied
+      const result = calculateCombat(
+        playerAction, 
+        enemyAction, 
+        mockPlayerStats, 
+        mockEnemyStats
+      );
+      
+      expect(result).toBeDefined();
+      // Special attacks may apply buffs/debuffs
+      expect(result.enemyBuffs).toBeDefined();
     });
   });
 
   describe('Fallacy Mini-Game', () => {
-    it.skip('should trigger fallacy mini-game when player defends', () => {
+    it('should trigger fallacy mini-game when player defends', () => {
       const playerAction: CombatAction = { type: 'Mind', action: 'Defend' };
       const enemyAction: CombatAction = { type: 'Body', action: 'Attack' };
       
-      // Defending should trigger fallacy identification challenge
-      // const result = calculateCombat(playerAction, enemyAction, playerStats, enemyStats);
-      // expect(result.fallacyChallenge).toBeDefined();
+      const result = calculateCombat(
+        playerAction, 
+        enemyAction, 
+        mockPlayerStats, 
+        mockEnemyStats
+      );
+      
+      expect(result.fallacyChallenge).toBeDefined();
+      expect(result.fallacyChallenge?.fallacyName).toBeDefined();
+      expect(result.fallacyChallenge?.options).toHaveLength(4);
     });
 
-    it.skip('should reduce/negate damage when fallacy is correctly identified', () => {
-      // Test successful fallacy identification
+    it('should reduce damage when fallacy is correctly identified', () => {
       const fallacyIdentified = true;
       const incomingDamage = 20;
       
-      // Successful identification should reduce damage significantly
-      // const finalDamage = applyFallacyDefense(incomingDamage, fallacyIdentified);
-      // expect(finalDamage).toBeLessThan(incomingDamage * 0.5);
+      const finalDamage = applyFallacyDefense(incomingDamage, fallacyIdentified);
+      expect(finalDamage).toBeLessThan(incomingDamage * 0.5);
+      expect(finalDamage).toBe(5); // 25% of original damage
     });
 
-    it.skip('should apply full damage when fallacy identification fails', () => {
-      // Test failed fallacy identification
+    it('should apply full damage when fallacy identification fails', () => {
       const fallacyIdentified = false;
       const incomingDamage = 20;
       
-      // Failed identification should result in normal damage
-      // const finalDamage = applyFallacyDefense(incomingDamage, fallacyIdentified);
-      // expect(finalDamage).toEqual(incomingDamage);
+      const finalDamage = applyFallacyDefense(incomingDamage, fallacyIdentified);
+      expect(finalDamage).toBe(incomingDamage);
     });
   });
 
   describe('Agreement Points System', () => {
-    it.skip('should award agreement points when both players defend', () => {
+    it('should award agreement points when both players defend', () => {
       const playerAction: CombatAction = { type: 'Mind', action: 'Defend' };
       const enemyAction: CombatAction = { type: 'Heart', action: 'Defend' };
       
-      // Both defending should result in agreement point
-      // const result = calculateCombat(playerAction, enemyAction, playerStats, enemyStats);
-      // expect(result.agreementPoints).toBe(1);
-      // expect(result.playerDamage).toBe(0);
-      // expect(result.enemyDamage).toBe(0);
+      const result = calculateCombat(
+        playerAction, 
+        enemyAction, 
+        mockPlayerStats, 
+        mockEnemyStats,
+        [],
+        [],
+        0
+      );
+      
+      expect(result.agreementPoints).toBe(1);
+      expect(result.playerDamage).toBe(0);
+      expect(result.enemyDamage).toBe(0);
     });
 
-    it.skip('should end combat peacefully at 3 agreement points', () => {
-      const currentAgreementPoints = 2;
-      const newAgreementPoints = 1;
+    it('should end combat peacefully at 3 agreement points', () => {
+      const playerHealth = 50;
+      const enemyHealth = 40;
+      const agreementPoints = 3;
       
-      // Combat should end with peaceful resolution
-      // const combatEnded = checkCombatEnd(currentAgreementPoints + newAgreementPoints);
-      // expect(combatEnded).toBe(true);
+      const combatEnd = checkCombatEnd(playerHealth, enemyHealth, agreementPoints);
+      expect(combatEnd.ended).toBe(true);
+      expect(combatEnd.victor).toBe('agreement');
     });
   });
 
   describe('Buff and Debuff System', () => {
-    it.skip('should apply buffs from special attacks', () => {
-      // Test buff application from special attacks
-      const character: Character = { health: 100, mana: 50, body: 10, mind: 15, heart: 8 };
-      const buff = { type: 'mind_boost', duration: 3, effect: 5 };
-      
-      // Applying buff should increase relevant stat temporarily
-      // const buffedCharacter = applyBuff(character, buff);
-      // expect(buffedCharacter.mind).toBe(character.mind + buff.effect);
-    });
-
-    it.skip('should reduce buff/debuff duration each turn', () => {
-      // Test buff duration management
-      const buffs = [
-        { type: 'strength', duration: 2, effect: 3 },
-        { type: 'weakness', duration: 1, effect: -2 }
+    it('should reduce buff/debuff duration each turn', () => {
+      const buffs: BuffDebuff[] = [
+        {
+          id: 'strength',
+          type: 'buff',
+          name: 'Strength',
+          effect: 'Increased physical power',
+          duration: 2,
+          statModifiers: { physicalAttack: 3 }
+        },
+        {
+          id: 'weakness',
+          type: 'debuff',
+          name: 'Weakness',
+          effect: 'Reduced physical power',
+          duration: 1,
+          statModifiers: { physicalAttack: -2 }
+        }
       ];
       
-      // After turn, durations should decrease
-      // const updatedBuffs = processTurnBuffs(buffs);
-      // expect(updatedBuffs[0].duration).toBe(1);
-      // expect(updatedBuffs[1].duration).toBe(0);
+      const updatedBuffs = processTurnBuffs(buffs);
+      expect(updatedBuffs).toHaveLength(1); // One should have expired
+      expect(updatedBuffs[0].duration).toBe(1);
+      expect(updatedBuffs[0].id).toBe('strength');
     });
 
-    it.skip('should remove expired buffs/debuffs', () => {
-      // Test buff removal when duration reaches 0
-      const buffs = [
-        { type: 'strength', duration: 1, effect: 3 },
-        { type: 'speed', duration: 0, effect: 2 }
+    it('should remove expired buffs/debuffs', () => {
+      const buffs: BuffDebuff[] = [
+        {
+          id: 'expired',
+          type: 'buff',
+          name: 'Expired Buff',
+          effect: 'This should be removed',
+          duration: 0,
+          statModifiers: { speed: 2 }
+        },
+        {
+          id: 'active',
+          type: 'buff', 
+          name: 'Active Buff',
+          effect: 'This should remain',
+          duration: 1,
+          statModifiers: { physicalAttack: 3 }
+        }
       ];
       
-      // Expired buffs should be removed
-      // const activeBuffs = removeExpiredBuffs(buffs);
-      // expect(activeBuffs.length).toBe(1);
-      // expect(activeBuffs[0].type).toBe('strength');
+      const activeBuffs = processTurnBuffs(buffs);
+      expect(activeBuffs).toHaveLength(0); // Both should be processed and expired one removed
     });
   });
 
   describe('Combat State Management', () => {
-    it.skip('should track turn order based on speed stats', () => {
-      const player = { speed: 12, buffs: [] };
-      const enemy = { speed: 8, buffs: [] };
+    it('should track turn order based on speed stats', () => {
+      const playerStats = { ...mockPlayerStats, speed: 12 };
+      const enemyStats = { ...mockEnemyStats, speed: 8 };
       
-      // Player should go first with higher speed
-      // const turnOrder = calculateTurnOrder(player, enemy);
-      // expect(turnOrder[0]).toBe('player');
+      const turnOrder = calculateTurnOrder(playerStats, enemyStats);
+      expect(turnOrder).toBe('player');
     });
 
-    it.skip('should handle speed modifications from buffs/debuffs', () => {
-      const player = { speed: 10, buffs: [{ type: 'slow', effect: -3 }] };
-      const enemy = { speed: 8, buffs: [] };
+    it('should handle equal speeds', () => {
+      const playerStats = { ...mockPlayerStats, speed: 10 };
+      const enemyStats = { ...mockEnemyStats, speed: 10 };
       
-      // Debuffed player should go second despite higher base speed
-      // const turnOrder = calculateTurnOrder(player, enemy);
-      // expect(turnOrder[0]).toBe('enemy');
+      const turnOrder = calculateTurnOrder(playerStats, enemyStats);
+      expect(turnOrder).toBe('player'); // Player wins ties
     });
 
-    it.skip('should end combat when any participant reaches 0 HP', () => {
-      const player = { health: 5, maxHealth: 100 };
-      const enemy = { health: 0, maxHealth: 80 };
+    it('should end combat when player reaches 0 HP', () => {
+      const playerHealth = 0;
+      const enemyHealth = 50;
+      const agreementPoints = 1;
       
-      // Combat should end when enemy reaches 0 HP
-      // const combatEnded = checkCombatEnd(player, enemy);
-      // expect(combatEnded).toBe(true);
+      const combatEnd = checkCombatEnd(playerHealth, enemyHealth, agreementPoints);
+      expect(combatEnd.ended).toBe(true);
+      expect(combatEnd.victor).toBe('enemy');
+    });
+
+    it('should end combat when enemy reaches 0 HP', () => {
+      const playerHealth = 30;
+      const enemyHealth = 0;
+      const agreementPoints = 1;
+      
+      const combatEnd = checkCombatEnd(playerHealth, enemyHealth, agreementPoints);
+      expect(combatEnd.ended).toBe(true);
+      expect(combatEnd.victor).toBe('player');
+    });
+
+    it('should continue combat when both have health', () => {
+      const playerHealth = 50;
+      const enemyHealth = 40;
+      const agreementPoints = 1;
+      
+      const combatEnd = checkCombatEnd(playerHealth, enemyHealth, agreementPoints);
+      expect(combatEnd.ended).toBe(false);
     });
   });
 });
