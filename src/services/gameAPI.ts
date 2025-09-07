@@ -89,7 +89,7 @@ export const characterAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       throw new GameAPIError(
         `Character creation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500
@@ -117,7 +117,7 @@ export const characterAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       throw new GameAPIError(
         `Failed to get character: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500
@@ -146,7 +146,7 @@ export const characterAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       throw new GameAPIError(
         `Failed to update character: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500
@@ -173,7 +173,7 @@ export const characterAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       throw new GameAPIError(
         `Failed to delete character: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500
@@ -221,7 +221,7 @@ export const gameStateAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       // Return default state if no game state exists yet
       return {
         characterId,
@@ -257,7 +257,7 @@ export const gameStateAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       throw new GameAPIError(
         `Failed to update game state: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500
@@ -284,7 +284,7 @@ export const gameStateAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       throw new GameAPIError(
         `Failed to save game: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500
@@ -313,7 +313,7 @@ export const gameStateAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       throw new GameAPIError(
         `Failed to load game: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500
@@ -371,7 +371,7 @@ export const inventoryAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       // Return default empty inventory if none exists yet
       return {
         characterId,
@@ -430,7 +430,7 @@ export const inventoryAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       throw new GameAPIError(
         `Failed to update inventory: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500
@@ -480,7 +480,7 @@ export const combatAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       // Return default stats if none exist yet
       return {
         characterId,
@@ -527,7 +527,7 @@ export const combatAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       throw new GameAPIError(
         `Failed to update fallacy knowledge: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500
@@ -558,7 +558,7 @@ export const combatAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       throw new GameAPIError(
         `Failed to record combat result: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500
@@ -590,7 +590,7 @@ export const combatAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       throw new GameAPIError(
         `Failed to initiate combat: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500
@@ -618,7 +618,7 @@ export const combatAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       // Return empty array if none available
       return [];
     }
@@ -663,7 +663,7 @@ export const explorationAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       // Return default exploration data if none exists yet
       return {
         characterId,
@@ -700,7 +700,7 @@ export const explorationAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       throw new GameAPIError(
         `Failed to get current location: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500
@@ -730,7 +730,7 @@ export const explorationAPI = {
       if (error instanceof GameAPIError) {
         throw error;
       }
-      
+
       throw new GameAPIError(
         `Failed to move to location: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500

@@ -121,11 +121,11 @@ const CharacterSelectPage: React.FC<CharacterSelectPageProps> = ({
                 </div>
                 <div style={styles.statItem}>
                   <span>Health:</span>
-                  <span>{character.stats.health}</span>
+                  <span>{character.maxHp}</span>
                 </div>
                 <div style={styles.statItem}>
                   <span>Mana:</span>
-                  <span>{character.stats.mana}</span>
+                  <span>{character.maxMp}</span>
                 </div>
               </div>
             </div>
