@@ -356,4 +356,5 @@ export const storyAPI = {
   }
 };
 
-export default { questAPI, storyAPI };
+const questServices = { questAPI, storyAPI };
+export default questServices;

@@ -1,7 +1,9 @@
 import styled from "@emotion/styled"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useAuth } from "../../context/AuthContext"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import LoadingScreen from "../../components/LoadingScreen"
+import { InitializationStep } from "../../services/gameInitializationAPI"
 
 const LoginContainer = styled.div`
   height: 100vh;
@@ -117,14 +119,46 @@ const Button = styled.button`
 function LoginPage() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const navigate = useNavigate()
 
-  const { runLoginUser, loginStatus, loginError } = useAuth()
+  const { runLoginUser, loginStatus, loginError, isLoggedIn, hasCharacter } = useAuth()
+  
+
+  // Redirect based on login status and character existence
+  useEffect(() => {
+    if (isLoggedIn) {
+      if (hasCharacter) {
+        navigate('/character-select') // User has character, go to character selection screen
+      } else {
+        navigate('/character-create') // User needs to create character
+      }
+    }
+  }, [isLoggedIn, hasCharacter, navigate])
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const trimmedUsername = username.trim()
     if (!trimmedUsername || !password) return
     runLoginUser({ username: trimmedUsername, password }).catch(() => { })
+  }
+
+  // Show loading screen during login process
+  if (loginStatus === 'pending' as any) {
+    // Create mock initialization steps for display during login
+    const mockSteps: InitializationStep[] = [
+      { name: 'authentication', description: 'Authenticating user...', completed: false },
+      { name: 'character', description: 'Loading character data...', completed: false },
+      { name: 'gameState', description: 'Loading game state...', completed: false },
+      { name: 'world', description: 'Initializing world...', completed: false },
+    ];
+    
+    return (
+      <LoadingScreen 
+        steps={mockSteps} 
+        currentMessage="Entering the realm of logic and reason..."
+        progress={25} // Mock progress
+      />
+    );
   }
 
   return (
@@ -164,8 +198,8 @@ function LoginPage() {
               <div style={{ color: '#fca5a5', fontSize: '0.875rem' }}>{String((loginError as Error).message || 'Something went wrong')}</div>
             ) : null}
 
-            <Button type="submit" disabled={loginStatus === 'pending'}>
-              {loginStatus === 'pending' ? 'Submitting…' : 'Login'}
+            <Button type="submit" disabled={loginStatus === 'pending' as any}>
+              {loginStatus === 'pending' as any ? 'Submitting…' : 'Login'}
             </Button>
 
             <div style={{ color: '#d1d5db', fontSize: '0.875rem', marginTop: '0.5rem' }}>
