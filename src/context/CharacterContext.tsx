@@ -81,106 +81,99 @@ const PORTRAIT_DATA = {
 
 export const getPortraitData = () => PORTRAIT_DATA;
 
-// Mock API functions
-async function mockGetCharacter(): Promise<{ hasCharacter: boolean; character?: Character }> {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 3000));
+import { authAPI } from '../services/authAPI';
+import { characterAPI } from '../services/gameAPI';
 
-    // Mock: 50% chance of having a character for demo purposes
-    const hasCharacter = Math.random() > 0.5;
+// Real API functions using backend
+async function getCharacterFromBackend(): Promise<{ hasCharacter: boolean; character?: Character }> {
+    try {
+        const uid = authAPI.getCurrentUID();
+        if (!uid) {
+            return { hasCharacter: false };
+        }
 
-    if (!hasCharacter) {
+        // Check if user has character using authAPI
+        const hasCharacter = await authAPI.hasCharacter();
+        if (!hasCharacter) {
+            return { hasCharacter: false };
+        }
+
+        // Get character data from backend
+        const characterData = await characterAPI.get(uid);
+        
+        // Transform backend response to match frontend Character interface
+        const character: Character = {
+            id: characterData.id,
+            name: characterData.name,
+            portrait: characterData.portrait,
+            level: characterData.level,
+            experience: characterData.experience,
+            experienceToNext: characterData.experienceToNext,
+            currentHp: characterData.currentHp,
+            maxHp: characterData.maxHp,
+            currentMp: characterData.currentMp,
+            maxMp: characterData.maxMp,
+            stats: {
+                body: characterData.stats.body,
+                mind: characterData.stats.mind,
+                heart: characterData.stats.heart
+            },
+            detailedStats: characterData.detailedStats || {
+                physicalAtk: 0, physicalDef: 0, accuracy: 0, critDamage: 0, constitution: 0,
+                mentalAtk: 0, mentalDef: 0, evasion: 0, perception: 0, reflexSave: 0,
+                charisma: 0, ailmentAtk: 0, criticalRate: 0, willpower: 0, empathy: 0, luck: 0
+            },
+            location: characterData.currentLocation || "Starting Village",
+            hasCharacter: true
+        };
+
+        return {
+            hasCharacter: true,
+            character
+        };
+    } catch (error) {
+        console.error('Error fetching character from backend:', error);
         return { hasCharacter: false };
     }
-
-    // Mock existing character
-    return {
-        hasCharacter: true,
-        character: {
-            id: "mock-char-1",
-            name: "Aria the Brave",
-            portrait: "elf",
-            level: 12,
-            experience: 2847,
-            experienceToNext: 3200,
-            currentHp: 85,
-            maxHp: 120,
-            currentMp: 45,
-            maxMp: 60,
-            stats: {
-                body: 18,
-                mind: 14,
-                heart: 16
-            },
-            detailedStats: {
-                physicalAtk: 32,
-                physicalDef: 24,
-                accuracy: 87,
-                critDamage: 150,
-                constitution: 22,
-                mentalAtk: 28,
-                mentalDef: 18,
-                evasion: 12,
-                perception: 16,
-                reflexSave: 14,
-                charisma: 19,
-                ailmentAtk: 8,
-                criticalRate: 12,
-                willpower: 20,
-                empathy: 17,
-                luck: 15
-            },
-            location: "Whispering Woods",
-            hasCharacter: true
-        }
-    };
 }
 
-async function mockCreateCharacter(name: string, portrait: string): Promise<Character> {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
+async function createCharacterInBackend(name: string, portrait: string): Promise<Character> {
+    try {
+        const characterData = await characterAPI.create({
+            name,
+            portrait,
+            age: 8
+        });
 
-    const portraitData = PORTRAIT_DATA[portrait as keyof typeof PORTRAIT_DATA];
-    const bonuses = portraitData?.bonuses || { body: 0, mind: 0, heart: 0 };
-
-    // Create new character with stat bonuses
-    return {
-        id: `char-${Date.now()}`,
-        name,
-        portrait,
-        level: 1,
-        experience: 0,
-        experienceToNext: 100,
-        currentHp: 20 + bonuses.body * 5,
-        maxHp: 20 + bonuses.body * 5,
-        currentMp: 10 + bonuses.mind * 3,
-        maxMp: 10 + bonuses.mind * 3,
-        stats: {
-            body: bonuses.body,
-            mind: bonuses.mind,
-            heart: bonuses.heart
-        },
-        detailedStats: {
-            physicalAtk: 5 + bonuses.body * 2,
-            physicalDef: 3 + bonuses.body,
-            accuracy: 50 + bonuses.body * 5,
-            critDamage: 100 + bonuses.body * 10,
-            constitution: 10 + bonuses.body * 2,
-            mentalAtk: 5 + bonuses.mind * 2,
-            mentalDef: 3 + bonuses.mind,
-            evasion: 5 + bonuses.mind * 2,
-            perception: 10 + bonuses.mind * 2,
-            reflexSave: 8 + bonuses.mind,
-            charisma: 5 + bonuses.heart * 2,
-            ailmentAtk: 2 + bonuses.heart,
-            criticalRate: 5 + bonuses.heart * 2,
-            willpower: 10 + bonuses.heart * 2,
-            empathy: 8 + bonuses.heart,
-            luck: 10 + bonuses.heart
-        },
-        location: "Starting Village",
-        hasCharacter: true
-    };
+        // Transform backend response to match frontend Character interface
+        return {
+            id: characterData.id,
+            name: characterData.name,
+            portrait: characterData.portrait,
+            level: characterData.level,
+            experience: characterData.experience,
+            experienceToNext: characterData.experienceToNext,
+            currentHp: characterData.currentHp,
+            maxHp: characterData.maxHp,
+            currentMp: characterData.currentMp,
+            maxMp: characterData.maxMp,
+            stats: {
+                body: characterData.stats.body,
+                mind: characterData.stats.mind,
+                heart: characterData.stats.heart
+            },
+            detailedStats: characterData.detailedStats || {
+                physicalAtk: 0, physicalDef: 0, accuracy: 0, critDamage: 0, constitution: 0,
+                mentalAtk: 0, mentalDef: 0, evasion: 0, perception: 0, reflexSave: 0,
+                charisma: 0, ailmentAtk: 0, criticalRate: 0, willpower: 0, empathy: 0, luck: 0
+            },
+            location: characterData.currentLocation || "Starting Village",
+            hasCharacter: true
+        };
+    } catch (error) {
+        console.error('Error creating character in backend:', error);
+        throw error;
+    }
 }
 
 export function CharacterProvider({ children }: { children: ReactNode }) {
@@ -194,7 +187,7 @@ export function CharacterProvider({ children }: { children: ReactNode }) {
             setLoading(true);
             setError(null);
 
-            const response = await mockGetCharacter();
+            const response = await getCharacterFromBackend();
             setHasCharacter(response.hasCharacter);
             setCharacter(response.character || null);
         } catch (err) {
@@ -210,7 +203,7 @@ export function CharacterProvider({ children }: { children: ReactNode }) {
             setLoading(true);
             setError(null);
 
-            const newCharacter = await mockCreateCharacter(name, portrait);
+            const newCharacter = await createCharacterInBackend(name, portrait);
             setCharacter(newCharacter);
             setHasCharacter(true);
         } catch (err) {

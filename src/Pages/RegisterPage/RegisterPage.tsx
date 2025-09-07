@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../../context/AuthContext";
 
 const RegisterContainer = styled.div`
@@ -118,8 +118,16 @@ function RegisterPage() {
     const [password, setPassword] = useState("")
     const [email, setEmail] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const navigate = useNavigate()
 
-    const { runCreateUser, createUserStatus, createUserError } = useAuth()
+    const { runCreateUser, createUserStatus, createUserError, isLoggedIn } = useAuth()
+
+    // Redirect to character creation after successful registration
+    useEffect(() => {
+        if (isLoggedIn && createUserStatus === 'success') {
+            navigate('/character-create')
+        }
+    }, [isLoggedIn, createUserStatus, navigate])
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()

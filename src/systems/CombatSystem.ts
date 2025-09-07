@@ -143,13 +143,14 @@ function getAttackStat(stats: CombatantStats, moveType: MoveType): number {
 }
 
 // Get relevant defense stat based on move type
-function getDefenseStat(stats: CombatantStats, moveType: MoveType): number {
-  switch (moveType) {
-    case 'Body': return stats.physicalDefense;
-    case 'Mind': return stats.mentalDefense;
-    case 'Heart': return stats.socialDefense;
-  }
-}
+// Currently unused but kept for future combat system enhancements
+// function getDefenseStat(stats: CombatantStats, moveType: MoveType): number {
+//   switch (moveType) {
+//     case 'Body': return stats.physicalDefense;
+//     case 'Mind': return stats.mentalDefense;
+//     case 'Heart': return stats.socialDefense;
+//   }
+// }
 
 // Apply buffs/debuffs to stats
 function applyBuffsToStats(baseStats: CombatantStats, buffs: BuffDebuff[]): CombatantStats {

@@ -157,44 +157,39 @@ const ActionButton = styled.button<{ variant?: 'danger' | 'primary' | 'secondary
     font-size: 1rem;
     letter-spacing: 0.1rem;
   }
+`;
+
+const DangerButton = styled(ActionButton)`
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
   
-  ${props => {
-    switch (props.variant) {
-      case 'danger':
-        return `
-          background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-          color: #fff;
-          box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
-          
-          &:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
-          }
-        `;
-      case 'primary':
-        return `
-          background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
-          color: #fff;
-          box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
-          
-          &:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
-          }
-        `;
-      default:
-        return `
-          background: rgba(139, 69, 19, 0.2);
-          color: #8B4513;
-          border: 2px solid rgba(139, 69, 19, 0.5);
-          
-          &:hover {
-            background: rgba(139, 69, 19, 0.3);
-            border-color: #8B4513;
-          }
-        `;
-    }
-  }}
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+  }
+`;
+
+const PrimaryButton = styled(ActionButton)`
+  background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
+  }
+`;
+
+const SecondaryButton = styled(ActionButton)`
+  background: rgba(139, 69, 19, 0.2);
+  color: #8B4513;
+  border: 2px solid rgba(139, 69, 19, 0.5);
+  
+  &:hover {
+    background: rgba(139, 69, 19, 0.3);
+    border-color: #8B4513;
+  }
 `;
 
 const MapPane = styled.div`
@@ -514,15 +509,15 @@ function ExplorationPage() {
         </LocationDescription>
         
         <ButtonContainer>
-          <ActionButton variant="danger" onClick={handleEnterCombat}>
+          <DangerButton onClick={handleEnterCombat}>
             Enter Combat
-          </ActionButton>
-          <ActionButton variant="primary">
+          </DangerButton>
+          <PrimaryButton>
             Rest
-          </ActionButton>
-          <ActionButton variant="secondary">
+          </PrimaryButton>
+          <SecondaryButton>
             Inventory
-          </ActionButton>
+          </SecondaryButton>
         </ButtonContainer>
       </DescriptionPane>
       

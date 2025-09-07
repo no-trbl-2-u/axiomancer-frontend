@@ -1,0 +1,204 @@
+// Authentication API Service
+// Real backend calls for user authentication
+
+import { API_BASE_URL, getAuthHeaders } from './gameAPI';
+
+export interface LoginRequest {
+  username: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  uid: string;
+  username: string;
+  token: string;
+}
+
+export interface RegisterRequest {
+  username: string;
+  password: string;
+  email: string;
+}
+
+export interface RegisterResponse {
+  uid: string;
+  username: string;
+  token: string;
+}
+
+export interface AuthError {
+  message: string;
+}
+
+export class AuthAPIError extends Error {
+  constructor(message: string, public statusCode: number = 500) {
+    super(message);
+    this.name = 'AuthAPIError';
+  }
+}
+
+// Authentication API calls
+export const authAPI = {
+  async login(credentials: LoginRequest): Promise<LoginResponse> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/login-user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new AuthAPIError(data.message || 'Login failed', response.status);
+      }
+
+      // Store auth token and UID in sessionStorage
+      sessionStorage.setItem('authToken', data.token);
+      sessionStorage.setItem('currentUID', data.uid);
+      sessionStorage.setItem('username', data.username);
+
+      return data;
+    } catch (error) {
+      if (error instanceof AuthAPIError) {
+        throw error;
+      }
+      
+      // Handle network errors
+      throw new AuthAPIError(
+        error instanceof Error ? error.message : 'Network error during login',
+        0
+      );
+    }
+  },
+
+  async register(userData: RegisterRequest): Promise<RegisterResponse> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/create-user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new AuthAPIError(data.message || 'Registration failed', response.status);
+      }
+
+      // Store auth token and UID in sessionStorage after successful registration
+      sessionStorage.setItem('authToken', data.token);
+      sessionStorage.setItem('currentUID', data.uid);
+      sessionStorage.setItem('username', data.username);
+
+      return data;
+    } catch (error) {
+      if (error instanceof AuthAPIError) {
+        throw error;
+      }
+      
+      throw new AuthAPIError(
+        error instanceof Error ? error.message : 'Network error during registration',
+        0
+      );
+    }
+  },
+
+  async logout(): Promise<void> {
+    // Clear stored authentication data
+    sessionStorage.removeItem('authToken');
+    sessionStorage.removeItem('currentUID');
+    sessionStorage.removeItem('username');
+  },
+
+  getCurrentUID(): string | null {
+    return sessionStorage.getItem('currentUID');
+  },
+
+  getCurrentUser(): { uid: string; username: string } | null {
+    const uid = sessionStorage.getItem('currentUID');
+    const username = sessionStorage.getItem('username');
+    if (uid && username) {
+      return { uid, username };
+    }
+    return null;
+  },
+
+  getAuthToken(): string | null {
+    return sessionStorage.getItem('authToken');
+  },
+
+  isAuthenticated(): boolean {
+    return !!this.getCurrentUID() && !!this.getAuthToken();
+  },
+
+  async hasCharacter(): Promise<boolean> {
+    const uid = this.getCurrentUID();
+    if (!uid) {
+      return false;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/character/${uid}`, {
+        method: 'GET',
+        headers: getAuthHeaders(),
+      });
+
+      if (response.status === 404) {
+        return false;
+      }
+
+      if (!response.ok) {
+        throw new AuthAPIError('Failed to check character existence', response.status);
+      }
+
+      return true;
+    } catch (error) {
+      if (error instanceof AuthAPIError) {
+        throw error;
+      }
+      
+      console.warn('Error checking character existence:', error);
+      return false;
+    }
+  },
+
+  async deleteAccount(): Promise<void> {
+    const uid = this.getCurrentUID();
+    if (!uid) {
+      throw new AuthAPIError('No user logged in', 401);
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/delete-user`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ uid }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new AuthAPIError(data.message || 'Account deletion failed', response.status);
+      }
+
+      // Clear auth data after successful deletion
+      await this.logout();
+    } catch (error) {
+      if (error instanceof AuthAPIError) {
+        throw error;
+      }
+      
+      throw new AuthAPIError(
+        error instanceof Error ? error.message : 'Network error during account deletion',
+        0
+      );
+    }
+  }
+};
+
+export default authAPI;

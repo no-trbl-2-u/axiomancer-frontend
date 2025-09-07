@@ -1,7 +1,28 @@
 // Central API Export File
 // Consolidates all game API services
 
-// Core game APIs
+import { 
+  characterAPI, 
+  gameStateAPI, 
+  inventoryAPI, 
+  combatAPI, 
+  explorationAPI, 
+  relationshipAPI,
+  GameAPIError,
+  apiCall,
+  isDevelopment,
+  API_BASE_URL,
+  getAuthToken,
+  setAuthToken,
+  clearAuthToken,
+  getAuthHeaders
+} from './gameAPI';
+import { questAPI, storyAPI } from './questAPI';
+import { demonAPI, boatAPI, labyrinthAPI } from './specialMechanicsAPI';
+import { authAPI, AuthAPIError } from './authAPI';
+import { gameInitializationAPI, GameInitializationError } from './gameInitializationAPI';
+
+// Re-export all API functions and utilities
 export {
   characterAPI,
   gameStateAPI,
@@ -16,8 +37,17 @@ export {
   getAuthToken,
   setAuthToken,
   clearAuthToken,
-  getAuthHeaders
-} from './gameAPI';
+  getAuthHeaders,
+  questAPI,
+  storyAPI,
+  demonAPI,
+  boatAPI,
+  labyrinthAPI,
+  authAPI,
+  gameInitializationAPI,
+  AuthAPIError,
+  GameInitializationError
+};
 
 export type {
   CreateCharacterRequest,
@@ -37,12 +67,6 @@ export type {
   RelationshipResponse
 } from './gameAPI';
 
-// Quest and story APIs
-export {
-  questAPI,
-  storyAPI
-} from './questAPI';
-
 export type {
   QuestObjective,
   Quest,
@@ -55,13 +79,6 @@ export type {
   StoryProgress
 } from './questAPI';
 
-// Special mechanics APIs
-export {
-  demonAPI,
-  boatAPI,
-  labyrinthAPI
-} from './specialMechanicsAPI';
-
 export type {
   DemonContract,
   SoulStatus,
@@ -72,6 +89,16 @@ export type {
   LabyrinthChamber,
   LabyrinthProgress
 } from './specialMechanicsAPI';
+
+export type {
+  LoginRequest,
+  LoginResponse
+} from './authAPI';
+
+export type {
+  GameInitializationData,
+  InitializationStep
+} from './gameInitializationAPI';
 
 // API Status and Health Checks
 export interface APIStatus {
@@ -97,7 +124,7 @@ export const systemAPI = {
   async getStatus(): Promise<APIStatus> {
     console.log('Checking API status');
     await new Promise(resolve => setTimeout(resolve, 100));
-    
+
     return {
       status: 'online',
       version: '1.0.0',
@@ -122,7 +149,7 @@ export const systemAPI = {
     const start = Date.now();
     await new Promise(resolve => setTimeout(resolve, 50));
     const latency = Date.now() - start;
-    
+
     return { pong: true, latency };
   }
 };
@@ -136,16 +163,16 @@ export const gameAPI = {
   combat: combatAPI,
   exploration: explorationAPI,
   relationships: relationshipAPI,
-  
+
   // Quest and story
   quest: questAPI,
   story: storyAPI,
-  
+
   // Special mechanics
   demon: demonAPI,
   boat: boatAPI,
   labyrinth: labyrinthAPI,
-  
+
   // System utilities
   system: systemAPI
 };

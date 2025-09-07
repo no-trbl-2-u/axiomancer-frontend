@@ -396,4 +396,5 @@ export const labyrinthAPI = {
   }
 };
 
-export default { demonAPI, boatAPI, labyrinthAPI };
+const specialMechanics = { demonAPI, boatAPI, labyrinthAPI };
+export default specialMechanics;
