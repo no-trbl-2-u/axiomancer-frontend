@@ -500,14 +500,14 @@ function ExplorationPage() {
           <LocationIcon>📍</LocationIcon>
           <LocationTitle>{currentLocation}</LocationTitle>
         </LocationHeader>
-        
+
         <LocationDescription>
-          You stand at the edge of the Whispering Woods. Ancient trees stretch endlessly 
-          before you, their branches swaying in the ethereal breeze. Strange sounds echo 
-          from the depths - both alluring and ominous. The very air seems thick with 
+          You stand at the edge of the Whispering Woods. Ancient trees stretch endlessly
+          before you, their branches swaying in the ethereal breeze. Strange sounds echo
+          from the depths - both alluring and ominous. The very air seems thick with
           forgotten secrets and lurking dangers.
         </LocationDescription>
-        
+
         <ButtonContainer>
           <DangerButton onClick={handleEnterCombat}>
             Enter Combat
@@ -520,17 +520,17 @@ function ExplorationPage() {
           </SecondaryButton>
         </ButtonContainer>
       </DescriptionPane>
-      
+
       <MapPane>
         <MapImage src={mapImage} alt="Current location map" />
       </MapPane>
-      
+
       <CharacterPane expanded={expanded} onClick={() => setExpanded(!expanded)}>
         <ExpandIcon expanded={expanded}>⌄</ExpandIcon>
-        
+
         <CharacterHeader>
-          <CharacterPortrait 
-            src={`/images/portraits/${character.portrait}.jpg`} 
+          <CharacterPortrait
+            src={`/images/portraits/${character.portrait}.jpg`}
             alt={character.name}
           />
           <CharacterInfo>
@@ -538,36 +538,36 @@ function ExplorationPage() {
             <CharacterLevel>Lv. {character.level}</CharacterLevel>
           </CharacterInfo>
         </CharacterHeader>
-        
+
         <StatsSection>
           <ProgressBars>
             <ProgressGroup>
               <ProgressLabel>Health</ProgressLabel>
-              <ProgressBar 
-                current={character.currentHp} 
+              <ProgressBar
+                current={character.currentHp}
                 max={character.maxHp}
-                color={character.currentHp > character.maxHp * 0.6 ? '#4ade80' : 
-                      character.currentHp > character.maxHp * 0.3 ? '#fbbf24' : '#ef4444'}
+                color={character.currentHp > character.maxHp * 0.6 ? '#4ade80' :
+                  character.currentHp > character.maxHp * 0.3 ? '#fbbf24' : '#ef4444'}
               >
                 <BarText>{character.currentHp}/{character.maxHp}</BarText>
               </ProgressBar>
             </ProgressGroup>
-            
+
             <ProgressGroup>
               <ProgressLabel>Mana</ProgressLabel>
-              <ProgressBar 
-                current={character.currentMp} 
+              <ProgressBar
+                current={character.currentMp}
                 max={character.maxMp}
                 color="#3b82f6"
               >
                 <BarText>{character.currentMp}/{character.maxMp}</BarText>
               </ProgressBar>
             </ProgressGroup>
-            
+
             <ExperienceBar>
               <ExperienceText>Experience</ExperienceText>
-              <ProgressBar 
-                current={character.experience} 
+              <ProgressBar
+                current={character.experience}
                 max={character.experienceToNext}
                 color="#8B4513"
               >
@@ -575,7 +575,7 @@ function ExplorationPage() {
               </ProgressBar>
             </ExperienceBar>
           </ProgressBars>
-          
+
           <CoreStatsGrid>
             <CoreStat>
               <CoreStatLabel>Body</CoreStatLabel>
@@ -590,7 +590,7 @@ function ExplorationPage() {
               <CoreStatValue>{character.stats.heart}</CoreStatValue>
             </CoreStat>
           </CoreStatsGrid>
-          
+
           {expanded && (
             <DetailedStatsGrid>
               <StatCategory>
@@ -616,7 +616,7 @@ function ExplorationPage() {
                   <StatValueSmall>{character.detailedStats.constitution}</StatValueSmall>
                 </StatRow>
               </StatCategory>
-              
+
               <StatCategory>
                 <MindTitle>Mind ({character.stats.mind})</MindTitle>
                 <StatRow>
@@ -640,7 +640,7 @@ function ExplorationPage() {
                   <StatValueSmall>{character.detailedStats.reflexSave}</StatValueSmall>
                 </StatRow>
               </StatCategory>
-              
+
               <StatCategory>
                 <HeartTitle>Heart ({character.stats.heart})</HeartTitle>
                 <StatRow>
@@ -670,13 +670,13 @@ function ExplorationPage() {
               </StatCategory>
             </DetailedStatsGrid>
           )}
-          
+
           {!expanded && (
             <TooltipArea>
               <TooltipTitle>Current Status</TooltipTitle>
               <TooltipText>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 Ut enim ad minim veniam, quis nostrud exercitation.
               </TooltipText>
             </TooltipArea>

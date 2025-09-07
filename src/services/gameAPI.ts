@@ -859,14 +859,16 @@ export const API_BASE_URL = isDevelopment ? process.env.REACT_APP_API_URL_DEV : 
 
 // Auth token management for API calls
 export function getAuthToken(): string | null {
-  return localStorage.getItem('authToken');
+  return sessionStorage.getItem('authToken') || localStorage.getItem('authToken');
 }
 
 export function setAuthToken(token: string): void {
+  sessionStorage.setItem('authToken', token);
   localStorage.setItem('authToken', token);
 }
 
 export function clearAuthToken(): void {
+  sessionStorage.removeItem('authToken');
   localStorage.removeItem('authToken');
 }
 
