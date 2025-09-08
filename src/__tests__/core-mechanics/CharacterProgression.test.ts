@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { describe, it, expect } from '@jest/globals';
 import { 
   calculateExperienceRequired,
@@ -7,7 +8,7 @@ import {
   createCharacter,
   ageCharacter,
   equipItem,
-  applyEquipmentBonuses,
+  // applyEquipmentBonuses,
   calculateSetBonuses,
   calculateDetailedStats
 } from '../../systems/CharacterProgression';
@@ -45,17 +46,18 @@ interface HeartSkills {
   socialReading: number;
 }
 
-interface Equipment {
+interface LocalEquipment {
   weapon?: Item;
   armor?: Item;
   accessories: Item[];
 }
 
-interface Item {
+interface LocalItem {
   id: string;
   name: string;
   type: 'weapon' | 'armor' | 'accessory';
   rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
+  levelRequirement?: number;
   statBonuses: {
     [key: string]: number;
   };
@@ -149,7 +151,7 @@ describe('Character Progression System', () => {
 
   describe('Skill Tree System', () => {
     it.skip('should allow skill point allocation in skill trees', () => {
-      const character: Character = {
+      const _character: Character = {
         id: 'test',
         name: 'Test',
         level: 4,
@@ -166,7 +168,7 @@ describe('Character Progression System', () => {
         skillPoints: 3
       };
 
-      const skillAllocation = {
+      const _skillAllocation = {
         body: { martialArts: 1, endurance: 1 },
         mind: { logicalReasoning: 1 },
         heart: {}
@@ -179,7 +181,7 @@ describe('Character Progression System', () => {
     });
 
     it.skip('should require prerequisites for advanced skills', () => {
-      const skillTree: SkillTree = {
+      const _skillTree: SkillTree = {
         body: { martialArts: 0, endurance: 0, weaponMastery: 0, intimidation: 0 },
         mind: { logicalReasoning: 0, memorization: 0, analysisSpeed: 0, paradoxMastery: 0 },
         heart: { empathy: 0, persuasion: 0, leadership: 0, socialReading: 0 }
@@ -189,7 +191,7 @@ describe('Character Progression System', () => {
       // const canLearnWeaponMastery = canLearnSkill('weaponMastery', skillTree.body);
       // expect(canLearnWeaponMastery).toBe(false); // Requires martialArts >= 3
 
-      const advancedSkillTree: SkillTree = {
+      const _advancedSkillTree: SkillTree = {
         body: { martialArts: 3, endurance: 2, weaponMastery: 0, intimidation: 1 },
         mind: { logicalReasoning: 2, memorization: 1, analysisSpeed: 0, paradoxMastery: 0 },
         heart: { empathy: 1, persuasion: 0, leadership: 0, socialReading: 2 }
@@ -201,7 +203,7 @@ describe('Character Progression System', () => {
     });
 
     it.skip('should apply skill bonuses to character stats', () => {
-      const character: Character = {
+      const _character: Character = {
         id: 'test',
         name: 'Test',
         level: 5,
@@ -218,7 +220,7 @@ describe('Character Progression System', () => {
         skillPoints: 0
       };
 
-      const skills: SkillTree = {
+      const _skills: SkillTree = {
         body: { martialArts: 3, endurance: 2, weaponMastery: 1, intimidation: 0 },
         mind: { logicalReasoning: 4, memorization: 2, analysisSpeed: 1, paradoxMastery: 0 },
         heart: { empathy: 2, persuasion: 3, leadership: 1, socialReading: 2 }
@@ -235,9 +237,9 @@ describe('Character Progression System', () => {
   describe('Equipment System', () => {
     it('should allow equipping items with stat bonuses', () => {
       const character = createCharacter('Test', 'elf', 16);
-      const equipment: Equipment = { accessories: [] };
+      const equipment: LocalEquipment = { accessories: [] };
 
-      const sword: Item = {
+      const sword: LocalItem = {
         id: 'iron_sword',
         name: 'Iron Sword',
         type: 'weapon',
@@ -249,12 +251,12 @@ describe('Character Progression System', () => {
         }
       };
 
-      const { character: equippedCharacter, equipment: updatedEquipment } = equipItem(character, sword, equipment);
+      const { character: _equippedCharacter, equipment: updatedEquipment } = equipItem(character, sword, equipment);
       expect(updatedEquipment.weapon).toBe(sword);
     });
 
     it('should handle item rarity and special effects', () => {
-      const legendaryItem: Item = {
+      const legendaryItem: LocalItem = {
         id: 'philosophers_stone',
         name: "Philosopher's Stone",
         type: 'accessory',
@@ -274,9 +276,9 @@ describe('Character Progression System', () => {
 
     it('should prevent equipping items with level requirements', () => {
       const character = createCharacter('Test', 'elf', 15);
-      const equipment: Equipment = { accessories: [] };
+      const equipment: LocalEquipment = { accessories: [] };
 
-      const highLevelItem: Item = {
+      const highLevelItem: LocalItem = {
         id: 'master_sword',
         name: 'Master Sword',
         type: 'weapon',
@@ -293,7 +295,7 @@ describe('Character Progression System', () => {
     });
 
     it('should handle equipment sets with bonus effects', () => {
-      const scholarSet: Item[] = [
+      const scholarSet: LocalItem[] = [
         {
           id: 'scholar_robes',
           name: 'Scholar Robes',
@@ -329,7 +331,7 @@ describe('Character Progression System', () => {
 
     it('should apply age-related stat changes', () => {
       const youngCharacter = createCharacter('Test', 'elf', 15);
-      const originalDetailedStats = { ...youngCharacter.detailedStats };
+      const _originalDetailedStats = { ...youngCharacter.detailedStats };
       
       // Age to 30 (adult age with different stat modifiers)
       const matureCharacter = ageCharacter(youngCharacter, 15); // Age from 15 to 30

@@ -1,4 +1,5 @@
-import { describe, it, expect } from '@jest/globals';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { describe, it } from '@jest/globals';
 
 // Mock interfaces for labyrinth system
 interface Labyrinth {
@@ -136,7 +137,7 @@ interface ImpossibleRoom {
 describe('Labyrinth System Implementation', () => {
   describe('Labyrinth Structure and Progression', () => {
     it.skip('should create massive labyrinth with hundreds of chambers', () => {
-      const greatLabyrinth: Labyrinth = {
+      const _greatLabyrinth: Labyrinth = {
         id: 'the_great_labyrinth',
         name: 'The Great Labyrinth',
         description: 'An ancient maze that spans continents, filled with impossible architecture',
@@ -169,7 +170,7 @@ describe('Labyrinth System Implementation', () => {
     });
 
     it.skip('should track chamber completion and progression', () => {
-      const chamber: Chamber = {
+      const _chamber: Chamber = {
         id: 'chamber_001',
         number: 1,
         name: 'The Whispering Entrance',
@@ -210,7 +211,7 @@ describe('Labyrinth System Implementation', () => {
     });
 
     it.skip('should increase difficulty progressively through chambers', () => {
-      const chambers: Chamber[] = [
+      const _chambers: Chamber[] = [
         { id: 'chamber_001', number: 1, difficulty: 1, type: 'puzzle' } as Chamber,
         { id: 'chamber_050', number: 50, difficulty: 3, type: 'combat' } as Chamber,
         { id: 'chamber_100', number: 100, difficulty: 5, type: 'trial' } as Chamber,
@@ -225,7 +226,7 @@ describe('Labyrinth System Implementation', () => {
     });
 
     it.skip('should handle non-linear pathways and secret chambers', () => {
-      const chamber: Chamber = {
+      const _chamber: Chamber = {
         id: 'chamber_045',
         number: 45,
         name: 'The Branching Path',
@@ -267,7 +268,7 @@ describe('Labyrinth System Implementation', () => {
 
   describe('Aging System Implementation', () => {
     it.skip('should age character by one year per chamber', () => {
-      const character: Character = {
+      const _character: Character = {
         age: 16,
         level: 3,
         stats: { body: 12, mind: 10, heart: 8, wisdom: 5, experience: 500 },
@@ -283,7 +284,7 @@ describe('Labyrinth System Implementation', () => {
         }
       };
 
-      const agingEffect: AgingEffect = {
+      const _agingEffect: AgingEffect = {
         yearsAdded: 1,
         statChanges: { mind: 1, wisdom: 2 },
         description: 'Ancient wisdom flows through your mind as time passes',
@@ -298,7 +299,7 @@ describe('Labyrinth System Implementation', () => {
     });
 
     it.skip('should modify aging effects based on character age', () => {
-      const youngCharacter: Character = {
+      const _youngCharacter: Character = {
         age: 15,
         level: 2,
         stats: { body: 14, mind: 8, heart: 6, wisdom: 3, experience: 200 },
@@ -309,7 +310,7 @@ describe('Labyrinth System Implementation', () => {
         labyrinthProgress: { chambersCompleted: 0, totalTimeSpent: 0, yearsAged: 0, knowledgeGained: [] }
       };
 
-      const adultCharacter: Character = {
+      const _adultCharacter: Character = {
         age: 35,
         level: 15,
         stats: { body: 18, mind: 20, heart: 16, wisdom: 25, experience: 5000 },
@@ -331,7 +332,7 @@ describe('Labyrinth System Implementation', () => {
     });
 
     it.skip('should track cumulative aging effects', () => {
-      const character: Character = {
+      const _character: Character = {
         age: 16,
         level: 3,
         stats: { body: 12, mind: 10, heart: 8, wisdom: 5, experience: 500 },

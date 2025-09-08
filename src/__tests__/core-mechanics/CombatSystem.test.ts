@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { describe, it, expect } from '@jest/globals';
 import { 
   calculateCombat, 
@@ -10,10 +11,10 @@ import {
 } from '../../systems/CombatSystem';
 import type { 
   CombatAction, 
-  CombatResult, 
+  // CombatResult, 
   CombatantStats, 
-  BuffDebuff, 
-  AdvantageType 
+  BuffDebuff
+  // AdvantageType 
 } from '../../systems/CombatSystem';
 
 describe('Combat System Implementation', () => {

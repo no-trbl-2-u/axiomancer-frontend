@@ -1,4 +1,5 @@
-import { describe, it, expect } from '@jest/globals';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { describe, it } from '@jest/globals';
 
 // Mock interfaces for save/load system
 interface GameSave {
@@ -284,7 +285,7 @@ interface ValidationWarning {
 describe('Save/Load System', () => {
   describe('Save Game Creation', () => {
     it.skip('should create comprehensive save files with all game state', () => {
-      const character = {
+      const _character = {
         name: 'Test Hero',
         age: 25,
         level: 10,
@@ -295,7 +296,7 @@ describe('Save/Load System', () => {
         factionReputation: { philosophers_guild: 75 }
       };
 
-      const worldState = {
+      const _worldState = {
         currentTime: Date.now(),
         season: 'autumn' as const,
         globalEvents: [],
@@ -310,8 +311,8 @@ describe('Save/Load System', () => {
     });
 
     it.skip('should generate unique save IDs and timestamps', () => {
-      const save1 = { id: 'save_001', timestamp: Date.now() };
-      const save2 = { id: 'save_002', timestamp: Date.now() + 1000 };
+      const _save1 = { id: 'save_001', timestamp: Date.now() };
+      const _save2 = { id: 'save_002', timestamp: Date.now() + 1000 };
 
       // Save IDs should be unique
       // expect(save1.id).not.toBe(save2.id);
@@ -319,7 +320,7 @@ describe('Save/Load System', () => {
     });
 
     it.skip('should compress save data for storage efficiency', () => {
-      const largeSaveData = {
+      const _largeSaveData = {
         character: { /* large character object */ },
         world: { /* large world state */ },
         progress: { /* extensive progress data */ }
@@ -333,12 +334,12 @@ describe('Save/Load System', () => {
     });
 
     it.skip('should handle save file versioning', () => {
-      const saveV1 = {
+      const _saveV1 = {
         version: '1.0.0',
         character: { name: 'Hero', level: 5 }
       };
 
-      const saveV2 = {
+      const _saveV2 = {
         version: '1.1.0',
         character: { name: 'Hero', level: 5, age: 20 } // Added age field
       };
@@ -352,13 +353,13 @@ describe('Save/Load System', () => {
 
   describe('Save File Management', () => {
     it.skip('should support multiple save slots', () => {
-      const saveSlots = [
+      const _saveSlots = [
         { slot: 1, save: { id: 'save_001', name: 'Main Adventure' } },
         { slot: 2, save: { id: 'save_002', name: 'Alternative Path' } },
         { slot: 3, save: null } // Empty slot
       ];
 
-      const maxSlots = 10;
+      const _maxSlots = 10;
 
       // Should manage multiple save slots
       // expect(saveSlots.length).toBeLessThanOrEqual(maxSlots);

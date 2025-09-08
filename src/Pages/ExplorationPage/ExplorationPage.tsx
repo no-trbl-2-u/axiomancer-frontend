@@ -4,6 +4,47 @@ import { useCharacter } from "../../context/CharacterContext";
 import { useMapLocation } from "../../hooks/useMapLocation";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import InteractiveMap from "../../components/InteractiveMap/InteractiveMap";
+import EventModal from "../../components/EventModal/EventModal";
+
+interface MapNodeData {
+  id: string;
+  name: string;
+  coordinates: {
+    x: number;
+    y: number;
+  };
+  area: string;
+  unlocked: boolean;
+}
+
+interface MapNodeEvent {
+  type: 'combat' | 'event' | 'rest';
+  id: string;
+  title: string;
+  description: string;
+  portrait?: string;
+  rewards?: {
+    experience?: number;
+    items?: string[];
+    fallacySpells?: string[];
+    paradoxes?: string[];
+  };
+  enemy?: {
+    type: 'greater_mythical' | 'lesser_mythical' | 'random';
+    name: string;
+    level: number;
+  };
+  choices?: {
+    id: string;
+    text: string;
+    consequences?: {
+      mpDrain?: boolean;
+      items?: string[];
+      fallacySpells?: string[];
+    };
+  }[];
+}
 
 const ExplorationContainer = styled.div`
   min-height: 100vh;
@@ -201,12 +242,7 @@ const MapPane = styled.div`
   box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.1);
 `;
 
-const MapImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: sepia(20%) hue-rotate(15deg) saturate(0.8) brightness(0.7);
-`;
+// Removed unused MapImage component
 
 const CharacterPane = styled.div<{ expanded: boolean }>`
   grid-column: 1 / -1;
@@ -481,8 +517,10 @@ const TooltipText = styled.div`
 
 function ExplorationPage() {
   const { character, loading } = useCharacter();
-  const { currentLocation, mapImage } = useMapLocation();
+  const { currentLocation } = useMapLocation();
   const [expanded, setExpanded] = useState(false);
+  const [currentEvent, setCurrentEvent] = useState<MapNodeEvent | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
   const navigate = useNavigate();
 
   if (loading || !character) {
@@ -492,6 +530,89 @@ function ExplorationPage() {
   const handleEnterCombat = () => {
     navigate('/combat');
   };
+
+  const handleNodeClick = async (node: MapNodeData) => {
+    if (isProcessing) return;
+    
+    setIsProcessing(true);
+    try {
+      // Mock API call - replace with actual API call
+      const response = await fetch('/api/travel-to-node', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          uid: character.id,
+          characterId: character.id,
+          nodeId: node.id,
+          coordinates: node.coordinates
+        })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.newEvent) {
+          setCurrentEvent(result.newEvent);
+        }
+      } else {
+        console.error('Failed to travel to node');
+      }
+    } catch (error) {
+      console.error('Error traveling to node:', error);
+      
+      // Mock event generation for demo purposes
+      const mockEvent: MapNodeEvent = {
+        type: Math.random() < 0.5 ? 'combat' : Math.random() < 0.85 ? 'rest' : 'event',
+        id: `mock_${Date.now()}`,
+        title: 'Random Encounter',
+        description: 'Something interesting happens as you explore this location...',
+        portrait: 'Angel'
+      };
+      setCurrentEvent(mockEvent);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleEventChoice = async (choiceId: string) => {
+    if (!currentEvent) return;
+    
+    try {
+      // Mock API call for event choice
+      console.log('Processing event choice:', choiceId);
+      setCurrentEvent(null);
+    } catch (error) {
+      console.error('Error processing event choice:', error);
+    }
+  };
+
+  const handleEventCombat = async () => {
+    if (!currentEvent) return;
+    
+    setCurrentEvent(null);
+    navigate('/combat');
+  };
+
+  const handleEventRest = async () => {
+    if (!currentEvent) return;
+    
+    try {
+      // Mock API call for rest
+      console.log('Processing rest event');
+      setCurrentEvent(null);
+      // Show success message or update character stats
+    } catch (error) {
+      console.error('Error processing rest:', error);
+    }
+  };
+
+  const handleCloseEvent = () => {
+    setCurrentEvent(null);
+  };
+
+  // Mock current location coordinates
+  const currentCoordinates = { x: 50, y: 80 };
 
   return (
     <ExplorationContainer>
@@ -522,7 +643,10 @@ function ExplorationPage() {
       </DescriptionPane>
 
       <MapPane>
-        <MapImage src={mapImage} alt="Current location map" />
+        <InteractiveMap 
+          currentLocation={currentCoordinates}
+          onNodeClick={handleNodeClick}
+        />
       </MapPane>
 
       <CharacterPane expanded={expanded} onClick={() => setExpanded(!expanded)}>
@@ -683,6 +807,14 @@ function ExplorationPage() {
           )}
         </StatsSection>
       </CharacterPane>
+
+      <EventModal
+        event={currentEvent}
+        onClose={handleCloseEvent}
+        onChoice={handleEventChoice}
+        onCombat={handleEventCombat}
+        onRest={handleEventRest}
+      />
     </ExplorationContainer>
   );
 }

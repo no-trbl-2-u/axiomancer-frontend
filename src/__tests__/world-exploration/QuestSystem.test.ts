@@ -1,4 +1,16 @@
-import { describe, it, expect } from '@jest/globals';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { describe, it, expect, beforeEach } from '@jest/globals';
+import {
+  QuestSystem,
+  Quest,
+  Character,
+  QuestObjective,
+  QuestReward,
+  QuestRequirements,
+  QuestConsequence,
+  QuestChain,
+  Faction
+} from '../../systems/QuestSystem';
 
 // Mock interfaces for quest system
 interface Quest {
@@ -102,7 +114,8 @@ interface FactionBenefit {
 
 describe('Quest and Storyline System', () => {
   describe('Quest Creation and Management', () => {
-    it.skip('should create quests with proper structure and objectives', () => {
+    it('should create quests with proper structure and objectives', () => {
+      const questSystem = new QuestSystem();
       const mainQuest: Quest = {
         id: 'find_boat_parts',
         title: 'Build Your Vessel',
@@ -123,34 +136,30 @@ describe('Quest and Storyline System', () => {
             completed: false,
             optional: false,
             hidden: false
-          },
-          {
-            id: 'find_sailcloth',
-            description: 'Find sailcloth for the boat',
-            type: 'collect',
-            target: 'sailcloth',
-            quantity: 1,
-            currentProgress: 0,
-            completed: false,
-            optional: false,
-            hidden: false
           }
         ],
         rewards: [
-          { type: 'experience', value: 200 },
-          { type: 'item', value: 'basic_boat' },
-          { type: 'unlock', value: 'sea_travel' }
+          { type: 'experience', value: 100 },
+          { type: 'gold', value: 50 }
         ]
       };
-
-      // Quest should have all required components
-      // expect(mainQuest.objectives.length).toBeGreaterThan(0);
-      // expect(mainQuest.rewards.length).toBeGreaterThan(0);
-      // expect(mainQuest.type).toBe('main');
+      
+      // Create the quest
+      const createdQuest = questSystem.createQuest(mainQuest);
+      
+      // Validate quest structure
+      expect(createdQuest.id).toBe(mainQuest.id);
+      expect(createdQuest.title).toBe(mainQuest.title);
+      expect(createdQuest.type).toBe('main');
+      expect(createdQuest.status).toBe('available');
+      expect(createdQuest.objectives).toHaveLength(1);
+      expect(createdQuest.objectives[0].type).toBe('collect');
+      expect(createdQuest.objectives[0].quantity).toBe(10);
+      expect(createdQuest.rewards).toHaveLength(2);
     });
 
     it.skip('should validate quest requirements before making available', () => {
-      const restrictedQuest: Quest = {
+      const _restrictedQuest: Quest = {
         id: 'advanced_magic_training',
         title: 'Advanced Magic Training',
         description: 'Learn advanced magical techniques',
@@ -167,7 +176,7 @@ describe('Quest and Storyline System', () => {
         rewards: []
       };
 
-      const qualifiedCharacter: Character = {
+      const _qualifiedCharacter: Character = {
         level: 12,
         stats: { mind: 18, heart: 14 },
         inventory: [],
@@ -179,7 +188,7 @@ describe('Quest and Storyline System', () => {
         questHistory: []
       };
 
-      const unqualifiedCharacter: Character = {
+      const _unqualifiedCharacter: Character = {
         level: 8,
         stats: { mind: 10, heart: 8 },
         inventory: [],
@@ -200,7 +209,7 @@ describe('Quest and Storyline System', () => {
     });
 
     it.skip('should track quest objective progress', () => {
-      const quest: Quest = {
+      const _quest: Quest = {
         id: 'eliminate_bandits',
         title: 'Eliminate Bandit Threat',
         description: 'Clear the roads of bandit activity',
@@ -234,7 +243,7 @@ describe('Quest and Storyline System', () => {
     });
 
     it.skip('should handle optional and hidden objectives', () => {
-      const complexQuest: Quest = {
+      const _complexQuest: Quest = {
         id: 'investigate_mystery',
         title: 'The Village Mystery',
         description: 'Investigate strange happenings in the village',
@@ -287,7 +296,7 @@ describe('Quest and Storyline System', () => {
 
   describe('Quest Chain and Branching', () => {
     it.skip('should handle linear quest chains', () => {
-      const chainQuests: Quest[] = [
+      const _chainQuests: Quest[] = [
         {
           id: 'chain_part_1',
           title: 'The Beginning',
@@ -315,7 +324,7 @@ describe('Quest and Storyline System', () => {
         }
       ];
 
-      const character: Character = {
+      const _character: Character = {
         level: 5,
         stats: {},
         inventory: [],
@@ -336,7 +345,7 @@ describe('Quest and Storyline System', () => {
     });
 
     it.skip('should handle branching quest paths based on player choices', () => {
-      const branchingQuest: Quest = {
+      const _branchingQuest: Quest = {
         id: 'moral_choice_quest',
         title: 'A Difficult Decision',
         description: 'Choose how to handle a moral dilemma',
@@ -358,7 +367,7 @@ describe('Quest and Storyline System', () => {
         chainQuests: ['merciful_path', 'justice_path', 'pragmatic_path']
       };
 
-      const playerChoice = 'show_mercy';
+      const _playerChoice = 'show_mercy';
       
       // Player choices should determine which branch quest becomes available
       // const nextQuestId = determineBranchQuest(branchingQuest, playerChoice);
@@ -366,13 +375,13 @@ describe('Quest and Storyline System', () => {
     });
 
     it.skip('should track quest chain completion and provide chain rewards', () => {
-      const questChain = [
+      const _questChain = [
         { id: 'chain_1', status: 'completed' },
         { id: 'chain_2', status: 'completed' },
         { id: 'chain_3', status: 'completed' }
       ];
 
-      const chainReward = {
+      const _chainReward = {
         type: 'chain_completion',
         rewards: [
           { type: 'experience', value: 500 },
@@ -392,7 +401,7 @@ describe('Quest and Storyline System', () => {
 
   describe('Faction System Integration', () => {
     it.skip('should create faction-specific quest lines', () => {
-      const faction: Faction = {
+      const _faction: Faction = {
         id: 'philosophers_guild',
         name: 'Guild of Philosophers',
         description: 'Seekers of truth and wisdom',
@@ -410,7 +419,7 @@ describe('Quest and Storyline System', () => {
         ]
       };
 
-      const factionQuest: Quest = {
+      const _factionQuest: Quest = {
         id: 'philosophy_initiation',
         title: 'Philosophical Initiation',
         description: 'Prove your dedication to philosophical pursuits',
@@ -494,7 +503,7 @@ describe('Quest and Storyline System', () => {
         questHistory: []
       };
 
-      const faction: Faction = {
+      const _faction: Faction = {
         id: 'philosophers_guild',
         name: 'Guild of Philosophers',
         description: 'Seekers of wisdom',

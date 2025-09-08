@@ -1,4 +1,5 @@
-import { describe, it, expect } from '@jest/globals';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { describe, it } from '@jest/globals';
 
 // Mock interfaces for starting town implementation
 interface Town {
@@ -129,7 +130,7 @@ interface FamilyRelationship {
 describe('Starting Town Implementation', () => {
   describe('Town Structure and NPCs', () => {
     it.skip('should create a humble seafaring village with appropriate NPCs', () => {
-      const startingTown: Town = {
+      const _startingTown: Town = {
         id: 'seafarers_haven',
         name: 'Seafarer\'s Haven',
         description: 'A humble fishing village where family bonds run deep',
@@ -164,7 +165,7 @@ describe('Starting Town Implementation', () => {
     });
 
     it.skip('should implement family relationships and connections', () => {
-      const playerFamily: FamilyRelationship[] = [
+      const _playerFamily: FamilyRelationship[] = [
         {
           npcId: 'mother_lyra',
           relationship: 'parent',
@@ -195,7 +196,7 @@ describe('Starting Town Implementation', () => {
     });
 
     it.skip('should create NPCs with daily schedules and availability', () => {
-      const fisherman: NPC = {
+      const _fisherman: NPC = {
         id: 'old_captain_salt',
         name: 'Captain Salt',
         role: 'Master Fisherman',
@@ -224,7 +225,7 @@ describe('Starting Town Implementation', () => {
     });
 
     it.skip('should implement town buildings with specific functions', () => {
-      const townBuildings: Building[] = [
+      const _townBuildings: Building[] = [
         {
           id: 'fishing_dock',
           name: 'The Old Pier',
@@ -261,7 +262,7 @@ describe('Starting Town Implementation', () => {
 
   describe('Boat Building System', () => {
     it.skip('should implement boat construction as main quest mechanic', () => {
-      const boatProject: BoatBuildingProject = {
+      const _boatProject: BoatBuildingProject = {
         id: 'player_boat',
         name: 'Journey\'s Beginning',
         description: 'A sturdy vessel to carry you across the treacherous seas',
@@ -314,7 +315,7 @@ describe('Starting Town Implementation', () => {
     });
 
     it.skip('should track material gathering progress', () => {
-      const boatProject: BoatBuildingProject = {
+      const _boatProject: BoatBuildingProject = {
         id: 'player_boat',
         name: 'Journey\'s Beginning',
         description: 'A boat project',
@@ -343,7 +344,7 @@ describe('Starting Town Implementation', () => {
     });
 
     it.skip('should provide multiple sources for each material', () => {
-      const woodSources = [
+      const _woodSources = [
         { location: 'northern_forest', method: 'logging', difficulty: 'medium', quantity: '3-5 per trip' },
         { location: 'old_shipwreck', method: 'salvage', difficulty: 'easy', quantity: '1-2 per search' },
         { location: 'carpenter_shop', method: 'purchase', difficulty: 'easy', quantity: 'unlimited', cost: 15 }
@@ -356,7 +357,7 @@ describe('Starting Town Implementation', () => {
     });
 
     it.skip('should implement boat construction mini-game', () => {
-      const constructionStage: BuildingStage = {
+      const _constructionStage: BuildingStage = {
         id: 'hull_assembly',
         name: 'Hull Assembly',
         description: 'Carefully join the wooden planks to form the boat\'s hull',
@@ -365,7 +366,7 @@ describe('Starting Town Implementation', () => {
         helper: 'master_carpenter'
       };
 
-      const playerSkills = { craftsmanship: 8, patience: 12 };
+      const _playerSkills = { craftsmanship: 8, patience: 12 };
       const helperBonus = 3; // Master carpenter provides bonus
 
       // Construction should involve skill checks with helper bonuses

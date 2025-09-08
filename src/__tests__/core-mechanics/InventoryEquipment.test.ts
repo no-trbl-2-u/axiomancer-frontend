@@ -1,4 +1,5 @@
-import { describe, it, expect } from '@jest/globals';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { describe, it } from '@jest/globals';
 
 // Mock interfaces for inventory and equipment system
 interface Inventory {
@@ -32,7 +33,7 @@ interface Item {
   };
 }
 
-interface Equipment {
+interface _Equipment {
   weapon?: Item;
   armor?: Item;
   accessories: Item[];
@@ -70,7 +71,7 @@ interface ShopItem {
 describe('Inventory and Equipment System', () => {
   describe('Inventory Management', () => {
     it.skip('should add items to inventory with quantity stacking', () => {
-      const inventory: Inventory = {
+      const _inventory: Inventory = {
         items: [],
         maxSlots: 20,
         gold: 100,
@@ -78,7 +79,7 @@ describe('Inventory and Equipment System', () => {
         maxWeight: 50
       };
 
-      const potion: Item = {
+      const _potion: Item = {
         id: 'health_potion',
         name: 'Health Potion',
         description: 'Restores 50 HP',
@@ -97,7 +98,7 @@ describe('Inventory and Equipment System', () => {
     });
 
     it.skip('should prevent adding items when inventory is full', () => {
-      const fullInventory: Inventory = {
+      const _fullInventory: Inventory = {
         items: new Array(20).fill(null).map((_, i) => ({
           id: `item_${i}`,
           name: `Item ${i}`,
@@ -114,7 +115,7 @@ describe('Inventory and Equipment System', () => {
         maxWeight: 50
       };
 
-      const newItem: Item = {
+      const _newItem: Item = {
         id: 'new_item',
         name: 'New Item',
         description: 'Cannot fit',
@@ -130,7 +131,7 @@ describe('Inventory and Equipment System', () => {
     });
 
     it.skip('should prevent adding items when weight limit exceeded', () => {
-      const heavyInventory: Inventory = {
+      const _heavyInventory: Inventory = {
         items: [],
         maxSlots: 20,
         gold: 100,
@@ -138,7 +139,7 @@ describe('Inventory and Equipment System', () => {
         maxWeight: 50
       };
 
-      const heavyItem: Item = {
+      const _heavyItem: Item = {
         id: 'heavy_armor',
         name: 'Heavy Armor',
         description: 'Very heavy armor',
@@ -154,7 +155,7 @@ describe('Inventory and Equipment System', () => {
     });
 
     it.skip('should remove items from inventory', () => {
-      const inventory: Inventory = {
+      const _inventory: Inventory = {
         items: [
           {
             id: 'health_potion',
@@ -185,7 +186,7 @@ describe('Inventory and Equipment System', () => {
     });
 
     it.skip('should sort inventory by various criteria', () => {
-      const unsortedInventory: Inventory = {
+      const _unsortedInventory: Inventory = {
         items: [
           { id: 'z_item', name: 'Z Item', type: 'material', rarity: 'common', value: 10, weight: 1, quantity: 1, description: '' },
           { id: 'a_item', name: 'A Item', type: 'weapon', rarity: 'legendary', value: 1000, weight: 5, quantity: 1, description: '' },

@@ -1,4 +1,5 @@
-import { describe, it, expect } from '@jest/globals';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { describe, it } from '@jest/globals';
 
 // Mock interfaces for empire and faction system
 interface Empire {
@@ -161,7 +162,7 @@ interface CastleChallenge {
 describe('Empire and Faction System', () => {
   describe('Empire Structure and Civilization', () => {
     it.skip('should create advanced empire with massive scale', () => {
-      const greatEmpire: Empire = {
+      const _greatEmpire: Empire = {
         id: 'eternal_empire',
         name: 'The Eternal Empire',
         description: 'The most advanced civilization ever built, a self-sustaining city-state of unparalleled knowledge',
@@ -195,7 +196,7 @@ describe('Empire and Faction System', () => {
     });
 
     it.skip('should implement diverse districts with unique characteristics', () => {
-      const empireDistricts: District[] = [
+      const _empireDistricts: District[] = [
         {
           id: 'philosophers_quarter',
           name: 'The Philosophers\' Quarter',
@@ -251,7 +252,7 @@ describe('Empire and Faction System', () => {
     });
 
     it.skip('should implement advanced technology and infrastructure', () => {
-      const empireInfrastructure = {
+      const _empireInfrastructure = {
         transportation: ['teleportation_circles', 'levitating_platforms', 'thought_bridges'],
         communication: ['mental_networks', 'crystal_communication', 'philosophical_resonance'],
         architecture: ['impossible_geometries', 'living_buildings', 'reality_anchored_structures'],
@@ -259,7 +260,7 @@ describe('Empire and Faction System', () => {
         defense: ['logic_barriers', 'paradox_shields', 'philosophical_guardians']
       };
 
-      const advancedServices = [
+      const _advancedServices = [
         { name: 'instant_knowledge_transfer', cost: 1000, description: 'Download knowledge directly into your mind' },
         { name: 'philosophical_consultation', cost: 500, description: 'Consult with the greatest minds in history' },
         { name: 'reality_adjustment', cost: 2000, description: 'Minor alterations to local reality' }
@@ -271,7 +272,7 @@ describe('Empire and Faction System', () => {
     });
 
     it.skip('should create self-sustaining ecosystem within empire', () => {
-      const empireSelfSufficiency = {
+      const _empireSelfSufficiency = {
         food: {
           sources: ['vertical_farms', 'synthetic_nutrition', 'magical_sustenance'],
           sustainability: 'infinite'
@@ -301,7 +302,7 @@ describe('Empire and Faction System', () => {
 
   describe('Faction System and Philosophy', () => {
     it.skip('should create factions based on philosophical schools', () => {
-      const philosophicalFactions: Faction[] = [
+      const _philosophicalFactions: Faction[] = [
         {
           id: 'rational_philosophers',
           name: 'The Order of Pure Reason',
@@ -373,7 +374,7 @@ describe('Empire and Faction System', () => {
     });
 
     it.skip('should implement faction relationships and conflicts', () => {
-      const factionConflicts = [
+      const _factionConflicts = [
         {
           id: 'reason_vs_emotion_debate',
           name: 'The Great Philosophical Divide',
@@ -406,7 +407,7 @@ describe('Empire and Faction System', () => {
     });
 
     it.skip('should implement faction quest lines with moral implications', () => {
-      const factionQuestLine: QuestLine = {
+      const _factionQuestLine: QuestLine = {
         id: 'rational_dominance_path',
         name: 'The Path of Pure Logic',
         description: 'Help the Rational Philosophers establish logical supremacy over emotional thinking',
@@ -441,7 +442,7 @@ describe('Empire and Faction System', () => {
     });
 
     it.skip('should implement faction benefits and reputation system', () => {
-      const factionBenefits = [
+      const _factionBenefits = [
         {
           factionId: 'rational_philosophers',
           benefits: [

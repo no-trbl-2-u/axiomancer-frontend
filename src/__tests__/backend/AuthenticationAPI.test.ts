@@ -1,5 +1,6 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, it } from '@jest/globals';
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // Mock interfaces for authentication API
 interface User {
   id: string;
@@ -122,7 +123,7 @@ interface AuthRequest {
   deviceInfo?: DeviceInfo;
 }
 
-interface AuthResponse {
+interface _AuthResponse {
   success: boolean;
   user?: User;
   token?: string;
@@ -157,7 +158,7 @@ interface TwoFactorRequest {
 describe('Authentication API System', () => {
   describe('User Registration', () => {
     it.skip('should register new users with proper validation', () => {
-      const registrationRequest: RegistrationRequest = {
+      const _registrationRequest: RegistrationRequest = {
         username: 'newplayer123',
         email: 'player@example.com',
         password: 'SecurePassword123!',
@@ -183,7 +184,7 @@ describe('Authentication API System', () => {
     });
 
     it.skip('should enforce password strength requirements', () => {
-      const weakPasswords = [
+      const _weakPasswords = [
         'password',
         '123456',
         'qwerty',
@@ -191,7 +192,7 @@ describe('Authentication API System', () => {
         'password123'
       ];
 
-      const strongPassword = 'MyStr0ngP@ssw0rd!2024';
+      const _strongPassword = 'MyStr0ngP@ssw0rd!2024';
 
       // Should reject weak passwords
       // weakPasswords.forEach(password => {
@@ -207,12 +208,12 @@ describe('Authentication API System', () => {
     });
 
     it.skip('should prevent duplicate usernames and emails', () => {
-      const existingUser = {
+      const _existingUser = {
         username: 'existingplayer',
         email: 'existing@example.com'
       };
 
-      const duplicateUsernameRequest: RegistrationRequest = {
+      const _duplicateUsernameRequest: RegistrationRequest = {
         username: 'existingplayer',
         email: 'newemail@example.com',
         password: 'Password123!',
@@ -220,7 +221,7 @@ describe('Authentication API System', () => {
         agreeToTerms: true
       };
 
-      const duplicateEmailRequest: RegistrationRequest = {
+      const _duplicateEmailRequest: RegistrationRequest = {
         username: 'newusername',
         email: 'existing@example.com',
         password: 'Password123!',
@@ -238,7 +239,7 @@ describe('Authentication API System', () => {
     });
 
     it.skip('should send email verification after registration', () => {
-      const newUser: User = {
+      const _newUser: User = {
         id: 'user_001',
         username: 'newplayer',
         email: 'newplayer@example.com',
@@ -263,7 +264,7 @@ describe('Authentication API System', () => {
 
   describe('User Authentication', () => {
     it.skip('should authenticate users with username/email and password', () => {
-      const loginRequest: AuthRequest = {
+      const _loginRequest: AuthRequest = {
         username: 'testplayer',
         password: 'SecurePassword123!',
         rememberMe: true,
@@ -274,7 +275,7 @@ describe('Authentication API System', () => {
         }
       };
 
-      const validUser: User = {
+      const _validUser: User = {
         id: 'user_001',
         username: 'testplayer',
         email: 'test@example.com',
@@ -297,10 +298,10 @@ describe('Authentication API System', () => {
     });
 
     it.skip('should handle failed login attempts and account lockout', () => {
-      const maxAttempts = 5;
-      const lockoutDuration = 900000; // 15 minutes
+      const _maxAttempts = 5;
+      const _lockoutDuration = 900000; // 15 minutes
 
-      const userWithFailedAttempts: User = {
+      const _userWithFailedAttempts: User = {
         id: 'user_002',
         username: 'lockeduser',
         email: 'locked@example.com',
@@ -315,7 +316,7 @@ describe('Authentication API System', () => {
         accountStatus: 'active'
       };
 
-      const failedLoginRequest: AuthRequest = {
+      const _failedLoginRequest: AuthRequest = {
         username: 'lockeduser',
         password: 'wrongpassword'
       };
@@ -343,7 +344,7 @@ describe('Authentication API System', () => {
         accountStatus: 'active'
       };
 
-      const tokenPayload = {
+      const _tokenPayload = {
         userId: user.id,
         username: user.username,
         role: 'player',
@@ -375,7 +376,7 @@ describe('Authentication API System', () => {
         lastUsed: new Date()
       };
 
-      const refreshRequest = {
+      const _refreshRequest = {
         refreshToken: sessionToken.refreshToken,
         deviceInfo: sessionToken.deviceInfo
       };
@@ -411,7 +412,7 @@ describe('Authentication API System', () => {
         accountStatus: 'active'
       };
 
-      const twoFactorRequest: TwoFactorRequest = {
+      const _twoFactorRequest: TwoFactorRequest = {
         userId: user.id,
         code: '123456',
         method: 'totp',
@@ -425,7 +426,7 @@ describe('Authentication API System', () => {
     });
 
     it.skip('should manage trusted devices', () => {
-      const trustedDevice: TrustedDevice = {
+      const _trustedDevice: TrustedDevice = {
         id: 'device_001',
         deviceName: 'Personal Laptop',
         deviceType: 'desktop',
@@ -435,7 +436,7 @@ describe('Authentication API System', () => {
         lastUsed: new Date()
       };
 
-      const deviceFingerprint = {
+      const _deviceFingerprint = {
         userAgent: 'Mozilla/5.0',
         screenResolution: '1920x1080',
         timezone: 'America/New_York',
@@ -452,7 +453,7 @@ describe('Authentication API System', () => {
     });
 
     it.skip('should provide backup codes for two-factor authentication', () => {
-      const backupCodes = [
+      const _backupCodes = [
         'ABC12345',
         'DEF67890',
         'GHI11111',
@@ -460,7 +461,7 @@ describe('Authentication API System', () => {
         'MNO33333'
       ];
 
-      const backupCodeRequest = {
+      const _backupCodeRequest = {
         userId: 'user_001',
         code: 'ABC12345'
       };
@@ -479,12 +480,12 @@ describe('Authentication API System', () => {
 
   describe('Password Management', () => {
     it.skip('should handle password reset requests', () => {
-      const resetRequest: PasswordResetRequest = {
+      const _resetRequest: PasswordResetRequest = {
         email: 'user@example.com',
         securityAnswer: 'answer_to_security_question'
       };
 
-      const user: User = {
+      const _user: User = {
         id: 'user_001',
         username: 'testuser',
         email: 'user@example.com',
@@ -519,14 +520,14 @@ describe('Authentication API System', () => {
     });
 
     it.skip('should validate password reset tokens', () => {
-      const resetToken: PasswordResetToken = {
+      const _resetToken: PasswordResetToken = {
         token: 'reset_token_123',
         expiresAt: new Date(Date.now() + 3600000), // 1 hour from now
         used: false,
         createdAt: new Date()
       };
 
-      const expiredToken: PasswordResetToken = {
+      const _expiredToken: PasswordResetToken = {
         token: 'expired_token_456',
         expiresAt: new Date(Date.now() - 3600000), // 1 hour ago
         used: false,
@@ -544,14 +545,14 @@ describe('Authentication API System', () => {
     });
 
     it.skip('should enforce password history to prevent reuse', () => {
-      const passwordHistory = [
+      const _passwordHistory = [
         'old_password_hash_1',
         'old_password_hash_2',
         'old_password_hash_3'
       ];
 
-      const newPassword = 'NewSecurePassword123!';
-      const reusedPassword = 'old_password_1'; // Would hash to old_password_hash_1
+      const _newPassword = 'NewSecurePassword123!';
+      const _reusedPassword = 'old_password_1'; // Would hash to old_password_hash_1
 
       // Should prevent password reuse
       // const reuseCheck = checkPasswordReuse(reusedPassword, passwordHistory);
@@ -565,7 +566,7 @@ describe('Authentication API System', () => {
 
   describe('Session Management', () => {
     it.skip('should manage user sessions across multiple devices', () => {
-      const userSessions: SessionToken[] = [
+      const _userSessions: SessionToken[] = [
         {
           token: 'session_1',
           refreshToken: 'refresh_1',
@@ -590,10 +591,10 @@ describe('Authentication API System', () => {
     });
 
     it.skip('should implement session timeout and cleanup', () => {
-      const sessionTimeout = 1800000; // 30 minutes
-      const maxSessions = 5;
+      const _sessionTimeout = 1800000; // 30 minutes
+      const _maxSessions = 5;
 
-      const oldSession: SessionToken = {
+      const _oldSession: SessionToken = {
         token: 'old_session',
         refreshToken: 'old_refresh',
         expiresAt: new Date(Date.now() - 3600000), // Expired 1 hour ago
@@ -612,7 +613,7 @@ describe('Authentication API System', () => {
     });
 
     it.skip('should provide session information and management', () => {
-      const sessionInfo = {
+      const _sessionInfo = {
         currentSession: 'session_123',
         allSessions: [
           {
@@ -644,13 +645,13 @@ describe('Authentication API System', () => {
 
   describe('Security and Compliance', () => {
     it.skip('should implement rate limiting for authentication attempts', () => {
-      const rateLimits = {
+      const _rateLimits = {
         loginAttempts: { maxAttempts: 5, windowMs: 900000 }, // 5 attempts per 15 minutes
         passwordReset: { maxAttempts: 3, windowMs: 3600000 }, // 3 attempts per hour
         registrations: { maxAttempts: 3, windowMs: 86400000 } // 3 per day
       };
 
-      const clientInfo = {
+      const _clientInfo = {
         ipAddress: '192.168.1.100',
         userAgent: 'Mozilla/5.0'
       };
@@ -663,7 +664,7 @@ describe('Authentication API System', () => {
     });
 
     it.skip('should log security events and audit trails', () => {
-      const securityEvent = {
+      const _securityEvent = {
         userId: 'user_001',
         eventType: 'login_success',
         ipAddress: '192.168.1.100',
@@ -676,7 +677,7 @@ describe('Authentication API System', () => {
         }
       };
 
-      const auditLog = {
+      const _auditLog = {
         events: ['login_success', 'password_change', 'two_factor_enabled'],
         retention: 90, // days
         encryption: true,
@@ -690,7 +691,7 @@ describe('Authentication API System', () => {
     });
 
     it.skip('should implement data privacy and GDPR compliance', () => {
-      const privacyFeatures = {
+      const _privacyFeatures = {
         dataExport: true,
         dataPortability: true,
         rightToErasure: true,
@@ -699,7 +700,7 @@ describe('Authentication API System', () => {
         purposeLimitation: true
       };
 
-      const dataExportRequest = {
+      const _dataExportRequest = {
         userId: 'user_001',
         requestType: 'full_export',
         format: 'json',

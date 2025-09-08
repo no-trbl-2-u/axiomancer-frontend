@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { describe, it, expect } from '@jest/globals';
 import { 
   LOCATIONS,
@@ -13,7 +14,7 @@ import {
   validateLocationConnections
 } from '../../systems/LocationSystem';
 import type { 
-  Location,
+  // Location,
   CharacterLocation,
   Weather,
   EncounterEntry

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { describe, it, expect } from '@jest/globals';
 import { 
   FALLACIES,
@@ -11,9 +12,9 @@ import {
   createInitialKnowledge
 } from '../../systems/FallacyParadoxSystem';
 import type { 
-  Fallacy,
-  PlayerKnowledge,
-  FallacyCombatEffect
+  // Fallacy,
+  // PlayerKnowledge,
+  // FallacyCombatEffect
 } from '../../systems/FallacyParadoxSystem';
 
 describe('Fallacy and Paradox System', () => {
