@@ -129,7 +129,7 @@ interface FamilyRelationship {
 
 describe('Starting Town Implementation', () => {
   describe('Town Structure and NPCs', () => {
-    it.skip('should create a humble seafaring village with appropriate NPCs', () => {
+    it('should create a humble seafaring village with appropriate NPCs', () => {
       const _startingTown: Town = {
         id: 'seafarers_haven',
         name: 'Seafarer\'s Haven',
@@ -164,7 +164,7 @@ describe('Starting Town Implementation', () => {
       // expect(startingTown.npcs.length).toBeGreaterThan(5); // Should have multiple NPCs
     });
 
-    it.skip('should implement family relationships and connections', () => {
+    it('should implement family relationships and connections', () => {
       const _playerFamily: FamilyRelationship[] = [
         {
           npcId: 'mother_lyra',
@@ -195,7 +195,7 @@ describe('Starting Town Implementation', () => {
       // expect(playerFamily.every(f => f.closeness > 80)).toBe(true); // Close family bonds
     });
 
-    it.skip('should create NPCs with daily schedules and availability', () => {
+    it('should create NPCs with daily schedules and availability', () => {
       const _fisherman: NPC = {
         id: 'old_captain_salt',
         name: 'Captain Salt',
@@ -224,7 +224,7 @@ describe('Starting Town Implementation', () => {
       // expect(eveningLocation).toBe('tavern');
     });
 
-    it.skip('should implement town buildings with specific functions', () => {
+    it('should implement town buildings with specific functions', () => {
       const _townBuildings: Building[] = [
         {
           id: 'fishing_dock',
@@ -261,7 +261,7 @@ describe('Starting Town Implementation', () => {
   });
 
   describe('Boat Building System', () => {
-    it.skip('should implement boat construction as main quest mechanic', () => {
+    it('should implement boat construction as main quest mechanic', () => {
       const _boatProject: BoatBuildingProject = {
         id: 'player_boat',
         name: 'Journey\'s Beginning',
@@ -314,7 +314,7 @@ describe('Starting Town Implementation', () => {
       // expect(boatProject.requiredMaterials.every(m => m.sources.length > 0)).toBe(true);
     });
 
-    it.skip('should track material gathering progress', () => {
+    it('should track material gathering progress', () => {
       const _boatProject: BoatBuildingProject = {
         id: 'player_boat',
         name: 'Journey\'s Beginning',
@@ -343,7 +343,7 @@ describe('Starting Town Implementation', () => {
       // expect(completionPercent).toBe(40); // 8/20 = 40%
     });
 
-    it.skip('should provide multiple sources for each material', () => {
+    it('should provide multiple sources for each material', () => {
       const _woodSources = [
         { location: 'northern_forest', method: 'logging', difficulty: 'medium', quantity: '3-5 per trip' },
         { location: 'old_shipwreck', method: 'salvage', difficulty: 'easy', quantity: '1-2 per search' },
@@ -356,7 +356,7 @@ describe('Starting Town Implementation', () => {
       // expect(woodSources.find(s => s.method === 'logging')).toBeDefined(); // Should have gathering option
     });
 
-    it.skip('should implement boat construction mini-game', () => {
+    it('should implement boat construction mini-game', () => {
       const _constructionStage: BuildingStage = {
         id: 'hull_assembly',
         name: 'Hull Assembly',
@@ -377,7 +377,7 @@ describe('Starting Town Implementation', () => {
   });
 
   describe('Local Economy and Trading', () => {
-    it.skip('should implement modest local economy', () => {
+    it('should implement modest local economy', () => {
       const localEconomy = {
         primaryIndustries: ['fishing', 'boat_repair', 'small_farming'],
         currency: 'copper_coins',
@@ -396,7 +396,7 @@ describe('Starting Town Implementation', () => {
       // expect(localEconomy.averageWealth).toBe('modest');
     });
 
-    it.skip('should handle bartering and reputation-based trading', () => {
+    it('should handle bartering and reputation-based trading', () => {
       const fisherman: NPC = {
         id: 'fisherman_tom',
         name: 'Tom the Fisher',
@@ -422,7 +422,7 @@ describe('Starting Town Implementation', () => {
       // expect(canTrade).toBe(true); // Relationship is 45, requirement is 25
     });
 
-    it.skip('should implement seasonal price fluctuations', () => {
+    it('should implement seasonal price fluctuations', () => {
       const seasonalPrices = {
         fish: {
           spring: 2,
@@ -448,7 +448,7 @@ describe('Starting Town Implementation', () => {
   });
 
   describe('Town Events and Atmosphere', () => {
-    it.skip('should generate seasonal and random town events', () => {
+    it('should generate seasonal and random town events', () => {
       const townEvents: TownEvent[] = [
         {
           id: 'storm_warning',
@@ -486,7 +486,7 @@ describe('Starting Town Implementation', () => {
       // expect(townEvents.every(e => e.effects.length > 0)).toBe(true);
     });
 
-    it.skip('should handle reputation-based town reactions', () => {
+    it('should handle reputation-based town reactions', () => {
       const playerReputation = {
         overall: 85, // Very well liked
         specific: {
@@ -517,7 +517,7 @@ describe('Starting Town Implementation', () => {
       // expect(eventTriggered).toBe(true);
     });
 
-    it.skip('should create family-focused interactions and memories', () => {
+    it('should create family-focused interactions and memories', () => {
       const familyMemories = [
         {
           id: 'mothers_lullaby',
@@ -548,7 +548,7 @@ describe('Starting Town Implementation', () => {
       // expect(familyMemories.filter(m => m.storyRelevance === 'high').length).toBeGreaterThan(0);
     });
 
-    it.skip('should implement childhood innocence perspective', () => {
+    it('should implement childhood innocence perspective', () => {
       const childhoodPerspective = {
         viewOfVillage: 'safe_and_wonderful',
         awarenessOfDanger: 'minimal',
@@ -571,7 +571,7 @@ describe('Starting Town Implementation', () => {
   });
 
   describe('Transition to Adventure', () => {
-    it.skip('should gradually introduce larger world concepts', () => {
+    it('should gradually introduce larger world concepts', () => {
       const worldIntroduction = [
         {
           stage: 'early_childhood',
@@ -596,7 +596,7 @@ describe('Starting Town Implementation', () => {
       // expect(worldIntroduction.every(stage => stage.concepts.length > 0)).toBe(true);
     });
 
-    it.skip('should create emotional motivation for leaving', () => {
+    it('should create emotional motivation for leaving', () => {
       const departureMotivation = {
         primaryReason: 'follow_parents_path',
         emotionalDrivers: [
@@ -621,7 +621,7 @@ describe('Starting Town Implementation', () => {
       // expect(farewellMoments.every(moment => moment.blessing || moment.gift || moment.promise)).toBeTruthy();
     });
 
-    it.skip('should unlock sea travel upon boat completion', () => {
+    it('should unlock sea travel upon boat completion', () => {
       const completedBoat: BoatBuildingProject = {
         id: 'player_boat',
         name: 'Journey\'s Beginning',

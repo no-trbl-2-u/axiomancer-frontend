@@ -36,6 +36,7 @@ interface AgingEffect {
     body?: number;
     mind?: number;
     heart?: number;
+    wisdom?: number;
   };
   description: string;
   irreversible: boolean;
@@ -136,7 +137,7 @@ interface ImpossibleRoom {
 
 describe('Labyrinth System Implementation', () => {
   describe('Labyrinth Structure and Progression', () => {
-    it.skip('should create massive labyrinth with hundreds of chambers', () => {
+    it('should create massive labyrinth with hundreds of chambers', () => {
       const _greatLabyrinth: Labyrinth = {
         id: 'the_great_labyrinth',
         name: 'The Great Labyrinth',
@@ -169,7 +170,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(greatLabyrinth.globalEffects.length).toBeGreaterThan(0);
     });
 
-    it.skip('should track chamber completion and progression', () => {
+    it('should track chamber completion and progression', () => {
       const _chamber: Chamber = {
         id: 'chamber_001',
         number: 1,
@@ -210,7 +211,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(completedChamber.completed).toBe(true);
     });
 
-    it.skip('should increase difficulty progressively through chambers', () => {
+    it('should increase difficulty progressively through chambers', () => {
       const _chambers: Chamber[] = [
         { id: 'chamber_001', number: 1, difficulty: 1, type: 'puzzle' } as Chamber,
         { id: 'chamber_050', number: 50, difficulty: 3, type: 'combat' } as Chamber,
@@ -225,7 +226,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(chambers[4].difficulty).toBe(10); // Maximum difficulty
     });
 
-    it.skip('should handle non-linear pathways and secret chambers', () => {
+    it('should handle non-linear pathways and secret chambers', () => {
       const _chamber: Chamber = {
         id: 'chamber_045',
         number: 45,
@@ -267,7 +268,7 @@ describe('Labyrinth System Implementation', () => {
   });
 
   describe('Aging System Implementation', () => {
-    it.skip('should age character by one year per chamber', () => {
+    it('should age character by one year per chamber', () => {
       const _character: Character = {
         age: 16,
         level: 3,
@@ -298,7 +299,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(agedCharacter.stats.wisdom).toBe(7);
     });
 
-    it.skip('should modify aging effects based on character age', () => {
+    it('should modify aging effects based on character age', () => {
       const _youngCharacter: Character = {
         age: 15,
         level: 2,
@@ -331,7 +332,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(adultAging.statChanges.body).toBeLessThanOrEqual(0); // Body may decline
     });
 
-    it.skip('should track cumulative aging effects', () => {
+    it('should track cumulative aging effects', () => {
       const _character: Character = {
         age: 16,
         level: 3,
@@ -354,7 +355,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(character.labyrinthProgress.knowledgeGained.length).toBeGreaterThan(0);
     });
 
-    it.skip('should handle age-related stat changes', () => {
+    it('should handle age-related stat changes', () => {
       const ageTransitions = [
         { ageRange: '15-20', bodyChange: 2, mindChange: 3, heartChange: 1, wisdomChange: 1 },
         { ageRange: '21-30', bodyChange: 1, mindChange: 2, heartChange: 2, wisdomChange: 2 },
@@ -374,7 +375,7 @@ describe('Labyrinth System Implementation', () => {
   });
 
   describe('Chamber Challenges and Puzzles', () => {
-    it.skip('should create increasingly complex logic puzzles', () => {
+    it('should create increasingly complex logic puzzles', () => {
       const logicPuzzle: Challenge = {
         type: 'logic_puzzle',
         description: 'A series of interconnected logical statements must be evaluated for consistency',
@@ -409,7 +410,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(logicPuzzle.timeLimit).toBeDefined();
     });
 
-    it.skip('should implement riddles that test wisdom and insight', () => {
+    it('should implement riddles that test wisdom and insight', () => {
       const ancientRiddle: Challenge = {
         type: 'riddle',
         description: 'What grows stronger when shared, yet becomes weaker when hoarded?',
@@ -436,7 +437,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(ancientRiddle.solutions.every(s => s.successRate > 0)).toBe(true);
     });
 
-    it.skip('should create moral choice challenges', () => {
+    it('should create moral choice challenges', () => {
       const moralDilemma: Challenge = {
         type: 'moral_choice',
         description: 'You encounter a fellow traveler who has been gravely injured. Helping them will cost precious time and resources, but leaving them may mean their death.',
@@ -472,7 +473,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(moralDilemma.solutions.find(s => s.requirements)).toBeDefined();
     });
 
-    it.skip('should implement endurance and survival challenges', () => {
+    it('should implement endurance and survival challenges', () => {
       const enduranceTest: Challenge = {
         type: 'endurance',
         description: 'A chamber filled with toxic mist that tests your physical and mental fortitude',
@@ -506,7 +507,7 @@ describe('Labyrinth System Implementation', () => {
   });
 
   describe('Mythical Creatures and Encounters', () => {
-    it.skip('should populate labyrinth with diverse mythical beings', () => {
+    it('should populate labyrinth with diverse mythical beings', () => {
       const mythicalCreatures: MythicalCreature[] = [
         {
           id: 'ancient_sphinx',
@@ -539,7 +540,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(mythicalCreatures.find(c => c.philosophy)).toBeDefined();
     });
 
-    it.skip('should implement creature dialogue and philosophical discussions', () => {
+    it('should implement creature dialogue and philosophical discussions', () => {
       const philosophicalCreature: MythicalCreature = {
         id: 'wise_owl_spirit',
         name: 'Athena\'s Messenger',
@@ -563,7 +564,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(philosophicalCreature.abilities).toContain('philosophical_debate');
     });
 
-    it.skip('should allow non-violent resolutions through wisdom', () => {
+    it('should allow non-violent resolutions through wisdom', () => {
       const encounter = {
         creature: {
           id: 'angry_demon',
@@ -600,7 +601,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(encounter.resolutionOptions.filter(o => o.type !== 'combat').length).toBeGreaterThan(1);
     });
 
-    it.skip('should implement creature learning and adaptation', () => {
+    it('should implement creature learning and adaptation', () => {
       const adaptiveCreature: MythicalCreature = {
         id: 'learning_construct',
         name: 'The Adaptive Guardian',
@@ -626,7 +627,7 @@ describe('Labyrinth System Implementation', () => {
   });
 
   describe('Impossible Rooms and Architecture', () => {
-    it.skip('should create rooms that defy physical laws', () => {
+    it('should create rooms that defy physical laws', () => {
       const impossibleRooms: ImpossibleRoom[] = [
         {
           id: 'upside_down_tree_room',
@@ -656,7 +657,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(impossibleRooms.every(room => room.challenges.length > 0)).toBe(true);
     });
 
-    it.skip('should implement reality-bending mechanics', () => {
+    it('should implement reality-bending mechanics', () => {
       const realityBendingRoom: ImpossibleRoom = {
         id: 'mirror_dimension_chamber',
         name: 'The Reflection Paradox',
@@ -679,7 +680,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(playerActions.touchMirror).toBe('hand_passes_through');
     });
 
-    it.skip('should create psychological and philosophical challenges', () => {
+    it('should create psychological and philosophical challenges', () => {
       const philosophicalRoom: ImpossibleRoom = {
         id: 'ship_of_theseus_chamber',
         name: 'The Chamber of Identity',
@@ -700,7 +701,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(philosophicalRoom.psychologicalEffect).toBe('existential_questioning');
     });
 
-    it.skip('should implement time-distorting environments', () => {
+    it('should implement time-distorting environments', () => {
       const timeRoom: ImpossibleRoom = {
         id: 'temporal_loop_chamber',
         name: 'The Eternal Moment',
@@ -730,7 +731,7 @@ describe('Labyrinth System Implementation', () => {
   });
 
   describe('Labyrinth Completion and Exit', () => {
-    it.skip('should track progress toward labyrinth completion', () => {
+    it('should track progress toward labyrinth completion', () => {
       const labyrinthProgress = {
         totalChambers: 365,
         completedChambers: 200,
@@ -747,7 +748,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(labyrinthProgress.yearsAged).toBe(labyrinthProgress.completedChambers);
     });
 
-    it.skip('should provide multiple paths to the empire', () => {
+    it('should provide multiple paths to the empire', () => {
       const exitPaths = [
         {
           id: 'main_exit',
@@ -780,7 +781,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(exitPaths.find(p => p.difficulty === 'expert')).toBeDefined();
     });
 
-    it.skip('should transform character based on labyrinth experience', () => {
+    it('should transform character based on labyrinth experience', () => {
       const preLabyrinthCharacter: Character = {
         age: 16,
         level: 3,
@@ -814,7 +815,7 @@ describe('Labyrinth System Implementation', () => {
       // expect(postLabyrinthCharacter.mentalState.determination).toBeGreaterThan(preLabyrinthCharacter.mentalState.determination);
     });
 
-    it.skip('should unlock empire access upon completion', () => {
+    it('should unlock empire access upon completion', () => {
       const labyrinthCompletion = {
         status: 'completed',
         finalAge: 41,

@@ -385,11 +385,11 @@ describe('Save/Load System', () => {
       expect(autoSaveSettings.triggers).toContain('level_up');
     });
 
-    it.skip('should manage save file storage and cleanup', () => {
+    it('should manage save file storage and cleanup', () => {
       const saveFiles = [
         { id: 'save_001', timestamp: Date.now() - 86400000, size: 1024 }, // 1 day old
         { id: 'save_002', timestamp: Date.now() - 172800000, size: 2048 }, // 2 days old
-        { id: 'save_003', timestamp: Date.now() - 604800000, size: 1536 } // 1 week old
+        { id: 'save_003', timestamp: Date.now() - 604800001, size: 1536 } // 1 week old
       ];
 
       const storageLimit = 100 * 1024 * 1024; // 100MB

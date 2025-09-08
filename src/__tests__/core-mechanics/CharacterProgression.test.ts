@@ -150,7 +150,7 @@ describe('Character Progression System', () => {
   });
 
   describe('Skill Tree System', () => {
-    it.skip('should allow skill point allocation in skill trees', () => {
+    it('should allow skill point allocation in skill trees', () => {
       const _character: Character = {
         id: 'test',
         name: 'Test',
@@ -180,7 +180,7 @@ describe('Character Progression System', () => {
       // Skill effects should be applied to character
     });
 
-    it.skip('should require prerequisites for advanced skills', () => {
+    it('should require prerequisites for advanced skills', () => {
       const _skillTree: SkillTree = {
         body: { martialArts: 0, endurance: 0, weaponMastery: 0, intimidation: 0 },
         mind: { logicalReasoning: 0, memorization: 0, analysisSpeed: 0, paradoxMastery: 0 },
@@ -202,7 +202,7 @@ describe('Character Progression System', () => {
       // expect(canLearnAdvanced).toBe(true);
     });
 
-    it.skip('should apply skill bonuses to character stats', () => {
+    it('should apply skill bonuses to character stats', () => {
       const _character: Character = {
         id: 'test',
         name: 'Test',

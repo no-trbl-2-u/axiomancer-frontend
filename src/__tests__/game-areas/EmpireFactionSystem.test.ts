@@ -161,7 +161,7 @@ interface CastleChallenge {
 
 describe('Empire and Faction System', () => {
   describe('Empire Structure and Civilization', () => {
-    it.skip('should create advanced empire with massive scale', () => {
+    it('should create advanced empire with massive scale', () => {
       const _greatEmpire: Empire = {
         id: 'eternal_empire',
         name: 'The Eternal Empire',
@@ -195,7 +195,7 @@ describe('Empire and Faction System', () => {
       // expect(greatEmpire.culture.intellectualTraditions.length).toBeGreaterThan(2);
     });
 
-    it.skip('should implement diverse districts with unique characteristics', () => {
+    it('should implement diverse districts with unique characteristics', () => {
       const _empireDistricts: District[] = [
         {
           id: 'philosophers_quarter',
@@ -251,7 +251,7 @@ describe('Empire and Faction System', () => {
       // expect(empireDistricts.every(d => d.dominantFaction)).toBeTruthy();
     });
 
-    it.skip('should implement advanced technology and infrastructure', () => {
+    it('should implement advanced technology and infrastructure', () => {
       const _empireInfrastructure = {
         transportation: ['teleportation_circles', 'levitating_platforms', 'thought_bridges'],
         communication: ['mental_networks', 'crystal_communication', 'philosophical_resonance'],
@@ -271,7 +271,7 @@ describe('Empire and Faction System', () => {
       // expect(advancedServices.find(s => s.name === 'instant_knowledge_transfer')).toBeDefined();
     });
 
-    it.skip('should create self-sustaining ecosystem within empire', () => {
+    it('should create self-sustaining ecosystem within empire', () => {
       const _empireSelfSufficiency = {
         food: {
           sources: ['vertical_farms', 'synthetic_nutrition', 'magical_sustenance'],
@@ -301,7 +301,7 @@ describe('Empire and Faction System', () => {
   });
 
   describe('Faction System and Philosophy', () => {
-    it.skip('should create factions based on philosophical schools', () => {
+    it('should create factions based on philosophical schools', () => {
       const _philosophicalFactions: Faction[] = [
         {
           id: 'rational_philosophers',
@@ -373,7 +373,7 @@ describe('Empire and Faction System', () => {
       // expect(philosophicalFactions[0].relationships[philosophicalFactions[1].id]).toBeLessThan(0);
     });
 
-    it.skip('should implement faction relationships and conflicts', () => {
+    it('should implement faction relationships and conflicts', () => {
       const _factionConflicts = [
         {
           id: 'reason_vs_emotion_debate',
@@ -406,7 +406,7 @@ describe('Empire and Faction System', () => {
       // expect(factionConflicts.find(c => c.intensity === 'high')).toBeDefined();
     });
 
-    it.skip('should implement faction quest lines with moral implications', () => {
+    it('should implement faction quest lines with moral implications', () => {
       const _factionQuestLine: QuestLine = {
         id: 'rational_dominance_path',
         name: 'The Path of Pure Logic',
@@ -441,7 +441,7 @@ describe('Empire and Faction System', () => {
       // expect(factionQuestLine.moralRequirements).toBeDefined();
     });
 
-    it.skip('should implement faction benefits and reputation system', () => {
+    it('should implement faction benefits and reputation system', () => {
       const _factionBenefits = [
         {
           factionId: 'rational_philosophers',
@@ -481,7 +481,7 @@ describe('Empire and Faction System', () => {
   });
 
   describe('Empire Politics and Power Structures', () => {
-    it.skip('should implement complex political system with multiple power levels', () => {
+    it('should implement complex political system with multiple power levels', () => {
       const empirePolitics: PoliticalSystem = {
         currentRuler: {
           id: 'emperor_maximus',
@@ -530,7 +530,7 @@ describe('Empire and Faction System', () => {
       // expect(empirePolitics.stability).toBeLessThan(80); // Some instability expected
     });
 
-    it.skip('should handle political intrigue and espionage', () => {
+    it('should handle political intrigue and espionage', () => {
       const politicalIntrigue = {
         spyNetworks: [
           {
@@ -568,7 +568,7 @@ describe('Empire and Faction System', () => {
       // expect(politicalIntrigue.secrets.find(s => s.dangerLevel === 'extreme')).toBeDefined();
     });
 
-    it.skip('should implement player influence on empire politics', () => {
+    it('should implement player influence on empire politics', () => {
       const playerPoliticalActions = [
         {
           action: 'mediate_faction_dispute',
@@ -596,7 +596,7 @@ describe('Empire and Faction System', () => {
   });
 
   describe('Castle Access and Infiltration', () => {
-    it.skip('should provide three distinct paths to castle access', () => {
+    it('should provide three distinct paths to castle access', () => {
       const castleAccessPaths: CastleAccess[] = [
         {
           method: 'body_tactics',
@@ -691,7 +691,7 @@ describe('Empire and Faction System', () => {
       // expect(castleAccessPaths.find(p => p.method === 'heart_tactics')).toBeDefined();
     });
 
-    it.skip('should implement royal council challenges', () => {
+    it('should implement royal council challenges', () => {
       const royalCouncilMembers = [
         {
           id: 'master_logician',
@@ -737,7 +737,7 @@ describe('Empire and Faction System', () => {
       // expect(royalCouncilMembers.find(m => m.specialty === 'socratic_method')).toBeDefined();
     });
 
-    it.skip('should determine advisor qualification based on performance', () => {
+    it('should determine advisor qualification based on performance', () => {
       const advisorQualificationCriteria = {
         minimumRequirements: {
           intelligence: 30,
@@ -773,7 +773,7 @@ describe('Empire and Faction System', () => {
       // expect(advisorQualificationCriteria.minimumRequirements.intelligence).toBeGreaterThanOrEqual(30);
     });
 
-    it.skip('should provide multiple endings based on approach and choices', () => {
+    it('should provide multiple endings based on approach and choices', () => {
       const possibleEndings = [
         {
           id: 'philosopher_king_advisor',

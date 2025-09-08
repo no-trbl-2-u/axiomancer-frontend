@@ -157,7 +157,7 @@ interface TwoFactorRequest {
 
 describe('Authentication API System', () => {
   describe('User Registration', () => {
-    it.skip('should register new users with proper validation', () => {
+    it('should register new users with proper validation', () => {
       const _registrationRequest: RegistrationRequest = {
         username: 'newplayer123',
         email: 'player@example.com',
@@ -183,7 +183,7 @@ describe('Authentication API System', () => {
       // expect(newUser.accountStatus).toBe('pending_verification');
     });
 
-    it.skip('should enforce password strength requirements', () => {
+    it('should enforce password strength requirements', () => {
       const _weakPasswords = [
         'password',
         '123456',
@@ -207,7 +207,7 @@ describe('Authentication API System', () => {
       // expect(strongValidation.score).toBeGreaterThanOrEqual(4);
     });
 
-    it.skip('should prevent duplicate usernames and emails', () => {
+    it('should prevent duplicate usernames and emails', () => {
       const _existingUser = {
         username: 'existingplayer',
         email: 'existing@example.com'
@@ -238,7 +238,7 @@ describe('Authentication API System', () => {
       // expect(emailCheck.available).toBe(false);
     });
 
-    it.skip('should send email verification after registration', () => {
+    it('should send email verification after registration', () => {
       const _newUser: User = {
         id: 'user_001',
         username: 'newplayer',
@@ -263,7 +263,7 @@ describe('Authentication API System', () => {
   });
 
   describe('User Authentication', () => {
-    it.skip('should authenticate users with username/email and password', () => {
+    it('should authenticate users with username/email and password', () => {
       const _loginRequest: AuthRequest = {
         username: 'testplayer',
         password: 'SecurePassword123!',
@@ -297,7 +297,7 @@ describe('Authentication API System', () => {
       // expect(authResult.token).toBeDefined();
     });
 
-    it.skip('should handle failed login attempts and account lockout', () => {
+    it('should handle failed login attempts and account lockout', () => {
       const _maxAttempts = 5;
       const _lockoutDuration = 900000; // 15 minutes
 
@@ -328,7 +328,7 @@ describe('Authentication API System', () => {
       // expect(userWithFailedAttempts.accountStatus).toBe('suspended');
     });
 
-    it.skip('should generate and manage JWT tokens', () => {
+    it('should generate and manage JWT tokens', () => {
       const user: User = {
         id: 'user_001',
         username: 'testuser',
@@ -362,7 +362,7 @@ describe('Authentication API System', () => {
       // expect(validation.payload.userId).toBe(user.id);
     });
 
-    it.skip('should implement refresh token mechanism', () => {
+    it('should implement refresh token mechanism', () => {
       const sessionToken: SessionToken = {
         token: 'access_token_123',
         refreshToken: 'refresh_token_456',
@@ -390,7 +390,7 @@ describe('Authentication API System', () => {
   });
 
   describe('Two-Factor Authentication', () => {
-    it.skip('should support TOTP-based two-factor authentication', () => {
+    it('should support TOTP-based two-factor authentication', () => {
       const user: User = {
         id: 'user_001',
         username: 'secureuser',
@@ -425,7 +425,7 @@ describe('Authentication API System', () => {
       // expect(verification.remainingAttempts).toBeDefined();
     });
 
-    it.skip('should manage trusted devices', () => {
+    it('should manage trusted devices', () => {
       const _trustedDevice: TrustedDevice = {
         id: 'device_001',
         deviceName: 'Personal Laptop',
@@ -452,7 +452,7 @@ describe('Authentication API System', () => {
       // expect(addResult.success).toBe(true);
     });
 
-    it.skip('should provide backup codes for two-factor authentication', () => {
+    it('should provide backup codes for two-factor authentication', () => {
       const _backupCodes = [
         'ABC12345',
         'DEF67890',
@@ -479,7 +479,7 @@ describe('Authentication API System', () => {
   });
 
   describe('Password Management', () => {
-    it.skip('should handle password reset requests', () => {
+    it('should handle password reset requests', () => {
       const _resetRequest: PasswordResetRequest = {
         email: 'user@example.com',
         securityAnswer: 'answer_to_security_question'
@@ -519,7 +519,7 @@ describe('Authentication API System', () => {
       // expect(resetResult.expiresIn).toBe(3600); // 1 hour
     });
 
-    it.skip('should validate password reset tokens', () => {
+    it('should validate password reset tokens', () => {
       const _resetToken: PasswordResetToken = {
         token: 'reset_token_123',
         expiresAt: new Date(Date.now() + 3600000), // 1 hour from now
@@ -544,7 +544,7 @@ describe('Authentication API System', () => {
       // expect(expiredValidation.reason).toBe('expired');
     });
 
-    it.skip('should enforce password history to prevent reuse', () => {
+    it('should enforce password history to prevent reuse', () => {
       const _passwordHistory = [
         'old_password_hash_1',
         'old_password_hash_2',
@@ -565,7 +565,7 @@ describe('Authentication API System', () => {
   });
 
   describe('Session Management', () => {
-    it.skip('should manage user sessions across multiple devices', () => {
+    it('should manage user sessions across multiple devices', () => {
       const _userSessions: SessionToken[] = [
         {
           token: 'session_1',
@@ -590,7 +590,7 @@ describe('Authentication API System', () => {
       // expect(userSessions.find(s => s.deviceInfo.deviceType === 'mobile')).toBeDefined();
     });
 
-    it.skip('should implement session timeout and cleanup', () => {
+    it('should implement session timeout and cleanup', () => {
       const _sessionTimeout = 1800000; // 30 minutes
       const _maxSessions = 5;
 
@@ -612,7 +612,7 @@ describe('Authentication API System', () => {
       // expect(sessionLimit.activeSessions).toBeLessThanOrEqual(maxSessions);
     });
 
-    it.skip('should provide session information and management', () => {
+    it('should provide session information and management', () => {
       const _sessionInfo = {
         currentSession: 'session_123',
         allSessions: [
@@ -644,7 +644,7 @@ describe('Authentication API System', () => {
   });
 
   describe('Security and Compliance', () => {
-    it.skip('should implement rate limiting for authentication attempts', () => {
+    it('should implement rate limiting for authentication attempts', () => {
       const _rateLimits = {
         loginAttempts: { maxAttempts: 5, windowMs: 900000 }, // 5 attempts per 15 minutes
         passwordReset: { maxAttempts: 3, windowMs: 3600000 }, // 3 attempts per hour
@@ -663,7 +663,7 @@ describe('Authentication API System', () => {
       // expect(rateLimitCheck.resetTime).toBeDefined();
     });
 
-    it.skip('should log security events and audit trails', () => {
+    it('should log security events and audit trails', () => {
       const _securityEvent = {
         userId: 'user_001',
         eventType: 'login_success',
@@ -690,7 +690,7 @@ describe('Authentication API System', () => {
       // expect(logResult.eventId).toBeDefined();
     });
 
-    it.skip('should implement data privacy and GDPR compliance', () => {
+    it('should implement data privacy and GDPR compliance', () => {
       const _privacyFeatures = {
         dataExport: true,
         dataPortability: true,

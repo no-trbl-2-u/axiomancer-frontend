@@ -70,7 +70,7 @@ interface ShopItem {
 
 describe('Inventory and Equipment System', () => {
   describe('Inventory Management', () => {
-    it.skip('should add items to inventory with quantity stacking', () => {
+    it('should add items to inventory with quantity stacking', () => {
       const _inventory: Inventory = {
         items: [],
         maxSlots: 20,
@@ -97,7 +97,7 @@ describe('Inventory and Equipment System', () => {
       // expect(updatedInventory.weight).toBe(1.5);
     });
 
-    it.skip('should prevent adding items when inventory is full', () => {
+    it('should prevent adding items when inventory is full', () => {
       const _fullInventory: Inventory = {
         items: new Array(20).fill(null).map((_, i) => ({
           id: `item_${i}`,
@@ -130,7 +130,7 @@ describe('Inventory and Equipment System', () => {
       // expect(() => addItemToInventory(fullInventory, newItem, 1)).toThrow('Inventory full');
     });
 
-    it.skip('should prevent adding items when weight limit exceeded', () => {
+    it('should prevent adding items when weight limit exceeded', () => {
       const _heavyInventory: Inventory = {
         items: [],
         maxSlots: 20,
@@ -154,7 +154,7 @@ describe('Inventory and Equipment System', () => {
       // expect(() => addItemToInventory(heavyInventory, heavyItem, 1)).toThrow('Weight limit exceeded');
     });
 
-    it.skip('should remove items from inventory', () => {
+    it('should remove items from inventory', () => {
       const _inventory: Inventory = {
         items: [
           {
@@ -185,7 +185,7 @@ describe('Inventory and Equipment System', () => {
       // expect(emptyInventory.weight).toBe(0);
     });
 
-    it.skip('should sort inventory by various criteria', () => {
+    it('should sort inventory by various criteria', () => {
       const _unsortedInventory: Inventory = {
         items: [
           { id: 'z_item', name: 'Z Item', type: 'material', rarity: 'common', value: 10, weight: 1, quantity: 1, description: '' },
@@ -213,7 +213,7 @@ describe('Inventory and Equipment System', () => {
   });
 
   describe('Equipment System', () => {
-    it.skip('should equip items and apply stat bonuses', () => {
+    it('should equip items and apply stat bonuses', () => {
       const character = {
         stats: { physicalAttack: 15, mentalDefense: 10, speed: 12 },
         equipment: { weapon: undefined, armor: undefined, accessories: [], maxAccessories: 3 }
@@ -237,7 +237,7 @@ describe('Inventory and Equipment System', () => {
       // expect(equippedCharacter.stats.physicalAttack).toBe(23);
     });
 
-    it.skip('should unequip items and remove stat bonuses', () => {
+    it('should unequip items and remove stat bonuses', () => {
       const equippedCharacter = {
         stats: { physicalAttack: 23, mentalDefense: 10, speed: 12 },
         equipment: {
@@ -265,7 +265,7 @@ describe('Inventory and Equipment System', () => {
       // expect(unequippedResult.unequippedItem.id).toBe('iron_sword');
     });
 
-    it.skip('should enforce equipment requirements', () => {
+    it('should enforce equipment requirements', () => {
       const character = {
         level: 3,
         stats: { body: 8, mind: 12, heart: 6 },
@@ -289,7 +289,7 @@ describe('Inventory and Equipment System', () => {
       // expect(() => equipItem(character, advancedSword)).toThrow('Requirements not met');
     });
 
-    it.skip('should handle accessory slots correctly', () => {
+    it('should handle accessory slots correctly', () => {
       const character = {
         stats: { mentalAttack: 15, mana: 50 },
         equipment: { weapon: undefined, armor: undefined, accessories: [], maxAccessories: 3 }
@@ -332,7 +332,7 @@ describe('Inventory and Equipment System', () => {
       // expect(() => equipItem(char3, ring4)).toThrow('Accessory slots full');
     });
 
-    it.skip('should calculate equipment set bonuses', () => {
+    it('should calculate equipment set bonuses', () => {
       const scholarRobe: Item = {
         id: 'scholar_robe',
         name: 'Scholar Robe',
@@ -367,7 +367,7 @@ describe('Inventory and Equipment System', () => {
   });
 
   describe('Item Durability System', () => {
-    it.skip('should track item durability', () => {
+    it('should track item durability', () => {
       const weapon: Item = {
         id: 'iron_sword',
         name: 'Iron Sword',
@@ -385,7 +385,7 @@ describe('Inventory and Equipment System', () => {
       // expect(usedWeapon.durability.current).toBeLessThan(100);
     });
 
-    it.skip('should reduce item effectiveness as durability decreases', () => {
+    it('should reduce item effectiveness as durability decreases', () => {
       const damagedWeapon: Item = {
         id: 'iron_sword',
         name: 'Iron Sword',
@@ -405,7 +405,7 @@ describe('Inventory and Equipment System', () => {
       // expect(effectiveBonuses.physicalAttack).toBeCloseTo(2.5); // 25% of original
     });
 
-    it.skip('should allow item repair', () => {
+    it('should allow item repair', () => {
       const damagedItem: Item = {
         id: 'iron_sword',
         name: 'Iron Sword',
@@ -427,7 +427,7 @@ describe('Inventory and Equipment System', () => {
       // expect(repairResult.remainingGold).toBe(50);
     });
 
-    it.skip('should handle item breaking when durability reaches 0', () => {
+    it('should handle item breaking when durability reaches 0', () => {
       const brittleItem: Item = {
         id: 'rusty_sword',
         name: 'Rusty Sword',
@@ -448,7 +448,7 @@ describe('Inventory and Equipment System', () => {
   });
 
   describe('Loot Generation System', () => {
-    it.skip('should generate loot based on location tables', () => {
+    it('should generate loot based on location tables', () => {
       const forestLootTable: LootTable = {
         locationId: 'enchanted_forest',
         items: [
@@ -466,7 +466,7 @@ describe('Inventory and Equipment System', () => {
       // });
     });
 
-    it.skip('should modify loot based on character luck/stats', () => {
+    it('should modify loot based on character luck/stats', () => {
       const character = { luck: 15, level: 5 };
       const baseLootTable: LootTable = {
         locationId: 'dungeon',
@@ -482,7 +482,7 @@ describe('Inventory and Equipment System', () => {
       // expect(luckyLoot.length).toBeGreaterThanOrEqual(normalLoot.length);
     });
 
-    it.skip('should handle conditional loot drops', () => {
+    it('should handle conditional loot drops', () => {
       const questLootTable: LootTable = {
         locationId: 'boss_chamber',
         items: [
@@ -512,7 +512,7 @@ describe('Inventory and Equipment System', () => {
   });
 
   describe('Trading and Shop System', () => {
-    it.skip('should handle buying items from shops', () => {
+    it('should handle buying items from shops', () => {
       const shop: Shop = {
         id: 'general_store',
         name: 'General Store',
@@ -546,7 +546,7 @@ describe('Inventory and Equipment System', () => {
       // expect(purchaseResult.purchasedItems.length).toBe(3);
     });
 
-    it.skip('should handle selling items to shops', () => {
+    it('should handle selling items to shops', () => {
       const shop: Shop = {
         id: 'general_store',
         name: 'General Store',
@@ -576,7 +576,7 @@ describe('Inventory and Equipment System', () => {
       // expect(sellResult.goldEarned).toBeLessThan(80); // Shops buy for less than value
     });
 
-    it.skip('should modify prices based on reputation', () => {
+    it('should modify prices based on reputation', () => {
       const highRepShop: Shop = {
         id: 'friendly_store',
         name: 'Friendly Store',
@@ -606,7 +606,7 @@ describe('Inventory and Equipment System', () => {
       // expect(hostilePrice).toBeGreaterThan(basePrice);
     });
 
-    it.skip('should handle shop restocking over time', () => {
+    it('should handle shop restocking over time', () => {
       const shop: Shop = {
         id: 'potion_shop',
         name: 'Potion Shop',

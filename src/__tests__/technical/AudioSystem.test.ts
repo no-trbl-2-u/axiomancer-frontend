@@ -102,7 +102,7 @@ interface AudioEffect {
 
 describe('Audio System Implementation', () => {
   describe('Audio Library and Asset Management', () => {
-    it.skip('should organize audio assets by category and context', () => {
+    it('should organize audio assets by category and context', () => {
       const _audioLibrary: AudioLibrary = {
         music: {
           exploration: [
@@ -173,7 +173,7 @@ describe('Audio System Implementation', () => {
       // expect(audioLibrary.sfx.ui.length).toBeGreaterThan(0);
     });
 
-    it.skip('should support multiple audio formats and quality levels', () => {
+    it('should support multiple audio formats and quality levels', () => {
       const _audioFormats = [
         { format: 'ogg', quality: 'high', compression: 'vorbis', fileSize: 'medium' },
         { format: 'mp3', quality: 'medium', compression: 'mp3', fileSize: 'small' },
@@ -191,7 +191,7 @@ describe('Audio System Implementation', () => {
       // expect(qualitySettings.high.bitrate).toBeGreaterThan(qualitySettings.medium.bitrate);
     });
 
-    it.skip('should implement audio streaming and loading strategies', () => {
+    it('should implement audio streaming and loading strategies', () => {
       const _loadingStrategies = {
         immediate: ['ui_sounds', 'critical_music'],
         onDemand: ['location_specific_ambient', 'rare_sfx'],
@@ -213,7 +213,7 @@ describe('Audio System Implementation', () => {
   });
 
   describe('Dynamic Music System', () => {
-    it.skip('should adapt music to game state and location', () => {
+    it('should adapt music to game state and location', () => {
       const _gameState = {
         location: 'labyrinth',
         mood: 'mysterious',
@@ -238,7 +238,7 @@ describe('Audio System Implementation', () => {
       // expect(musicSelection.dynamicVolume.danger).toBeGreaterThan(musicSelection.dynamicVolume.base);
     });
 
-    it.skip('should implement smooth transitions and crossfading', () => {
+    it('should implement smooth transitions and crossfading', () => {
       const musicTransition = {
         from: 'peaceful_exploration',
         to: 'combat_theme',
@@ -259,7 +259,7 @@ describe('Audio System Implementation', () => {
       // expect(layerTransition.fadeInDuration).toBeGreaterThan(0);
     });
 
-    it.skip('should support interactive music layers', () => {
+    it('should support interactive music layers', () => {
       const interactiveMusic = {
         baseTrack: 'exploration_base',
         layers: [
@@ -290,7 +290,7 @@ describe('Audio System Implementation', () => {
       // expect(interactiveMusic.layers.find(l => l.trigger === 'puzzle_solved')).toBeDefined();
     });
 
-    it.skip('should implement emotional response system', () => {
+    it('should implement emotional response system', () => {
       const emotionalStates = {
         triumph: {
           musicModifications: { volume: 1.2, tempo: 1.1, brightness: 1.3 },
@@ -319,7 +319,7 @@ describe('Audio System Implementation', () => {
   });
 
   describe('Sound Effects and Audio Mixing', () => {
-    it.skip('should implement spatial audio for environmental immersion', () => {
+    it('should implement spatial audio for environmental immersion', () => {
       const spatialAudio = {
         listenerPosition: { x: 0, y: 0, z: 0 },
         listenerOrientation: { forward: { x: 0, y: 0, z: -1 }, up: { x: 0, y: 1, z: 0 } },
@@ -346,7 +346,7 @@ describe('Audio System Implementation', () => {
       // expect(spatialAudio.soundSources.every(s => s.maxDistance > 0)).toBe(true);
     });
 
-    it.skip('should manage multiple audio channels and mixing', () => {
+    it('should manage multiple audio channels and mixing', () => {
       const audioMixer: AudioMixer = {
         channels: [
           {
@@ -380,7 +380,7 @@ describe('Audio System Implementation', () => {
       // expect(audioMixer.masterBus.volume).toBeLessThanOrEqual(1.0);
     });
 
-    it.skip('should implement audio effects and processing', () => {
+    it('should implement audio effects and processing', () => {
       const audioEffects = [
         {
           type: 'reverb',
@@ -407,7 +407,7 @@ describe('Audio System Implementation', () => {
       // expect(audioEffects.every(e => e.parameters)).toBeTruthy();
     });
 
-    it.skip('should handle audio ducking and priority management', () => {
+    it('should handle audio ducking and priority management', () => {
       const audioPriorities = {
         voice: 10, // Highest priority
         ui: 9,
@@ -438,7 +438,7 @@ describe('Audio System Implementation', () => {
   });
 
   describe('Audio Settings and Accessibility', () => {
-    it.skip('should provide comprehensive volume controls', () => {
+    it('should provide comprehensive volume controls', () => {
       const volumeControls = {
         master: { min: 0, max: 1, current: 0.8, step: 0.1 },
         music: { min: 0, max: 1, current: 0.7, step: 0.1 },
@@ -460,7 +460,7 @@ describe('Audio System Implementation', () => {
       // expect(volumeControls.master.current).toBeLessThanOrEqual(volumeControls.master.max);
     });
 
-    it.skip('should implement accessibility features', () => {
+    it('should implement accessibility features', () => {
       const accessibilityFeatures = {
         visualIndicators: {
           soundWaveforms: true,
@@ -485,7 +485,7 @@ describe('Audio System Implementation', () => {
       // expect(accessibilityFeatures.visualIndicators.soundWaveforms).toBe(true);
     });
 
-    it.skip('should support audio quality presets', () => {
+    it('should support audio quality presets', () => {
       const qualityPresets = {
         low: {
           name: 'Performance',
@@ -517,7 +517,7 @@ describe('Audio System Implementation', () => {
   });
 
   describe('Audio Performance and Optimization', () => {
-    it.skip('should manage audio memory and resource usage', () => {
+    it('should manage audio memory and resource usage', () => {
       const memoryManagement = {
         maxLoadedAudio: 50 * 1024 * 1024, // 50MB
         currentUsage: 25 * 1024 * 1024, // 25MB
@@ -538,7 +538,7 @@ describe('Audio System Implementation', () => {
       // expect(audioPool.currentInstances).toBeLessThanOrEqual(audioPool.maxInstances);
     });
 
-    it.skip('should implement audio streaming and buffering', () => {
+    it('should implement audio streaming and buffering', () => {
       const streamingConfig = {
         bufferSize: 4096,
         numberOfBuffers: 4,
@@ -559,7 +559,7 @@ describe('Audio System Implementation', () => {
       // expect(bufferManagement.highWaterMark).toBeGreaterThan(bufferManagement.lowWaterMark);
     });
 
-    it.skip('should handle browser compatibility and fallbacks', () => {
+    it('should handle browser compatibility and fallbacks', () => {
       const browserSupport = {
         webAudio: true,
         htmlAudio: true,
