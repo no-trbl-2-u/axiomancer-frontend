@@ -1,16 +1,15 @@
 // Central API Export File
 // Consolidates all game API services
 
-import { 
-  characterAPI, 
-  gameStateAPI, 
-  inventoryAPI, 
-  combatAPI, 
-  explorationAPI, 
+import {
+  characterAPI,
+  gameStateAPI,
+  inventoryAPI,
+  combatAPI,
+  explorationAPI,
   relationshipAPI,
   GameAPIError,
   apiCall,
-  isDevelopment,
   API_BASE_URL,
   getAuthToken,
   setAuthToken,
@@ -32,7 +31,6 @@ export {
   relationshipAPI,
   GameAPIError,
   apiCall,
-  isDevelopment,
   API_BASE_URL,
   getAuthToken,
   setAuthToken,

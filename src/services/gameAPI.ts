@@ -64,6 +64,13 @@ export const characterAPI = {
 
     // Get current user UID from sessionStorage
     const uid = sessionStorage.getItem('currentUID');
+    console.log('UID from sessionStorage:', uid);
+    console.log('All sessionStorage items:', {
+      authToken: sessionStorage.getItem('authToken'),
+      currentUID: sessionStorage.getItem('currentUID'),
+      username: sessionStorage.getItem('username')
+    });
+
     if (!uid) {
       throw new GameAPIError('No user authenticated', 401);
     }
@@ -79,6 +86,7 @@ export const characterAPI = {
       });
 
       const result = await response.json();
+
 
       if (!response.ok) {
         throw new GameAPIError(result.message || 'Character creation failed', response.status);

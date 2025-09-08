@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useCharacter } from "../../context/CharacterContext";
 import { useMapLocation } from "../../hooks/useMapLocation";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import InteractiveMap from "../../components/InteractiveMap/InteractiveMap";
 import EventModal from "../../components/EventModal/EventModal";
@@ -518,6 +519,7 @@ const TooltipText = styled.div`
 function ExplorationPage() {
   const { character, loading } = useCharacter();
   const { currentLocation } = useMapLocation();
+  const { logout } = useAuth();
   const [expanded, setExpanded] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<MapNodeEvent | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -529,6 +531,17 @@ function ExplorationPage() {
 
   const handleEnterCombat = () => {
     navigate('/combat');
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/login');
+    } catch (error) {
+      console.error('Error during logout:', error);
+      // Force redirect even if logout fails
+      navigate('/login');
+    }
   };
 
   const handleNodeClick = async (node: MapNodeData) => {
@@ -638,6 +651,9 @@ function ExplorationPage() {
           </PrimaryButton>
           <SecondaryButton>
             Inventory
+          </SecondaryButton>
+          <SecondaryButton onClick={handleLogout}>
+            Logout
           </SecondaryButton>
         </ButtonContainer>
       </DescriptionPane>

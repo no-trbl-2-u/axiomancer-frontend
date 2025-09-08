@@ -156,6 +156,14 @@ export const authAPI = {
         throw new AuthAPIError('Failed to check character existence', response.status);
       }
 
+      const result = await response.json();
+      
+      // Handle the new response format from backend
+      if (typeof result === 'object' && 'hasCharacter' in result) {
+        return result.hasCharacter;
+      }
+      
+      // Legacy fallback - if we get a character object directly, they have a character
       return true;
     } catch (error) {
       if (error instanceof AuthAPIError) {

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import { characterAPI, CreateCharacterRequest } from '../../services/gameAPI';
 
 interface CharacterCreatePageProps {
@@ -121,6 +123,8 @@ const ALL_PORTRAITS = [
 ];
 
 const CharacterCreatePage: React.FC<CharacterCreatePageProps> = ({ onCharacterCreated }) => {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
   const [name, setName] = useState('');
   const [selectedClass, setSelectedClass] = useState('scout');
   const [isCreating, setIsCreating] = useState(false);
@@ -161,6 +165,17 @@ const CharacterCreatePage: React.FC<CharacterCreatePageProps> = ({ onCharacterCr
       setError(error instanceof Error ? error.message : 'Failed to create character');
     } finally {
       setIsCreating(false);
+    }
+  };
+
+  const handleCancel = async () => {
+    try {
+      await logout();
+      navigate('/login');
+    } catch (error) {
+      console.error('Error during logout:', error);
+      // Force redirect even if logout fails
+      navigate('/login');
     }
   };
 
@@ -254,13 +269,23 @@ const CharacterCreatePage: React.FC<CharacterCreatePageProps> = ({ onCharacterCr
             </div>
           )}
 
-          <button
-            type="submit"
-            disabled={isCreating || !name.trim()}
-            style={styles.button}
-          >
-            {isCreating ? 'Creating Character...' : 'Begin Your Journey'}
-          </button>
+          <div style={styles.buttonContainer}>
+            <button
+              type="button"
+              onClick={handleCancel}
+              disabled={isCreating}
+              style={styles.cancelButton}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={isCreating || !name.trim()}
+              style={styles.button}
+            >
+              {isCreating ? 'Creating Character...' : 'Begin Your Journey'}
+            </button>
+          </div>
         </form>
 
         <div style={styles.flavorText}>
@@ -412,6 +437,11 @@ const styles = {
     fontSize: '1.5rem',
     zIndex: 1,
   },
+  buttonContainer: {
+    display: 'flex',
+    gap: '1rem',
+    alignItems: 'center',
+  },
   button: {
     padding: '0.75rem 1.5rem',
     fontSize: '1rem',
@@ -421,7 +451,18 @@ const styles = {
     borderRadius: '5px',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
-    width: '100%',
+    flex: 1,
+  },
+  cancelButton: {
+    padding: '0.75rem 1.5rem',
+    fontSize: '1rem',
+    backgroundColor: '#666',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    flex: 1,
   },
   error: {
     backgroundColor: '#ff6b6b',

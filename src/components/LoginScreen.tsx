@@ -34,24 +34,26 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
       const loginResponse = await authAPI.login({ username, password });
       console.log('Login successful:', loginResponse);
 
-      // Step 2: Initialize game data
+      // Step 2: Check if user has a character first
       setIsLoading(false);
-      setIsInitializing(true);
-
-      console.log('Starting game initialization...');
-      const gameData = await gameInitializationAPI.initializeGame(handleProgressUpdate);
-      console.log('Game initialization complete:', gameData);
-
-      // Step 3: Check if user has a character and redirect accordingly
-      setIsInitializing(false);
+      console.log('Checking if user has character...');
       const hasCharacter = await authAPI.hasCharacter();
-      
+      console.log('Has character:', hasCharacter);
+
       if (hasCharacter) {
+        // Step 3a: Initialize game data for existing character
+        setIsInitializing(true);
+        console.log('Starting game initialization...');
+        const gameData = await gameInitializationAPI.initializeGame(handleProgressUpdate);
+        console.log('Game initialization complete:', gameData);
+        setIsInitializing(false);
+        
         // Redirect to character selection
         onLoginSuccess({ ...gameData, redirectTo: 'character-select' });
       } else {
-        // Redirect to character creation
-        onLoginSuccess({ ...gameData, redirectTo: 'character-create' });
+        // Step 3b: Skip initialization, redirect to character creation
+        console.log('No character found, redirecting to character creation');
+        onLoginSuccess({ redirectTo: 'character-create' });
       }
 
     } catch (error) {

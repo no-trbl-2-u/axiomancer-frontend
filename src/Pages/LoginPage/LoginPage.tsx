@@ -1,7 +1,7 @@
 import styled from "@emotion/styled"
 import { useState, useEffect } from "react"
 import { useAuth } from "../../context/AuthContext"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useLocation } from "react-router-dom"
 import LoadingScreen from "../../components/LoadingScreen"
 import { InitializationStep } from "../../services/gameInitializationAPI"
 
@@ -120,20 +120,26 @@ function LoginPage() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const navigate = useNavigate()
+  const location = useLocation()
 
   const { runLoginUser, loginStatus, loginError, isLoggedIn, hasCharacter } = useAuth()
   
+  // Get the intended destination from the location state (set by ProtectedRoute)
+  const from = (location.state as any)?.from || null
 
   // Redirect based on login status and character existence
   useEffect(() => {
     if (isLoggedIn) {
-      if (hasCharacter) {
+      if (from) {
+        // User was redirected here from a protected route, send them back
+        navigate(from, { replace: true })
+      } else if (hasCharacter) {
         navigate('/character-select') // User has character, go to character selection screen
       } else {
         navigate('/character-create') // User needs to create character
       }
     }
-  }, [isLoggedIn, hasCharacter, navigate])
+  }, [isLoggedIn, hasCharacter, navigate, from])
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
