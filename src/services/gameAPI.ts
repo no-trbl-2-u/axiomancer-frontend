@@ -852,10 +852,21 @@ export async function apiCall<T>(
 // ===== UTILITY FUNCTIONS =====
 
 // Check if we're in development mode for mock behavior
-export const isDevelopment = process.env.NODE_ENV === 'development';
+export const getAPIBaseURL = () => {
+  // For now, these are the two possible environments. In the future, we'll have a STAGING environment
+  switch (process.env.NODE_ENV) {
+    case 'development':
+      return process.env.REACT_APP_API_URL_DEV;
+    case 'production':
+      return process.env.REACT_APP_API_URL_PROD;
+    // Default to development environment
+    default:
+      return process.env.REACT_APP_API_URL_DEV;
+  }
+}
 
 // Base API URL - would come from environment variables
-export const API_BASE_URL = isDevelopment ? process.env.REACT_APP_API_URL_DEV : process.env.REACT_APP_API_URL_PROD;
+export const API_BASE_URL = getAPIBaseURL();
 
 // Auth token management for API calls
 export function getAuthToken(): string | null {
