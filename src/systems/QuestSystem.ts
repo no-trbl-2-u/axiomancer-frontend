@@ -28,7 +28,7 @@ export interface QuestObjective {
 }
 
 export interface QuestReward {
-  type: 'experience' | 'gold' | 'item' | 'reputation' | 'stat' | 'skill' | 'unlock';
+  type: 'experience' | 'gold' | 'item' | 'reputation' | 'stat' | 'skill' | 'unlock' | 'discount';
   value: number | string;
   quantity?: number;
 }
@@ -314,7 +314,7 @@ export class QuestSystem {
     }
 
     objective.currentProgress = Math.min(objective.quantity || 1, objective.currentProgress + progress);
-    
+
     if (objective.currentProgress >= (objective.quantity || 1)) {
       objective.completed = true;
     }
@@ -394,7 +394,7 @@ export class QuestSystem {
     }
 
     chain.currentQuestIndex++;
-    
+
     if (chain.currentQuestIndex >= chain.quests.length) {
       chain.completed = true;
       return null;
@@ -402,7 +402,7 @@ export class QuestSystem {
 
     const nextQuestId = chain.quests[chain.currentQuestIndex];
     const nextQuest = this.quests.get(nextQuestId);
-    
+
     if (nextQuest) {
       nextQuest.status = 'available';
       this.availableQuests.add(nextQuestId);
@@ -465,7 +465,7 @@ export class QuestSystem {
     ];
 
     const questType = dynamicQuestTypes[Math.floor(Math.random() * dynamicQuestTypes.length)];
-    
+
     switch (questType) {
       case 'monster_hunt':
         return this.createQuest({
