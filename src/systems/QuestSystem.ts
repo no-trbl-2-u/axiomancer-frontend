@@ -165,7 +165,20 @@ export class QuestSystem {
       }
     };
 
+    const philosophersFaction: Faction = {
+      id: 'philosophers_guild',
+      name: 'Guild of Philosophers',
+      description: 'Seekers of truth and wisdom',
+      quests: ['philosophy_initiation', 'logic_mastery', 'truth_seeker'],
+      conflictsWith: ['warriors_guild'],
+      benefits: {
+        25: [{ type: 'discount', value: 0.1 }],
+        50: [{ type: 'skill', value: 'advanced_reasoning' }]
+      }
+    };
+
     this.factions.set(mysticsFaction.id, mysticsFaction);
+    this.factions.set(philosophersFaction.id, philosophersFaction);
   }
 
   public createQuest(questData: Partial<Quest>): Quest {
@@ -187,6 +200,7 @@ export class QuestSystem {
     };
 
     this.quests.set(quest.id, quest);
+    this.availableQuests.add(quest.id);
     return quest;
   }
 

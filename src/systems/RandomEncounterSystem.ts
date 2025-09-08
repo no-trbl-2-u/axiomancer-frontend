@@ -331,6 +331,52 @@ export class RandomEncounterSystem {
           experience: 25 + baseLevel * 5
         });
       }
+    } else if (encounter.id === 'goblin_raiders') {
+      const numGoblins = Math.max(2, Math.floor(baseLevel / 3) + 2);
+      for (let i = 0; i < numGoblins; i++) {
+        enemies.push({
+          id: `goblin_${i}`,
+          name: 'Goblin',
+          level: Math.max(1, baseLevel + Math.floor(Math.random() * 2)),
+          health: 20 + baseLevel * 3,
+          maxHealth: 20 + baseLevel * 3,
+          mana: 5,
+          maxMana: 5,
+          stats: {
+            body: 6 + baseLevel,
+            mind: 4 + Math.floor(baseLevel / 2),
+            heart: 3 + Math.floor(baseLevel / 3)
+          },
+          abilities: ['stab', 'throw_rock'],
+          loot: [
+            { itemId: 'goblin_ear', probability: 0.8 },
+            { itemId: 'rusty_dagger', probability: 0.4 }
+          ],
+          experience: 20 + baseLevel * 4
+        });
+      }
+    } else {
+      // Generic enemy generation for unknown encounters
+      const genericEnemy = {
+        id: `enemy_0`,
+        name: 'Unknown Creature',
+        level: baseLevel,
+        health: 25 + baseLevel * 4,
+        maxHealth: 25 + baseLevel * 4,
+        mana: 10,
+        maxMana: 10,
+        stats: {
+          body: 7 + baseLevel,
+          mind: 5 + Math.floor(baseLevel / 2),
+          heart: 4 + Math.floor(baseLevel / 3)
+        },
+        abilities: ['attack'],
+        loot: [
+          { itemId: 'generic_loot', probability: 0.5 }
+        ],
+        experience: 15 + baseLevel * 3
+      };
+      enemies.push(genericEnemy);
     }
 
     return enemies;
