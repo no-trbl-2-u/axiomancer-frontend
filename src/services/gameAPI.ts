@@ -72,17 +72,23 @@ export const characterAPI = {
     });
 
     if (!uid) {
-      throw new GameAPIError('No user authenticated', 401);
+      console.error('ERROR: No UID found in sessionStorage!');
+      console.error('Available sessionStorage keys:', Object.keys(sessionStorage));
+      throw new GameAPIError('No user authenticated - UID not found in session', 401);
     }
 
     try {
+      const requestBody = {
+        ...data,
+        uid
+      };
+      console.log('Request body being sent:', requestBody);
+      console.log('Request body JSON:', JSON.stringify(requestBody));
+
       const response = await fetch(`${API_BASE_URL}/create-character`, {
         method: 'POST',
         headers: getAuthHeaders(),
-        body: JSON.stringify({
-          ...data,
-          uid
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       const result = await response.json();
