@@ -27,7 +27,7 @@ function App() {
           <Route path="/character-create" element={
             <ProtectedRoute>
               <CharacterCreatePage 
-                onCharacterCreated={(character) => window.location.href = '/exploration'} 
+                onCharacterCreated={() => {}} 
               />
             </ProtectedRoute>
           } />

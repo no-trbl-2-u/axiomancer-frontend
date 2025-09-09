@@ -124,7 +124,7 @@ const ALL_PORTRAITS = [
 
 const CharacterCreatePage: React.FC<CharacterCreatePageProps> = ({ onCharacterCreated }) => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, setCharacterCreated } = useAuth();
   const [name, setName] = useState('');
   const [selectedClass, setSelectedClass] = useState('scout');
   const [isCreating, setIsCreating] = useState(false);
@@ -155,11 +155,12 @@ const CharacterCreatePage: React.FC<CharacterCreatePageProps> = ({ onCharacterCr
       const characterData: CreateCharacterRequest = {
         name: name.trim(),
         portrait: selectedClass,
-        age: 8, // Starting age for childhood phase
+        age: 12, // Starting age for childhood phase
       };
 
       const character = await characterAPI.create(characterData);
-      onCharacterCreated(character);
+      setCharacterCreated();
+      navigate('/exploration');
     } catch (error) {
       console.error('Character creation failed:', error);
       setError(error instanceof Error ? error.message : 'Failed to create character');

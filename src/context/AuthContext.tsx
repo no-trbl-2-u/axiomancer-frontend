@@ -47,6 +47,7 @@ interface AuthContextValue {
     loginError: UseAsyncReturn<LoginResponse, [LoginOptions]>['error'];
     createUserError: UseAsyncReturn<RegisterResponse, [CreateUserOptions]>['error'];
     logout: () => void;
+    setCharacterCreated: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -109,6 +110,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setHasCharacter(false);
     };
 
+    const setCharacterCreated = () => {
+        setHasCharacter(true);
+    };
+
     const value: AuthContextValue = useMemo(
         () => ({ 
             isLoggedIn,
@@ -120,7 +125,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             createUserStatus: registerAsync.status,
             loginError: loginAsync.error,
             createUserError: registerAsync.error,
-            logout 
+            logout,
+            setCharacterCreated
         }),
         [isLoggedIn, gameData, hasCharacter, loginAsync.run, registerAsync.run, loginAsync.status, registerAsync.status, loginAsync.error, registerAsync.error]
     );
