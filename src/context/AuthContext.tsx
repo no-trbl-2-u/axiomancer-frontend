@@ -3,26 +3,26 @@ import { useAsync, UseAsyncReturn, AsyncStatus } from "../hooks/useAsync";
 import { authAPI, gameInitializationAPI } from "../services";
 
 type LoginResponse = {
-  uid: string;
-  username?: string;
-  token?: string;
+    uid: string;
+    username?: string;
+    token?: string;
 };
 
 type RegisterResponse = {
-  uid: string;
-  username: string;
+    uid: string;
+    username: string;
 };
 
 type GameData = {
-  character: any;
-  gameState: any;
-  inventory: any;
-  exploration: any;
-  combat: any;
-  relationships: any;
-  quests: any;
-  story: any;
-  specialMechanics: any;
+    character: any;
+    gameState: any;
+    inventory: any;
+    exploration: any;
+    combat: any;
+    relationships: any;
+    quests: any;
+    story: any;
+    specialMechanics: any;
 };
 
 interface LoginOptions {
@@ -61,18 +61,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
             // Step 1: Authenticate user
             const loginResult = await authAPI.login(options);
-            
+
             // Step 2: Check if user has character
             const userHasCharacter = await authAPI.hasCharacter();
-            
+
             // Step 3: Initialize game data only if needed
             const gameInitData = userHasCharacter ? await gameInitializationAPI.initializeGame() : null;
-            
+
             // Step 4: Update state
             setIsLoggedIn(true);
             setGameData(gameInitData);
             setHasCharacter(userHasCharacter);
-            
+
             return loginResult;
         } catch (error) {
             // Make sure we're logged out if anything fails
@@ -87,12 +87,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const registerAsync = useAsync<RegisterResponse, [CreateUserOptions]>(async (options: CreateUserOptions) => {
         try {
             const result = await authAPI.register(options);
-            
+
             // After successful registration, user is logged in but has no character
             setIsLoggedIn(true);
             setGameData(null);
             setHasCharacter(false);
-            
+
             return result;
         } catch (error) {
             await authAPI.logout();
@@ -115,11 +115,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     const value: AuthContextValue = useMemo(
-        () => ({ 
+        () => ({
             isLoggedIn,
             gameData,
             hasCharacter,
-            runLoginUser: loginAsync.run, 
+            runLoginUser: loginAsync.run,
             runCreateUser: registerAsync.run,
             loginStatus: loginAsync.status,
             createUserStatus: registerAsync.status,

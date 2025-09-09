@@ -8,114 +8,114 @@ interface CharacterCreatePageProps {
 }
 
 const ALL_PORTRAITS = [
-  { 
-    id: 'scout', 
-    name: 'Scout', 
+  {
+    id: 'scout',
+    name: 'Scout',
     description: 'Swift and perceptive, masters of observation and evasion.',
     portraitImage: '/images/portraits/Scout.png',
     unlocked: true
   },
-  { 
-    id: 'archer', 
-    name: 'Archer', 
+  {
+    id: 'archer',
+    name: 'Archer',
     description: 'Precise and deadly, masters of ranged combat.',
     portraitImage: '/images/portraits/Archer.jpg',
     unlocked: true
   },
-  { 
-    id: 'arc-mage', 
-    name: 'Arc Mage', 
+  {
+    id: 'arc-mage',
+    name: 'Arc Mage',
     description: 'Wielders of arcane power and mystical knowledge.',
     portraitImage: '/images/portraits/Arc-mage.jpg',
     unlocked: true
   },
-  { 
-    id: 'priestess', 
-    name: 'Priestess', 
+  {
+    id: 'priestess',
+    name: 'Priestess',
     description: 'Divine healers and spiritual guides.',
     portraitImage: '/images/portraits/Priestess.jpg',
     unlocked: true
   },
-  { 
-    id: 'air-lord', 
-    name: 'Air Lord', 
+  {
+    id: 'air-lord',
+    name: 'Air Lord',
     description: 'Master of the winds and sky.',
     portraitImage: '/images/portraits/Air-lord.jpg',
     unlocked: false
   },
-  { 
-    id: 'angel', 
-    name: 'Angel', 
+  {
+    id: 'angel',
+    name: 'Angel',
     description: 'Divine messenger of light and justice.',
     portraitImage: '/images/portraits/Angel.jpg',
     unlocked: false
   },
-  { 
-    id: 'arch-demon', 
-    name: 'Arch Demon', 
+  {
+    id: 'arch-demon',
+    name: 'Arch Demon',
     description: 'Dark overlord of infernal powers.',
     portraitImage: '/images/portraits/Arch-demon.jpg',
     unlocked: false
   },
-  { 
-    id: 'ashigaru', 
-    name: 'Ashigaru', 
+  {
+    id: 'ashigaru',
+    name: 'Ashigaru',
     description: 'Disciplined foot soldier of ancient traditions.',
     portraitImage: '/images/portraits/Ashigaru.jpg',
     unlocked: false
   },
-  { 
-    id: 'biwa-houshi', 
-    name: 'Biwa Houshi', 
+  {
+    id: 'biwa-houshi',
+    name: 'Biwa Houshi',
     description: 'Wandering monk and storyteller.',
     portraitImage: '/images/portraits/Biwa-houshi.jpg',
     unlocked: false
   },
-  { 
-    id: 'black-bishop', 
-    name: 'Black Bishop', 
+  {
+    id: 'black-bishop',
+    name: 'Black Bishop',
     description: 'Dark cleric of forbidden knowledge.',
     portraitImage: '/images/portraits/Black-bishop.jpg',
     unlocked: false
   },
-  { 
-    id: 'cenobite', 
-    name: 'Cenobite', 
+  {
+    id: 'cenobite',
+    name: 'Cenobite',
     description: 'Ascetic seeker of spiritual perfection.',
     portraitImage: '/images/portraits/Cenobite.jpg',
     unlocked: false
   },
-  { 
-    id: 'circe', 
-    name: 'Circe', 
+  {
+    id: 'circe',
+    name: 'Circe',
     description: 'Sorceress of transformation and enchantment.',
     portraitImage: '/images/portraits/Circe.jpg',
     unlocked: false
   },
-  { 
-    id: 'crescent', 
-    name: 'Crescent', 
+  {
+    id: 'crescent',
+    name: 'Crescent',
     description: 'Guardian of lunar mysteries.',
     portraitImage: '/images/portraits/Crescent.jpg',
     unlocked: false
   },
-  { 
-    id: 'dark-elf', 
-    name: 'Dark Elf', 
+  {
+    id: 'dark-elf',
+    name: 'Dark Elf',
     description: 'Shadow-dwelling master of stealth.',
     portraitImage: '/images/portraits/Dark-elf.jpg',
     unlocked: false
   },
-  { 
-    id: 'drake', 
-    name: 'Drake', 
+  {
+    id: 'drake',
+    name: 'Drake',
     description: 'Young dragon of fierce intelligence.',
     portraitImage: '/images/portraits/Drake.jpg',
     unlocked: false
   },
-  { 
-    id: 'fairy', 
-    name: 'Fairy', 
+  {
+    id: 'fairy',
+    name: 'Fairy',
     description: 'Mystical being of nature and magic.',
     portraitImage: '/images/portraits/Fairy.jpg',
     unlocked: false
@@ -160,6 +160,7 @@ const CharacterCreatePage: React.FC<CharacterCreatePageProps> = ({ onCharacterCr
 
       const character = await characterAPI.create(characterData);
       setCharacterCreated();
+      onCharacterCreated(character);
       navigate('/exploration');
     } catch (error) {
       console.error('Character creation failed:', error);
@@ -194,8 +195,8 @@ const CharacterCreatePage: React.FC<CharacterCreatePageProps> = ({ onCharacterCr
           {/* Portrait Section */}
           <div style={styles.portraitSection}>
             <div style={styles.portrait}>
-              <img 
-                src={currentPortrait.portraitImage} 
+              <img
+                src={currentPortrait.portraitImage}
                 alt={`${currentPortrait.name} portrait`}
                 style={styles.portraitImage}
                 onError={(e) => {
@@ -228,8 +229,8 @@ const CharacterCreatePage: React.FC<CharacterCreatePageProps> = ({ onCharacterCr
                     disabled={isCreating || !portrait.unlocked}
                     title={portrait.unlocked ? portrait.name : `${portrait.name} (Locked)`}
                   >
-                    <img 
-                      src={portrait.portraitImage} 
+                    <img
+                      src={portrait.portraitImage}
                       alt={`${portrait.name} portrait`}
                       style={{
                         ...styles.portraitButtonImage,
