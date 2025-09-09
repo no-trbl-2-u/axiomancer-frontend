@@ -7,6 +7,7 @@ import { PlayerKnowledge } from '../systems/FallacyParadoxSystem';
 
 export interface CreateCharacterRequest {
   name: string;
+  race?: 'elf' | 'drake' | 'arc-mage';
   portrait: string;
   age: number;
 }
