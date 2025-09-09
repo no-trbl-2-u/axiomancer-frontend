@@ -50,15 +50,38 @@ export const authAPI = {
       });
 
       const data = await response.json();
+      console.log('🔍 Login Response Status:', response.status);
+      console.log('🔍 Login Response Data:', data);
+      console.log('🔍 Data properties:', {
+        uid: data.uid,
+        username: data.username, 
+        token: data.token,
+        message: data.message
+      });
 
       if (!response.ok) {
+        console.error('❌ Login failed with status:', response.status);
         throw new AuthAPIError(data.message || 'Login failed', response.status);
       }
 
+      // Validate that we got the required data
+      if (!data.uid || !data.username || !data.token) {
+        console.error('❌ Login response missing required fields:', data);
+        throw new AuthAPIError('Login response incomplete - missing uid, username, or token', 500);
+      }
+
       // Store auth token and UID in sessionStorage
+      console.log('💾 Storing login data in sessionStorage');
       sessionStorage.setItem('authToken', data.token);
       sessionStorage.setItem('currentUID', data.uid);
       sessionStorage.setItem('username', data.username);
+      
+      // Verify storage worked
+      console.log('✅ Stored values:', {
+        authToken: sessionStorage.getItem('authToken'),
+        currentUID: sessionStorage.getItem('currentUID'),
+        username: sessionStorage.getItem('username')
+      });
 
       return data;
     } catch (error) {
