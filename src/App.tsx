@@ -9,28 +9,33 @@ import ExplorationPage from "./Pages/ExplorationPage/ExplorationPage";
 import CombatPage from "./Pages/CombatPage/CombatPage";
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-import { CharacterProvider } from "./context/CharacterContext";
+import { CharacterProvider, useCharacter } from "./context/CharacterContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-function App() {
+function AppRoutes() {
+  const { fetchCharacter } = useCharacter();
+
+  const handleCharacterCreated = async (character: any) => {
+    // Fetch the updated character data from the backend
+    await fetchCharacter();
+  };
+
   return (
-    <AuthProvider>
-      <CharacterProvider>
-        <Routes>
-          {/* Public routes - no authentication required */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/loading" element={<LoadingPage />} />
-          
-          {/* Protected routes - authentication required */}
-          <Route path="/character-create" element={
-            <ProtectedRoute>
-              <CharacterCreatePage 
-                onCharacterCreated={() => {}} 
-              />
-            </ProtectedRoute>
-          } />
+    <Routes>
+      {/* Public routes - no authentication required */}
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/loading" element={<LoadingPage />} />
+      
+      {/* Protected routes - authentication required */}
+      <Route path="/character-create" element={
+        <ProtectedRoute>
+          <CharacterCreatePage 
+            onCharacterCreated={handleCharacterCreated} 
+          />
+        </ProtectedRoute>
+      } />
           <Route path="/character-select" element={
             <ProtectedRoute>
               <CharacterSelectPage 
@@ -57,6 +62,14 @@ function App() {
             </ProtectedRoute>
           } />
         </Routes>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <CharacterProvider>
+        <AppRoutes />
       </CharacterProvider>
     </AuthProvider>
   );

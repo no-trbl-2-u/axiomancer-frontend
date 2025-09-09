@@ -142,7 +142,7 @@ async function createCharacterInBackend(name: string, portrait: string): Promise
         const characterData = await characterAPI.create({
             name,
             portrait,
-            age: 8
+            age: 12
         });
 
         // Transform backend response to match frontend Character interface

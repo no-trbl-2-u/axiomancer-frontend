@@ -420,3 +420,6 @@ The codebase is well-structured for new contributors:
 - Modular, extensible architecture
 
 This documentation provides everything needed for a developer (human or AI) to jump in and start contributing effectively to Axiomancer's development.
+
+### Buriedbornes
+Buriedbornes was a big inspiration for this project and [this link](https://docs.google.com/spreadsheets/d/18KqF9tdyAnbsQdtsMdZS1aOysp9xnFVOs_Xzuf6pato/edit?pli=1&gid=1701036573#gid=1701036573) contains some highly relevant information.
