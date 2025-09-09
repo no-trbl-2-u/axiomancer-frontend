@@ -216,11 +216,11 @@ export interface UpdateGameStateRequest {
 }
 
 export const gameStateAPI = {
-  async get(characterId: string): Promise<GameStateResponse> {
-    console.log('Getting game state for:', characterId);
+  async get(characterId: string, saveSlot: number = 1): Promise<GameStateResponse> {
+    console.log('Getting game state for:', characterId, 'saveSlot:', saveSlot);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/get-game-state?uid=${characterId}`, {
+      const response = await fetch(`${API_BASE_URL}/get-game-state?uid=${characterId}&saveSlot=${saveSlot}`, {
         method: 'GET',
         headers: getAuthHeaders(),
       });
