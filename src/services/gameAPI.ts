@@ -878,12 +878,12 @@ export const getAPIBaseURL = () => {
   // For now, these are the two possible environments. In the future, we'll have a STAGING environment
   switch (process.env.NODE_ENV) {
     case 'development':
-      return process.env.REACT_APP_API_URL_DEV;
+      return process.env.REACT_APP_API_URL_DEV || 'http://localhost:8080';
     case 'production':
-      return process.env.REACT_APP_API_URL_PROD;
+      return process.env.REACT_APP_API_URL_PROD || 'https://axiomancer-backend.vercel.app/api';
     // Default to development environment
     default:
-      return process.env.REACT_APP_API_URL_DEV;
+      return process.env.REACT_APP_API_URL_DEV || 'http://localhost:8080';
   }
 }
 
