@@ -1,8 +1,10 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCharacter } from "../../context/CharacterContext";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import { generateRandomCreature, calculateDamage } from "../../utils/creatureGenerator";
+import type { Creature } from "../../utils/creatureGenerator";
 
 type MoveType = 'body' | 'mind' | 'heart';
 type ActionType = 'attack' | 'defend' | 'special';
@@ -424,23 +426,31 @@ const AdvantageIndicator = styled.div<{ advantage: AdvantageType }>`
 function CombatPage() {
   const { character, loading } = useCharacter();
   const [selectedMoveType, setSelectedMoveType] = useState<MoveType>('body');
-  const [battleLog, setBattleLog] = useState([
-    "A Forest Spirit materializes from the shadows, its eyes gleaming with malevolent intent!",
-    "The air grows thick with an otherworldly presence...",
-    "Choose your approach wisely - your very soul depends on it."
-  ]);
+  const [enemy, setEnemy] = useState<Creature | null>(null);
+  const [battleLog, setBattleLog] = useState<string[]>([]);
+  const [combatEnded, setCombatEnded] = useState(false);
+  const [playerWon, setPlayerWon] = useState(false);
   const navigate = useNavigate();
 
-  // Mock enemy data
-  const enemy = {
-    name: "Corrupted Forest Spirit",
-    currentHp: 45,
-    maxHp: 60,
-    portrait: "https://picsum.photos/120/120?random=enemy",
-    moveType: 'mind' as MoveType // Enemy's current move type for advantage calculation
-  };
+  // Generate random enemy when component mounts
+  useEffect(() => {
+    if (character && !enemy) {
+      const newEnemy = generateRandomCreature({
+        body: character.stats.body,
+        mind: character.stats.mind,
+        heart: character.stats.heart
+      });
+      
+      setEnemy(newEnemy);
+      setBattleLog([
+        `A ${newEnemy.name} materializes from the shadows, its eyes gleaming with malevolent intent!`,
+        "The air grows thick with an otherworldly presence...",
+        "Choose your approach wisely - your very soul depends on it."
+      ]);
+    }
+  }, [character, enemy]);
 
-  if (loading || !character) {
+  if (loading || !character || !enemy) {
     return <LoadingPage />;
   }
 
@@ -465,8 +475,42 @@ function CombatPage() {
   const advantage = getAdvantage(selectedMoveType, enemy.moveType);
 
   const handleAction = (actionType: ActionType) => {
-    const newEntry = `You attempt a ${selectedMoveType} ${actionType} against the Forest Spirit...`;
+    if (combatEnded) return;
+    
+    const playerStat = character.stats[selectedMoveType];
+    const enemyStat = enemy.stats[selectedMoveType];
+    
+    // Calculate damage
+    const damage = calculateDamage(playerStat, enemyStat, advantage);
+    
+    // Apply damage to enemy
+    const newEnemyHp = Math.max(0, enemy.stats.currentHp - damage);
+    setEnemy(prev => prev ? {...prev, stats: {...prev.stats, currentHp: newEnemyHp}} : null);
+    
+    const newEntry = `You use a ${selectedMoveType} ${actionType} against the ${enemy.name}! ${damage} damage dealt.`;
     setBattleLog(prev => [...prev, newEntry]);
+    
+    // Check if enemy is defeated
+    if (newEnemyHp <= 0) {
+      setBattleLog(prev => [...prev, `The ${enemy.name} has been defeated! Victory!`]);
+      setCombatEnded(true);
+      setPlayerWon(true);
+      return;
+    }
+    
+    // Enemy turn (simple AI)
+    setTimeout(() => {
+      const enemyDamage = calculateDamage(enemy.stats[enemy.moveType], character.stats[enemy.moveType], 'neutral');
+      const newPlayerHp = Math.max(0, character.currentHp - enemyDamage);
+      
+      setBattleLog(prev => [...prev, `The ${enemy.name} attacks with ${enemy.moveType}! ${enemyDamage} damage to you.`]);
+      
+      if (newPlayerHp <= 0) {
+        setBattleLog(prev => [...prev, 'You have been defeated... Combat ends.']);
+        setCombatEnded(true);
+        setPlayerWon(false);
+      }
+    }, 1000);
   };
 
   const handleFlee = () => {
@@ -475,17 +519,20 @@ function CombatPage() {
 
   return (
     <CombatContainer>
-      <EnemyPane>
-        <EnemyPortrait src={enemy.portrait} alt={enemy.name} />
+      <EnemyPane data-testid="enemy-stats">
+        <EnemyPortrait src={enemy.image} alt={enemy.name} data-testid="enemy-image" />
         <EnemyInfo>
-          <EnemyName>{enemy.name}</EnemyName>
-          <EnemyHealthBar current={enemy.currentHp} max={enemy.maxHp}>
-            <EnemyHealthText>{enemy.currentHp}/{enemy.maxHp}</EnemyHealthText>
+          <EnemyName data-testid="enemy-name">{enemy.name}</EnemyName>
+          <span data-testid="enemy-body" style={{display: 'none'}}>{enemy.stats.body}</span>
+          <span data-testid="enemy-mind" style={{display: 'none'}}>{enemy.stats.mind}</span>
+          <span data-testid="enemy-heart" style={{display: 'none'}}>{enemy.stats.heart}</span>
+          <EnemyHealthBar current={enemy.stats.currentHp} max={enemy.stats.maxHp}>
+            <EnemyHealthText>{enemy.stats.currentHp}/{enemy.stats.maxHp}</EnemyHealthText>
           </EnemyHealthBar>
         </EnemyInfo>
       </EnemyPane>
 
-      <BattleLogPane>
+      <BattleLogPane data-testid="combat-log">
         <BattleLogTitle>Battle Chronicle</BattleLogTitle>
         <BattleLogContent>
           {battleLog.map((entry, index) => (
@@ -496,11 +543,16 @@ function CombatPage() {
               {entry}
             </BattleLogEntry>
           ))}
+          {combatEnded && (
+            <div data-testid="combat-ended" style={{ textAlign: 'center', marginTop: '1rem' }}>
+              <strong>{playerWon ? 'Victory!' : 'Defeat!'}</strong>
+            </div>
+          )}
         </BattleLogContent>
       </BattleLogPane>
 
       <PlayerPane>
-        <PlayerInfo>
+        <PlayerInfo data-testid="player-stats">
           <PlayerHeader>
             <PlayerPortrait 
               src={`/images/portraits/${character.portrait}.jpg`} 
@@ -509,6 +561,9 @@ function CombatPage() {
             <PlayerDetails>
               <PlayerName>{character.name}</PlayerName>
               <PlayerLevel>Lv. {character.level}</PlayerLevel>
+              <span data-testid="player-body" style={{display: 'none'}}>{character.stats.body}</span>
+              <span data-testid="player-mind" style={{display: 'none'}}>{character.stats.mind}</span>
+              <span data-testid="player-heart" style={{display: 'none'}}>{character.stats.heart}</span>
             </PlayerDetails>
           </PlayerHeader>
 

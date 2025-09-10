@@ -114,6 +114,8 @@ export const characterAPI = {
 
   async get(characterId: string): Promise<CharacterResponse> {
     console.log('Getting character:', characterId);
+    console.log('🔍 API_BASE_URL:', API_BASE_URL);
+    console.log('🔍 Full URL:', `${API_BASE_URL}/character/${characterId}`);
 
     try {
       const response = await fetch(`${API_BASE_URL}/character/${characterId}`, {
@@ -121,7 +123,12 @@ export const characterAPI = {
         headers: getAuthHeaders(),
       });
 
+      console.log('🔍 Response status:', response.status);
+      console.log('🔍 Response ok:', response.ok);
+      console.log('🔍 Response headers:', Object.fromEntries(response.headers.entries()));
+
       const result = await response.json();
+      console.log('🔍 Response body:', result);
 
       if (!response.ok) {
         throw new GameAPIError(result.message || 'Character not found', response.status);

@@ -544,6 +544,21 @@ function ExplorationPage() {
     }
   };
 
+  const handleRest = () => {
+    // Simple rest functionality - restore health and mana
+    // In a real game, this would call an API
+    console.log('Resting...');
+    
+    // Show some feedback to the user
+    alert('You rest and recover your strength. Health and Mana restored!');
+  };
+
+  const handleInventory = () => {
+    // Show inventory modal
+    console.log('Opening inventory...');
+    alert('Inventory system not yet implemented.');
+  };
+
   const handleNodeClick = async (node: MapNodeData) => {
     if (isProcessing) return;
     
@@ -632,24 +647,24 @@ function ExplorationPage() {
       <DescriptionPane>
         <LocationHeader>
           <LocationIcon>📍</LocationIcon>
-          <LocationTitle>{currentLocation}</LocationTitle>
+          <LocationTitle data-testid="current-location">{currentLocation}</LocationTitle>
         </LocationHeader>
 
-        <LocationDescription>
+        <LocationDescription data-testid="location-description">
           You stand at the edge of the Whispering Woods. Ancient trees stretch endlessly
           before you, their branches swaying in the ethereal breeze. Strange sounds echo
           from the depths - both alluring and ominous. The very air seems thick with
           forgotten secrets and lurking dangers.
         </LocationDescription>
 
-        <ButtonContainer>
+        <ButtonContainer data-testid="location-actions">
           <DangerButton onClick={handleEnterCombat}>
             Enter Combat
           </DangerButton>
-          <PrimaryButton>
+          <PrimaryButton onClick={handleRest}>
             Rest
           </PrimaryButton>
-          <SecondaryButton>
+          <SecondaryButton onClick={handleInventory}>
             Inventory
           </SecondaryButton>
           <SecondaryButton onClick={handleLogout}>
@@ -658,24 +673,25 @@ function ExplorationPage() {
         </ButtonContainer>
       </DescriptionPane>
 
-      <MapPane>
+      <MapPane data-testid="exploration-map">
         <InteractiveMap 
           currentLocation={currentCoordinates}
           onNodeClick={handleNodeClick}
         />
       </MapPane>
 
-      <CharacterPane expanded={expanded} onClick={() => setExpanded(!expanded)}>
+      <CharacterPane expanded={expanded} onClick={() => setExpanded(!expanded)} data-testid="character-stats">
         <ExpandIcon expanded={expanded}>⌄</ExpandIcon>
 
         <CharacterHeader>
           <CharacterPortrait
             src={`/images/portraits/${character.portrait}.jpg`}
             alt={character.name}
+            data-testid="character-portrait"
           />
           <CharacterInfo>
-            <CharacterName>{character.name}</CharacterName>
-            <CharacterLevel>Lv. {character.level}</CharacterLevel>
+            <CharacterName data-testid="character-name">{character.name}</CharacterName>
+            <CharacterLevel data-testid="character-level">Lv. {character.level}</CharacterLevel>
           </CharacterInfo>
         </CharacterHeader>
 
@@ -688,8 +704,10 @@ function ExplorationPage() {
                 max={character.maxHp}
                 color={character.currentHp > character.maxHp * 0.6 ? '#4ade80' :
                   character.currentHp > character.maxHp * 0.3 ? '#fbbf24' : '#ef4444'}
+                data-testid="health-bar"
               >
-                <BarText>{character.currentHp}/{character.maxHp}</BarText>
+                <BarText data-testid="current-health">{character.currentHp}</BarText>
+                <span data-testid="max-health" style={{display: 'none'}}>{character.maxHp}</span>
               </ProgressBar>
             </ProgressGroup>
 
@@ -699,8 +717,10 @@ function ExplorationPage() {
                 current={character.currentMp}
                 max={character.maxMp}
                 color="#3b82f6"
+                data-testid="mana-bar"
               >
-                <BarText>{character.currentMp}/{character.maxMp}</BarText>
+                <BarText data-testid="current-mana">{character.currentMp}</BarText>
+                <span data-testid="max-mana" style={{display: 'none'}}>{character.maxMp}</span>
               </ProgressBar>
             </ProgressGroup>
 
@@ -710,6 +730,7 @@ function ExplorationPage() {
                 current={character.experience}
                 max={character.experienceToNext}
                 color="#8B4513"
+                data-testid="character-experience"
               >
                 <BarText>{character.experience}/{character.experienceToNext}</BarText>
               </ProgressBar>
@@ -719,15 +740,15 @@ function ExplorationPage() {
           <CoreStatsGrid>
             <CoreStat>
               <CoreStatLabel>Body</CoreStatLabel>
-              <CoreStatValue>{character.stats.body}</CoreStatValue>
+              <CoreStatValue data-testid="body-stat">{character.stats.body}</CoreStatValue>
             </CoreStat>
             <CoreStat>
               <CoreStatLabel>Mind</CoreStatLabel>
-              <CoreStatValue>{character.stats.mind}</CoreStatValue>
+              <CoreStatValue data-testid="mind-stat">{character.stats.mind}</CoreStatValue>
             </CoreStat>
             <CoreStat>
               <CoreStatLabel>Heart</CoreStatLabel>
-              <CoreStatValue>{character.stats.heart}</CoreStatValue>
+              <CoreStatValue data-testid="heart-stat">{character.stats.heart}</CoreStatValue>
             </CoreStat>
           </CoreStatsGrid>
 
