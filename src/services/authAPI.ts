@@ -72,9 +72,11 @@ export const authAPI = {
 
       // Store auth token and UID in sessionStorage
       console.log('💾 Storing login data in sessionStorage');
-      sessionStorage.setItem('authToken', data.token);
-      sessionStorage.setItem('currentUID', data.uid);
-      sessionStorage.setItem('username', data.username);
+      console.log('📊 Raw data received:', data);
+      
+      if (data.token) sessionStorage.setItem('authToken', data.token);
+      if (data.uid) sessionStorage.setItem('currentUID', data.uid);
+      if (data.username) sessionStorage.setItem('username', data.username);
       
       // Verify storage worked
       console.log('✅ Stored values:', {
@@ -114,9 +116,18 @@ export const authAPI = {
       }
 
       // Store auth token and UID in sessionStorage after successful registration
-      sessionStorage.setItem('authToken', data.token);
-      sessionStorage.setItem('currentUID', data.uid);
-      sessionStorage.setItem('username', data.username);
+      console.log('💾 Storing registration data in sessionStorage');
+      console.log('📊 Raw registration data received:', data);
+      
+      if (data.token) sessionStorage.setItem('authToken', data.token);
+      if (data.uid) sessionStorage.setItem('currentUID', data.uid);
+      if (data.username) sessionStorage.setItem('username', data.username);
+      
+      console.log('✅ Stored registration values:', {
+        authToken: sessionStorage.getItem('authToken'),
+        currentUID: sessionStorage.getItem('currentUID'),
+        username: sessionStorage.getItem('username')
+      });
 
       return data;
     } catch (error) {
